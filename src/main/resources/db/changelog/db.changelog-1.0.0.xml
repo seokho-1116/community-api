@@ -1,0 +1,227 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <changeSet author="seokho" id="1.0.0-1">
+    <createTable tableName="board">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_board"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="name" type="VARCHAR(255)"/>
+      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="description" type="TEXT"/>
+      <column name="community_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-2">
+    <createTable tableName="chat_message">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_chat_message"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="content" type="TEXT"/>
+      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="reports_count" type="INTEGER"/>
+      <column name="char_room_id" type="UUID"/>
+      <column name="user_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-3">
+    <createTable tableName="comment">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_comment"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="title" type="VARCHAR(255)"/>
+      <column name="content" type="TEXT"/>
+      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="modified_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="upvotes_count" type="INTEGER"/>
+      <column name="downvotes_count" type="INTEGER"/>
+      <column name="post_id" type="UUID"/>
+      <column name="user_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-4">
+    <createTable tableName="community">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_community"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="introduction" type="TEXT"/>
+      <column name="posts_count" type="BIGINT"/>
+      <column name="members_count" type="BIGINT"/>
+      <column name="contact_info" type="VARCHAR(255)"/>
+      <column name="privacy_policy" type="TEXT"/>
+      <column name="terms" type="TEXT"/>
+      <column name="ads_info" type="TEXT"/>
+      <column name="company_info" type="TEXT"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-5">
+    <createTable tableName="draft_post">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_draft_post"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="title" type="VARCHAR(255)"/>
+      <column name="content" type="TEXT"/>
+      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="board_id" type="UUID"/>
+      <column name="user_id" type="UUID"/>
+      <column name="category_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-6">
+    <createTable tableName="image">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_image"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="url" type="VARCHAR(255)"/>
+      <column name="size" type="BIGINT"/>
+      <column name="uploaded_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="extension" type="VARCHAR(10)"/>
+      <column name="post_id" type="UUID"/>
+      <column name="user_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-7">
+    <createTable tableName="member">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_user"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="nickname" type="VARCHAR(255)"/>
+      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="modified_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="signup_id" type="VARCHAR(255)"/>
+      <column name="signup_password" type="VARCHAR(255)"/>
+      <column name="email" type="VARCHAR(255)"/>
+      <column name="expiration_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="account_locked" type="BOOLEAN"/>
+      <column name="role" type="VARCHAR(255)"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-8">
+    <createTable tableName="message">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_message"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="content" type="TEXT"/>
+      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="sender_id" type="UUID"/>
+      <column name="receiver_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-9">
+    <createTable tableName="post">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_post"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="title" type="VARCHAR(255)"/>
+      <column name="content" type="TEXT"/>
+      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="modified_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="views_count" type="BIGINT"/>
+      <column name="upvotes_count" type="INTEGER"/>
+      <column name="downvotes_count" type="INTEGER"/>
+      <column name="is_featured" type="BOOLEAN"/>
+      <column name="post_url" type="VARCHAR(255)"/>
+      <column name="board_id" type="UUID"/>
+      <column name="post_category_id" type="UUID"/>
+      <column name="user_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-10">
+    <createTable tableName="post_category">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_post_category"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="name" type="VARCHAR(255)"/>
+      <column name="description" type="TEXT"/>
+      <column name="board_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-11">
+    <createTable tableName="public_chat_room">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_public_chat_room"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="name" type="VARCHAR(255)"/>
+      <column name="participants_count" type="INTEGER"/>
+      <column name="description" type="TEXT"/>
+      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="board_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-12">
+    <createTable tableName="video">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_video"/>
+      </column>
+      <column name="public_id" type="UUID"/>
+      <column name="url" type="VARCHAR(255)"/>
+      <column name="size" type="BIGINT"/>
+      <column name="uploaded_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="extension" type="VARCHAR(10)"/>
+      <column name="post_id" type="UUID"/>
+      <column name="user_id" type="UUID"/>
+    </createTable>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-13">
+    <addForeignKeyConstraint baseColumnNames="community_id" baseTableName="board" constraintName="fk_board_community" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="community" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-14">
+    <addForeignKeyConstraint baseColumnNames="char_room_id" baseTableName="chat_message" constraintName="fk_chat_message_public_chat_room" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="public_chat_room" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-15">
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="comment" constraintName="fk_comment_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-16">
+    <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="comment" constraintName="fk_comment_post" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-17">
+    <addForeignKeyConstraint baseColumnNames="board_id" baseTableName="draft_post" constraintName="fk_draft_post_board" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="board" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-18">
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="image" constraintName="fk_image_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-19">
+    <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="image" constraintName="fk_image_post" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-20">
+    <addForeignKeyConstraint baseColumnNames="receiver_id" baseTableName="message" constraintName="fk_message_receiver" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-21">
+    <addForeignKeyConstraint baseColumnNames="sender_id" baseTableName="message" constraintName="fk_message_sender" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-22">
+    <addForeignKeyConstraint baseColumnNames="board_id" baseTableName="post" constraintName="fk_post_board" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="board" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-23">
+    <addForeignKeyConstraint baseColumnNames="board_id" baseTableName="post_category" constraintName="fk_post_category_board" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="board" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-24">
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="post" constraintName="fk_post_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-25">
+    <addForeignKeyConstraint baseColumnNames="post_category_id" baseTableName="post" constraintName="fk_post_post_category" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post_category" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-26">
+    <addForeignKeyConstraint baseColumnNames="board_id" baseTableName="public_chat_room" constraintName="fk_public_chat_room_board" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="board" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-27">
+    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="video" constraintName="fk_video_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.0-28">
+    <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="video" constraintName="fk_video_post" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post" validate="true"/>
+  </changeSet>
+</databaseChangeLog>
