@@ -1,6 +1,6 @@
 package com.example.community.repository;
 
-import static nu.studer.sample.tables.Community.COMMUNITY;
+import static com.example.api.jooqgen.tables.Community.COMMUNITY;
 
 import com.example.community.service.dto.CommunityDetailDto;
 import lombok.RequiredArgsConstructor;

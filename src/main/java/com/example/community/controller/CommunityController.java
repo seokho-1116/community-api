@@ -16,9 +16,7 @@ public class CommunityController {
   private final CommunityService communityService;
 
   @GetMapping
-  public ResponseEntity<ApiResponse<CommunityDetailDto>> getCommunity() {
-    CommunityDetailDto dto = communityService.findCommunity();
-
-    return ResponseEntity.ok(ApiResponse.success(dto));
+  public CommunityDetailDto getCommunity() {
+    return communityService.findCommunity();
   }
 }

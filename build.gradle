@@ -72,8 +72,14 @@ jooq {
                         name = 'org.jooq.meta.postgres.PostgresDatabase'
                         inputSchema = 'public'
                     }
+                    generate {
+                        deprecated = false
+                        records = true
+                        immutablePojos = true
+                        fluentSetters = true
+                    }
                     target {
-                        packageName = 'nu.studer.sample'
+                        packageName = 'com.example.api.jooqgen'
                     }
                     strategy.name = "org.jooq.codegen.DefaultGeneratorStrategy"
                 }
