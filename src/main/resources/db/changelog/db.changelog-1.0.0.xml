@@ -11,7 +11,7 @@
       </column>
       <column name="public_id" type="UUID"/>
       <column name="name" type="VARCHAR(255)"/>
-      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="created_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="description" type="TEXT"/>
       <column name="community_id" type="UUID"/>
     </createTable>
@@ -23,10 +23,10 @@
       </column>
       <column name="public_id" type="UUID"/>
       <column name="content" type="TEXT"/>
-      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="created_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="reports_count" type="INTEGER"/>
       <column name="char_room_id" type="UUID"/>
-      <column name="user_id" type="UUID"/>
+      <column name="member_id" type="UUID"/>
     </createTable>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-3">
@@ -37,12 +37,12 @@
       <column name="public_id" type="UUID"/>
       <column name="title" type="VARCHAR(255)"/>
       <column name="content" type="TEXT"/>
-      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
-      <column name="modified_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
-      <column name="upvotes_count" type="INTEGER"/>
-      <column name="downvotes_count" type="INTEGER"/>
+      <column name="created_date" type="TIMESTAMP WITH TIME ZONE"/>
+      <column name="modified_date" type="TIMESTAMP WITH TIME ZONE"/>
+      <column name="up_votes_count" type="INTEGER"/>
+      <column name="down_votes_count" type="INTEGER"/>
       <column name="post_id" type="UUID"/>
-      <column name="user_id" type="UUID"/>
+      <column name="member_id" type="UUID"/>
     </createTable>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-4">
@@ -69,9 +69,9 @@
       <column name="public_id" type="UUID"/>
       <column name="title" type="VARCHAR(255)"/>
       <column name="content" type="TEXT"/>
-      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="created_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="board_id" type="UUID"/>
-      <column name="user_id" type="UUID"/>
+      <column name="member_id" type="UUID"/>
       <column name="category_id" type="UUID"/>
     </createTable>
   </changeSet>
@@ -83,10 +83,10 @@
       <column name="public_id" type="UUID"/>
       <column name="url" type="VARCHAR(255)"/>
       <column name="size" type="BIGINT"/>
-      <column name="uploaded_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="uploaded_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="extension" type="VARCHAR(10)"/>
       <column name="post_id" type="UUID"/>
-      <column name="user_id" type="UUID"/>
+      <column name="member_id" type="UUID"/>
     </createTable>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-7">
@@ -96,12 +96,12 @@
       </column>
       <column name="public_id" type="UUID"/>
       <column name="nickname" type="VARCHAR(255)"/>
-      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
-      <column name="modified_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="created_date" type="TIMESTAMP WITH TIME ZONE"/>
+      <column name="modified_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="signup_id" type="VARCHAR(255)"/>
       <column name="signup_password" type="VARCHAR(255)"/>
       <column name="email" type="VARCHAR(255)"/>
-      <column name="expiration_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="expiration_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="account_locked" type="BOOLEAN"/>
       <column name="role" type="VARCHAR(255)"/>
     </createTable>
@@ -113,7 +113,7 @@
       </column>
       <column name="public_id" type="UUID"/>
       <column name="content" type="TEXT"/>
-      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="created_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="sender_id" type="UUID"/>
       <column name="receiver_id" type="UUID"/>
     </createTable>
@@ -126,16 +126,16 @@
       <column name="public_id" type="UUID"/>
       <column name="title" type="VARCHAR(255)"/>
       <column name="content" type="TEXT"/>
-      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
-      <column name="modified_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="created_date" type="TIMESTAMP WITH TIME ZONE"/>
+      <column name="modified_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="views_count" type="BIGINT"/>
-      <column name="upvotes_count" type="INTEGER"/>
-      <column name="downvotes_count" type="INTEGER"/>
+      <column name="up_votes_count" type="INTEGER"/>
+      <column name="down_votes_count" type="INTEGER"/>
       <column name="is_featured" type="BOOLEAN"/>
       <column name="post_url" type="VARCHAR(255)"/>
       <column name="board_id" type="UUID"/>
       <column name="post_category_id" type="UUID"/>
-      <column name="user_id" type="UUID"/>
+      <column name="member_id" type="UUID"/>
     </createTable>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-10">
@@ -158,7 +158,7 @@
       <column name="name" type="VARCHAR(255)"/>
       <column name="participants_count" type="INTEGER"/>
       <column name="description" type="TEXT"/>
-      <column name="created_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="created_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="board_id" type="UUID"/>
     </createTable>
   </changeSet>
@@ -170,10 +170,10 @@
       <column name="public_id" type="UUID"/>
       <column name="url" type="VARCHAR(255)"/>
       <column name="size" type="BIGINT"/>
-      <column name="uploaded_date" type="TIMESTAMP WITHOUT TIME ZONE"/>
+      <column name="uploaded_date" type="TIMESTAMP WITH TIME ZONE"/>
       <column name="extension" type="VARCHAR(10)"/>
       <column name="post_id" type="UUID"/>
-      <column name="user_id" type="UUID"/>
+      <column name="member_id" type="UUID"/>
     </createTable>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-13">
@@ -183,7 +183,7 @@
     <addForeignKeyConstraint baseColumnNames="char_room_id" baseTableName="chat_message" constraintName="fk_chat_message_public_chat_room" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="public_chat_room" validate="true"/>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-15">
-    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="comment" constraintName="fk_comment_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="member_id" baseTableName="comment" constraintName="fk_comment_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-16">
     <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="comment" constraintName="fk_comment_post" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post" validate="true"/>
@@ -192,7 +192,7 @@
     <addForeignKeyConstraint baseColumnNames="board_id" baseTableName="draft_post" constraintName="fk_draft_post_board" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="board" validate="true"/>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-18">
-    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="image" constraintName="fk_image_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="member_id" baseTableName="image" constraintName="fk_image_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-19">
     <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="image" constraintName="fk_image_post" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post" validate="true"/>
@@ -210,7 +210,7 @@
     <addForeignKeyConstraint baseColumnNames="board_id" baseTableName="post_category" constraintName="fk_post_category_board" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="board" validate="true"/>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-24">
-    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="post" constraintName="fk_post_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="member_id" baseTableName="post" constraintName="fk_post_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-25">
     <addForeignKeyConstraint baseColumnNames="post_category_id" baseTableName="post" constraintName="fk_post_post_category" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post_category" validate="true"/>
@@ -219,7 +219,7 @@
     <addForeignKeyConstraint baseColumnNames="board_id" baseTableName="public_chat_room" constraintName="fk_public_chat_room_board" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="board" validate="true"/>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-27">
-    <addForeignKeyConstraint baseColumnNames="user_id" baseTableName="video" constraintName="fk_video_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="member_id" baseTableName="video" constraintName="fk_video_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
   </changeSet>
   <changeSet author="seokho" id="1.0.0-28">
     <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="video" constraintName="fk_video_post" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post" validate="true"/>
