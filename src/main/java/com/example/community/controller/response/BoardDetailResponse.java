@@ -1,16 +1,16 @@
-package com.example.community.service.dto;
+package com.example.community.controller.response;
 
 import java.time.OffsetDateTime;
 import lombok.Getter;
 
 @Getter
-public class BoardDetailDto {
+public class BoardDetailResponse {
   private final String publicId;
   private final String name;
   private final String description;
   private final OffsetDateTime createdDate;
 
-  public BoardDetailDto(String publicId, String name, String description,
+  public BoardDetailResponse(String publicId, String name, String description,
       OffsetDateTime createdDate) {
     this.publicId = publicId;
     this.name = name;

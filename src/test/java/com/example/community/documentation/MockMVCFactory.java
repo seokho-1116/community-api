@@ -1,5 +1,7 @@
 package com.example.community.documentation;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+
 import org.springframework.restdocs.RestDocumentationContextProvider;
 import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
@@ -14,6 +16,7 @@ public class MockMVCFactory {
     return MockMvcBuilders.webAppContextSetup(context)
         .apply(MockMvcRestDocumentation.documentationConfiguration(provider))
         .alwaysDo(document)
+        .alwaysDo(print())
         .addFilter(new CharacterEncodingFilter("UTF-8", true))
         .build();
   }

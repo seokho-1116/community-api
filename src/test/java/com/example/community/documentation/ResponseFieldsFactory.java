@@ -44,4 +44,25 @@ public class ResponseFieldsFactory {
         fieldWithPath("data.content[0].createdDate").type(STRING).description("게시글 생성일"),
     };
   }
+
+  public static FieldDescriptor[] getBoardSummaryResponseFields() {
+    return new FieldDescriptor[] {
+        fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
+        fieldWithPath("data").type(ARRAY).description("응답 데이터"),
+        fieldWithPath("data[0].publicId").type(STRING).description("게시판 id"),
+        fieldWithPath("data[0].name").type(STRING).description("게시판 이름")
+    };
+  }
+
+  public static FieldDescriptor[] getBoardDetailResponseFields() {
+    return new FieldDescriptor[] {
+        fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
+        fieldWithPath("data").type(OBJECT).description("응답 데이터"),
+        fieldWithPath("data.publicId").type(STRING).description("게시판 id"),
+        fieldWithPath("data.name").type(STRING).description("게시판 이름"),
+        fieldWithPath("data.description").type(STRING).description("게시판 설명"),
+        fieldWithPath("data.createdDate").type(STRING).description("게시판 생성일")
+    };
+  }
 }
+

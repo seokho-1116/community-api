@@ -1,11 +1,16 @@
 package com.example.community.controller;
 
 import com.example.community.controller.response.ApiResponse;
+import com.example.community.controller.response.BoardDetailResponse;
+import com.example.community.controller.response.BoardSummaryResponse;
+import com.example.community.controller.response.factory.BoardResponseFactory;
 import com.example.community.service.BoardService;
 import com.example.community.service.dto.BoardDetailDto;
 import com.example.community.service.dto.BoardSummaryDto;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,12 +23,17 @@ public class BoardController {
   private final BoardService boardService;
 
   @GetMapping
-  public List<BoardSummaryDto> getAllBoards() {
-    return boardService.findAllBoards();
+  public ResponseEntity<List<BoardSummaryResponse>> getAllBoards() {
+    return ResponseEntity.ok(BoardResponseFactory.createBoardsSummaryResponse(
+        boardService.findAllBoards()
+    ));
   }
 
   @GetMapping("/{board_id}")
-  public BoardDetailDto getBoardById(@PathVariable("board_id") String boardId) {
-    return boardService.findBoardById(boardId);
+  public ResponseEntity<BoardDetailResponse> getBoardById(
+      @PathVariable("board_id") String boardId) {
+    return ResponseEntity.ok(BoardResponseFactory.createBoardDetailResponse(
+        boardService.findBoardById(boardId)
+    ));
   }
 }
