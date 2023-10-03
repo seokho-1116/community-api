@@ -88,6 +88,6 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
 
   private static PostSummaryDto createTestPostSummaryDto(int number) {
     return new PostSummaryDto(UUID.randomUUID().toString(), "title", "content",
-        "user", number, "유머", "인기", OffsetDateTime.now());
+        "user", number, "", "유머", "인기", OffsetDateTime.now());
   }
 }

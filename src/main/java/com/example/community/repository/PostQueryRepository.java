@@ -24,7 +24,7 @@ public class PostQueryRepository {
   public Page<PostSummaryDto> findPosts(OffsetDateTime previousDate, Pageable pageable) {
     List<PostSummaryDto> dtos = dslContext
         .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, POST.VIEWS_COUNT, MEMBER.NICKNAME,
-            BOARD.NAME, POST_CATEGORY.NAME, POST.CREATED_DATE)
+            POST.BOARD_ID, BOARD.NAME, POST_CATEGORY.NAME, POST.CREATED_DATE)
         .from(POST)
         .join(MEMBER).on(POST.MEMBER_ID.eq(MEMBER.ID))
         .join(POST_CATEGORY).on(POST.POST_CATEGORY_ID.eq(POST_CATEGORY.ID))
@@ -43,7 +43,7 @@ public class PostQueryRepository {
       Pageable pageable) {
     List<PostSummaryDto> dtos = dslContext
         .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, POST.VIEWS_COUNT, MEMBER.NICKNAME,
-            BOARD.NAME, POST_CATEGORY.NAME, POST.CREATED_DATE)
+            POST.BOARD_ID, BOARD.NAME, POST_CATEGORY.NAME, POST.CREATED_DATE)
         .from(POST)
         .join(MEMBER).on(POST.MEMBER_ID.eq(MEMBER.ID))
         .join(POST_CATEGORY).on(POST.POST_CATEGORY_ID.eq(POST_CATEGORY.ID))

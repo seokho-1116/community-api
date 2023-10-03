@@ -7,6 +7,6 @@ public class PostResponseFactory {
   public static PostSummaryResponse toResponse(PostSummaryDto dto) {
     return PostSummaryResponse.create(dto.getPublicId(), dto.getTitle(), dto.getContent(),
         dto.getNickname(), dto.getViewsCount(), dto.getBoardCategory(), dto.getPostCategory(),
-        dto.getCreatedDate());
+        dto.getBoardId(), dto.getCreatedDate());
   }
 }

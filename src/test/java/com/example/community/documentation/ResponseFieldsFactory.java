@@ -39,6 +39,7 @@ public class ResponseFieldsFactory {
         fieldWithPath("data.content[0].content").type(STRING).description("게시글 내용"),
         fieldWithPath("data.content[0].nickname").type(STRING).description("작성자 닉네임"),
         fieldWithPath("data.content[0].viewsCount").type(NUMBER).description("게시글 조회 수"),
+        fieldWithPath("data.content[0].boardId").type(STRING).description("게시판 id"),
         fieldWithPath("data.content[0].boardCategory").type(STRING).description("게시판 카테고리"),
         fieldWithPath("data.content[0].postCategory").type(STRING).description("게시글 카테고리"),
         fieldWithPath("data.content[0].createdDate").type(STRING).description("게시글 생성일"),
