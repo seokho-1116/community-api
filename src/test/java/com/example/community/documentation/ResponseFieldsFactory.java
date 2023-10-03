@@ -65,5 +65,22 @@ public class ResponseFieldsFactory {
         fieldWithPath("data.createdDate").type(STRING).description("게시판 생성일")
     };
   }
-}
 
+  public static FieldDescriptor[] getPostDetailResponseField() {
+    return new FieldDescriptor[] {
+        fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
+        fieldWithPath("data").type(OBJECT).description("응답 데이터"),
+        fieldWithPath("data.publicId").type(STRING).description("해당 페이지 게시글"),
+        fieldWithPath("data.title").type(STRING).description("게시글 제목"),
+        fieldWithPath("data.content").type(STRING).description("게시글 내용"),
+        fieldWithPath("data.nickname").type(STRING).description("작성자 닉네임"),
+        fieldWithPath("data.createdDate").type(STRING).description("게시글 생성일"),
+        fieldWithPath("data.viewsCount").type(NUMBER).description("게시글 조회 수"),
+        fieldWithPath("data.upVotesCount").type(NUMBER).description("게시글 추천 수"),
+        fieldWithPath("data.downVotesCount").type(NUMBER).description("게시글 비추천 수"),
+        fieldWithPath("data.boardCategory").type(STRING).description("게시판 카테고리"),
+        fieldWithPath("data.postCategory").type(STRING).description("게시글 카테고리"),
+        fieldWithPath("data.postURL").type(STRING).description("게시글 URL")
+    };
+  }
+}

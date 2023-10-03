@@ -11,7 +11,7 @@ public class PageResponseFactory {
   public static PageResponse<PostSummaryResponse> createPostsPageResponse(Page<PostSummaryDto> page) {
     List<PostSummaryResponse> content = page.getContent()
         .stream()
-        .map(PostResponseFactory::toResponse)
+        .map(PostResponseFactory::createPostSummaryResponse)
         .collect(Collectors.toList());
 
     return PageResponse.create(content, page);

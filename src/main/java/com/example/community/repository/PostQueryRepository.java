@@ -5,6 +5,7 @@ import static com.example.api.jooqgen.tables.Member.MEMBER;
 import static com.example.api.jooqgen.tables.Post.POST;
 import static com.example.api.jooqgen.tables.PostCategory.POST_CATEGORY;
 
+import com.example.community.service.dto.PostDetailDto;
 import com.example.community.service.dto.PostSummaryDto;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -57,5 +58,19 @@ public class PostQueryRepository {
     int count  = dslContext.fetchCount(POST, POST.BOARD_ID.eq(boardId));
 
     return new PageImpl<>(dtos, pageable, count);
+  }
+
+  public PostDetailDto findBoardPostByPostId(UUID boardId, UUID postId) {
+    return dslContext
+        .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, MEMBER.PUBLIC_ID, MEMBER.NICKNAME,
+            POST.CREATED_DATE, POST.VIEWS_COUNT, POST.UP_VOTES_COUNT, POST.DOWN_VOTES_COUNT,
+            BOARD.NAME, POST_CATEGORY.NAME, POST.POST_URL)
+        .from(POST)
+        .join(MEMBER).on(POST.MEMBER_ID.eq(MEMBER.ID))
+        .join(POST_CATEGORY).on(POST.POST_CATEGORY_ID.eq(POST_CATEGORY.ID))
+        .join(BOARD).on(POST.BOARD_ID.eq(BOARD.ID))
+        .where(POST.BOARD_ID.eq(boardId)
+            .and(POST.PUBLIC_ID.eq(postId)))
+        .fetchOneInto(PostDetailDto.class);
   }
 }

@@ -11,6 +11,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.community.controller.request.PagePostRequest;
 import com.example.community.documentation.ResponseFieldsFactory;
 import com.example.community.service.PostService;
+import com.example.community.service.dto.PostDetailDto;
 import com.example.community.service.dto.PostSummaryDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
@@ -20,6 +21,7 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -78,6 +80,25 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  @Test
+  void getBoardPostByPostId() throws Exception {
+    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    String postId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
+
+    Mockito.when(postService.findBoardPostByPostId(anyString(), anyString()))
+        .thenReturn(createTestPostDetailDto());
+
+    mockMvc.perform(get("/api/boards/{board_id}/posts/{post_id}", boardId, postId))
+        .andExpect(status().isOk())
+        .andDo(document.document(
+            responseFields(ResponseFieldsFactory.getPostDetailResponseField()),
+            pathParameters(
+                parameterWithName("board_id").description("게시판 id"),
+                parameterWithName("post_id").description("게시글 id")
+            )
+        ));
+  }
+
   private Page<PostSummaryDto> createTestPage(int size, long total) {
     List<PostSummaryDto> content = IntStream.range(0, size)
         .mapToObj(PostControllerTest::createTestPostSummaryDto)
@@ -89,5 +110,11 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
   private static PostSummaryDto createTestPostSummaryDto(int number) {
     return new PostSummaryDto(UUID.randomUUID().toString(), "title", "content",
         "user", number, "", "유머", "인기", OffsetDateTime.now());
+  }
+
+  private PostDetailDto createTestPostDetailDto() {
+    return new PostDetailDto("id", "title", "content", "nickname",
+        "author", OffsetDateTime.now(), 10, 10,
+        10, "category", "category", "URL");
   }
 }

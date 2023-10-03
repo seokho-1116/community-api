@@ -2,9 +2,12 @@ package com.example.community.controller;
 
 import com.example.community.controller.request.PagePostRequest;
 import com.example.community.controller.response.PageResponse;
+import com.example.community.controller.response.PostDetailResponse;
 import com.example.community.controller.response.PostSummaryResponse;
 import com.example.community.controller.response.factory.PageResponseFactory;
+import com.example.community.controller.response.factory.PostResponseFactory;
 import com.example.community.service.PostService;
+import com.example.community.service.dto.PostDetailDto;
 import com.example.community.service.dto.PostSummaryDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -38,5 +41,13 @@ public class PostController {
         PageRequest.of(request.getPage(), request.getSize()));
 
     return ResponseEntity.ok(PageResponseFactory.createPostsPageResponse(posts));
+  }
+
+  @GetMapping("/{board_id}/posts/{post_id}")
+  public ResponseEntity<PostDetailResponse> getBoardPostByPostId(
+      @PathVariable("board_id") String boardId, @PathVariable("post_id") String postId) {
+    PostDetailDto dto = postService.findBoardPostByPostId(boardId, postId);
+
+    return ResponseEntity.ok(PostResponseFactory.createPostDetailResponse(dto));
   }
 }
