@@ -1,9 +1,11 @@
 package com.example.community.controller;
 
-import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
+import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.community.controller.request.PagePostRequest;
@@ -43,10 +45,9 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
   @Test
   void getPosts() throws Exception {
     long total = 50L;
+    PagePostRequest request = new PagePostRequest(OffsetDateTime.now().toString(), 0, 10);
 
-    PagePostRequest request = new PagePostRequest(OffsetDateTime.now().toString(), 10);
-
-    Mockito.when(postService.findPosts(anyString(), anyInt()))
+    Mockito.when(postService.findPosts(anyString(), any()))
         .thenReturn(createTestPage(request.getSize(), total));
 
     mockMvc.perform(get("/api/boards/posts")
@@ -55,6 +56,25 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         .andExpect(status().isOk())
         .andDo(document.document(
             responseFields(ResponseFieldsFactory.getPagePostsResponseField())
+        ));
+  }
+
+  @Test
+  void getPostsByBoardId() throws Exception {
+    long total = 50L;
+    PagePostRequest request = new PagePostRequest(OffsetDateTime.now().toString(), 0, 10);
+    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+
+    Mockito.when(postService.findPostsByBoardId(anyString(), anyString(), any()))
+        .thenReturn(createTestPage(request.getSize(), total));
+
+    mockMvc.perform(get("/api/boards/{board_id}/posts", boardId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk())
+        .andDo(document.document(
+            responseFields(ResponseFieldsFactory.getPagePostsResponseField()),
+            pathParameters(parameterWithName("board_id").description("게시판 id"))
         ));
   }
 

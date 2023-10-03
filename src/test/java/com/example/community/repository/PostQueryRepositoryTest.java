@@ -16,6 +16,8 @@ import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jooq.JooqTest;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.TestConstructor.AutowireMode;
 
@@ -26,23 +28,44 @@ class PostQueryRepositoryTest {
   private DSLContext dslContext;
 
   @Test
-  void selectPostsSummaryByPaging() {
-    OffsetDateTime time = OffsetDateTime.of(2020, 6, 28,
-        16, 26, 55, 0, ZoneOffset.ofHours(0));
-    int size = 10;
+  void selectPagePostSummary() {
+    OffsetDateTime previousDate = OffsetDateTime.now();
+    Pageable pageable = PageRequest.of(0, 10);
 
     List<PostSummaryDto> dtos = dslContext
         .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, POST.VIEWS_COUNT, MEMBER.NICKNAME,
-            BOARD.NAME, POST.POST_CATEGORY_ID, POST.CREATED_DATE)
+            BOARD.NAME, POST_CATEGORY.NAME, POST.CREATED_DATE)
         .from(POST)
         .join(MEMBER).on(POST.MEMBER_ID.eq(MEMBER.ID))
         .join(POST_CATEGORY).on(POST.POST_CATEGORY_ID.eq(POST_CATEGORY.ID))
         .join(BOARD).on(POST.BOARD_ID.eq(BOARD.ID))
-        .where(POST.CREATED_DATE.gt(time))
+        .where(POST.CREATED_DATE.lt(previousDate))
         .orderBy(POST.CREATED_DATE.desc(), POST.ID.desc())
-        .limit(size)
+        .limit(pageable.getPageSize())
         .fetchInto(PostSummaryDto.class);
 
-    assertThat(dtos).hasSize(size);
+    assertThat(dtos).hasSize(pageable.getPageSize());
+  }
+
+  @Test
+  void selectPagePostSummaryByBoardId() {
+    OffsetDateTime previousDate = OffsetDateTime.now();
+    Pageable pageable = PageRequest.of(0, 10);
+    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
+
+    List<PostSummaryDto> dtos = dslContext
+        .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, POST.VIEWS_COUNT, MEMBER.NICKNAME,
+            BOARD.NAME, POST_CATEGORY.NAME, POST.CREATED_DATE)
+        .from(POST)
+        .join(MEMBER).on(POST.MEMBER_ID.eq(MEMBER.ID))
+        .join(POST_CATEGORY).on(POST.POST_CATEGORY_ID.eq(POST_CATEGORY.ID))
+        .join(BOARD).on(POST.BOARD_ID.eq(BOARD.ID))
+        .where(POST.CREATED_DATE.lt(previousDate)
+            .and(POST.BOARD_ID.eq(boardId)))
+        .orderBy(POST.CREATED_DATE.desc(), POST.ID.desc())
+        .limit(pageable.getPageSize())
+        .fetchInto(PostSummaryDto.class);
+
+    assertThat(dtos).hasSize(10);
   }
 }

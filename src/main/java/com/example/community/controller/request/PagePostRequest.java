@@ -7,12 +7,14 @@ import lombok.Getter;
 @Getter
 public class PagePostRequest {
   private String previousDate;
+  private int page;
   private int size;
 
   @JsonCreator
   public PagePostRequest(@JsonProperty("previousDate") String previousDate,
-      @JsonProperty("size") int size) {
+      @JsonProperty("page") int page, @JsonProperty("size") int size) {
     this.previousDate = previousDate;
+    this.page = page;
     this.size = size;
   }
 }
