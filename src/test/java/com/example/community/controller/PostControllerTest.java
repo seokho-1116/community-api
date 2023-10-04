@@ -2,6 +2,9 @@ package com.example.community.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
@@ -9,6 +12,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.pathPara
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.community.controller.request.PagePostRequest;
+import com.example.community.controller.request.PostCreateRequest;
+import com.example.community.controller.request.PostUpdateRequest;
 import com.example.community.documentation.ResponseFieldsFactory;
 import com.example.community.service.PostService;
 import com.example.community.service.dto.PostDetailDto;
@@ -92,6 +97,64 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         .andExpect(status().isOk())
         .andDo(document.document(
             responseFields(ResponseFieldsFactory.getPostDetailResponseField()),
+            pathParameters(
+                parameterWithName("board_id").description("게시판 id"),
+                parameterWithName("post_id").description("게시글 id")
+            )
+        ));
+  }
+
+  @Test
+  void createPost() throws Exception {
+    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    String postId = UUID.randomUUID().toString();
+    PostCreateRequest request = new PostCreateRequest("title", "content",
+        "2efa778a-8734-4b96-bf14-c75c4756888d");
+
+    Mockito.when(postService.createNewPost(any())).thenReturn(postId);
+
+    mockMvc.perform(post("/api/boards/{board_id}/posts", boardId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk())
+        .andDo(document.document(
+            responseFields(ResponseFieldsFactory.getPostCreateResponseField()),
+            pathParameters(parameterWithName("board_id").description("게시판 id"))
+        ));
+  }
+
+  @Test
+  void updatePost() throws Exception {
+    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    String postId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
+    PostUpdateRequest request = new PostUpdateRequest("title", "content");
+
+    Mockito.when(postService.updatePost(any())).thenReturn(postId);
+
+    mockMvc.perform(patch("/api/boards/{board_id}/posts/{post_id}", boardId, postId)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectMapper.writeValueAsString(request)))
+        .andExpect(status().isOk())
+        .andDo(document.document(
+            responseFields(ResponseFieldsFactory.getPostUpdateResponseField()),
+            pathParameters(
+                parameterWithName("board_id").description("게시판 id"),
+                parameterWithName("post_id").description("게시글 id")
+            )
+        ));
+  }
+
+  @Test
+  void deletePost() throws Exception {
+    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    String postId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
+
+    Mockito.when(postService.deletePost(anyString(), anyString())).thenReturn(postId);
+
+    mockMvc.perform(delete("/api/boards/{board_id}/posts/{post_id}", boardId, postId))
+        .andExpect(status().isOk())
+        .andDo(document.document(
+            responseFields(ResponseFieldsFactory.getPostDeleteResponseField()),
             pathParameters(
                 parameterWithName("board_id").description("게시판 id"),
                 parameterWithName("post_id").description("게시글 id")

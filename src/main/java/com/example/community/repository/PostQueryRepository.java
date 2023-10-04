@@ -7,6 +7,7 @@ import static com.example.api.jooqgen.tables.PostCategory.POST_CATEGORY;
 
 import com.example.community.service.dto.PostDetailDto;
 import com.example.community.service.dto.PostSummaryDto;
+import com.example.community.service.dto.PostUpdateDto;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -72,5 +73,27 @@ public class PostQueryRepository {
         .where(POST.BOARD_ID.eq(boardId)
             .and(POST.PUBLIC_ID.eq(postId)))
         .fetchOneInto(PostDetailDto.class);
+  }
+
+  public String updatePost(PostUpdateDto dto) {
+    dslContext
+        .update(POST)
+        .set(POST.TITLE, dto.getTitle())
+        .set(POST.CONTENT, dto.getContent())
+        .where(POST.BOARD_ID.eq(dto.getBoardId())
+            .and(POST.PUBLIC_ID.eq(dto.getPostId())))
+        .execute();
+
+    return dto.getPostId().toString();
+  }
+
+  public String deletePost(UUID boardId, UUID postId) {
+    dslContext
+        .delete(POST)
+        .where(POST.BOARD_ID.eq(boardId)
+            .and(POST.PUBLIC_ID.eq(postId)))
+        .execute();
+
+    return postId.toString();
   }
 }

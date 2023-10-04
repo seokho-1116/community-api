@@ -6,12 +6,12 @@ import static com.example.api.jooqgen.tables.Post.POST;
 import static com.example.api.jooqgen.tables.PostCategory.POST_CATEGORY;
 import static org.assertj.core.api.Assertions.*;
 
+import com.example.api.jooqgen.tables.Post;
 import com.example.community.service.dto.PostDetailDto;
 import com.example.community.service.dto.PostSummaryDto;
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
-import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
@@ -88,5 +88,50 @@ class PostQueryRepositoryTest {
         .fetchOneInto(PostDetailDto.class);
 
     assertThat(dto).isNotNull();
+  }
+
+  @Test
+  void updatePost() {
+    String title = "update title";
+    String content = "update content";
+    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
+    UUID postId = UUID.fromString("ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d");
+
+    dslContext
+        .update(POST)
+        .set(POST.TITLE, title)
+        .set(POST.CONTENT, content)
+        .where(POST.BOARD_ID.eq(boardId)
+            .and(POST.PUBLIC_ID.eq(postId)))
+        .execute();
+
+    com.example.community.service.entity.Post post = findPost(boardId, postId)
+        .orElseThrow();
+
+    assertThat(post.getTitle()).isEqualTo(title);
+    assertThat(post.getContent()).isEqualTo(content);
+  }
+
+  @Test
+  void deletePost() {
+    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
+    UUID postId = UUID.fromString("ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d");
+
+    dslContext
+        .delete(POST)
+        .where(POST.BOARD_ID.eq(boardId)
+            .and(POST.PUBLIC_ID.eq(postId)))
+        .execute();
+
+    assertThat(findPost(boardId, postId)).isNotPresent();
+  }
+
+  private Optional<com.example.community.service.entity.Post> findPost(UUID boardId, UUID postId) {
+    return dslContext
+        .select(POST.asterisk())
+        .from(POST)
+        .where(POST.BOARD_ID.eq(boardId)
+            .and(POST.PUBLIC_ID.eq(postId)))
+        .fetchOptionalInto(com.example.community.service.entity.Post.class);
   }
 }

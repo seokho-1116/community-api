@@ -1,0 +1,25 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <changeSet author="seokho" id="1.0.1-1" >
+    <dropForeignKeyConstraint baseTableName="comment" constraintName="fk_comment_post"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.1-2" >
+    <dropForeignKeyConstraint baseTableName="image" constraintName="fk_image_post"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.1-3" >
+    <dropForeignKeyConstraint baseTableName="video" constraintName="fk_video_post"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.1-4">
+    <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="comment" constraintName="fk_comment_post" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.1-5">
+    <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="image" constraintName="fk_image_post" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post" validate="true"/>
+  </changeSet>
+  <changeSet author="seokho" id="1.0.1-6">
+    <addForeignKeyConstraint baseColumnNames="post_id" baseTableName="video" constraintName="fk_video_post" deferrable="false" initiallyDeferred="false" onDelete="CASCADE" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post" validate="true"/>
+  </changeSet>
+</databaseChangeLog>

@@ -7,6 +7,7 @@ import static org.springframework.restdocs.payload.JsonFieldType.OBJECT;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 
+import java.util.List;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
 public class ResponseFieldsFactory {
@@ -81,6 +82,30 @@ public class ResponseFieldsFactory {
         fieldWithPath("data.boardCategory").type(STRING).description("게시판 카테고리"),
         fieldWithPath("data.postCategory").type(STRING).description("게시글 카테고리"),
         fieldWithPath("data.postURL").type(STRING).description("게시글 URL")
+    };
+  }
+
+  public static FieldDescriptor[] getPostCreateResponseField() {
+    return new FieldDescriptor[] {
+        fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
+        fieldWithPath("data").type(OBJECT).description("응답 데이터"),
+        fieldWithPath("data.postId").type(STRING).description("생성된 페이지 게시글 id"),
+    };
+  }
+
+  public static FieldDescriptor[] getPostUpdateResponseField() {
+    return new FieldDescriptor[] {
+        fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
+        fieldWithPath("data").type(OBJECT).description("응답 데이터"),
+        fieldWithPath("data.postId").type(STRING).description("업데이트된 페이지 게시글 id"),
+    };
+  }
+
+  public static FieldDescriptor[] getPostDeleteResponseField() {
+    return new FieldDescriptor[] {
+        fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
+        fieldWithPath("data").type(OBJECT).description("응답 데이터"),
+        fieldWithPath("data.postId").type(STRING).description("삭제된 페이지 게시글 id"),
     };
   }
 }

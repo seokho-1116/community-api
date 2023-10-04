@@ -1,9 +1,13 @@
 package com.example.community.controller;
 
 import com.example.community.controller.request.PagePostRequest;
+import com.example.community.controller.request.PostCreateRequest;
+import com.example.community.controller.request.PostUpdateRequest;
 import com.example.community.controller.response.PageResponse;
+import com.example.community.controller.response.PostCreateResponse;
 import com.example.community.controller.response.PostDetailResponse;
 import com.example.community.controller.response.PostSummaryResponse;
+import com.example.community.controller.response.PostUpdateResponse;
 import com.example.community.controller.response.factory.PageResponseFactory;
 import com.example.community.controller.response.factory.PostResponseFactory;
 import com.example.community.service.PostService;
@@ -13,8 +17,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -49,5 +56,29 @@ public class PostController {
     PostDetailDto dto = postService.findBoardPostByPostId(boardId, postId);
 
     return ResponseEntity.ok(PostResponseFactory.createPostDetailResponse(dto));
+  }
+
+  @PostMapping("/{board_id}/posts")
+  public ResponseEntity<PostCreateResponse> createPost(@PathVariable("board_id") String boardId,
+      @RequestBody PostCreateRequest request) {
+    String publicId = postService.createNewPost(request.toDto(boardId));
+
+    return ResponseEntity.ok(PostCreateResponse.create(publicId));
+  }
+
+  @PatchMapping("/{board_id}/posts/{post_id}")
+  public ResponseEntity<PostUpdateResponse> updatePost(@PathVariable("board_id") String boardId,
+      @PathVariable("post_id") String postId, @RequestBody PostUpdateRequest request) {
+    String publicId = postService.updatePost(request.toDto(boardId, postId));
+
+    return ResponseEntity.ok(PostUpdateResponse.create(publicId));
+  }
+
+  @DeleteMapping("/{board_id}/posts/{post_id}")
+  public ResponseEntity<PostDeleteResponse> deletePost(@PathVariable("board_id") String boardId,
+      @PathVariable("post_id") String postId) {
+    String publicId = postService.deletePost(boardId, postId);
+
+    return ResponseEntity.ok(PostDeleteResponse.create(publicId));
   }
 }
