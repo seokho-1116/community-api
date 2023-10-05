@@ -4,6 +4,7 @@ import com.example.community.controller.request.PagePostRequest;
 import com.example.community.controller.request.PostCreateRequest;
 import com.example.community.controller.request.PostUpdateRequest;
 import com.example.community.controller.response.PageResponse;
+import com.example.community.controller.response.PostCategoryResponse;
 import com.example.community.controller.response.PostCreateResponse;
 import com.example.community.controller.response.PostDetailResponse;
 import com.example.community.controller.response.PostSummaryResponse;
@@ -13,6 +14,8 @@ import com.example.community.controller.response.factory.PostResponseFactory;
 import com.example.community.service.PostService;
 import com.example.community.service.dto.PostDetailDto;
 import com.example.community.service.dto.PostSummaryDto;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -80,5 +83,12 @@ public class PostController {
     String publicId = postService.deletePost(boardId, postId);
 
     return ResponseEntity.ok(PostDeleteResponse.create(publicId));
+  }
+
+  @GetMapping("/{board_id}/posts/categories")
+  public ResponseEntity<List<PostCategoryResponse>> getPostCategoriesById(
+      @PathVariable("board_id") String boardId) {
+    return ResponseEntity.ok(PostCategoryResponse.create(
+        postService.findPostCategoryById(boardId)));
   }
 }

@@ -5,6 +5,7 @@ import static com.example.api.jooqgen.tables.Member.MEMBER;
 import static com.example.api.jooqgen.tables.Post.POST;
 import static com.example.api.jooqgen.tables.PostCategory.POST_CATEGORY;
 
+import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostDetailDto;
 import com.example.community.service.dto.PostSummaryDto;
 import com.example.community.service.dto.PostUpdateDto;
@@ -95,5 +96,13 @@ public class PostQueryRepository {
         .execute();
 
     return postId.toString();
+  }
+
+  public List<PostCategoryDto> findPostCategoryById(UUID boardId) {
+    return dslContext
+        .select(POST_CATEGORY.NAME, POST_CATEGORY.DESCRIPTION)
+        .from(POST_CATEGORY)
+        .where(POST_CATEGORY.BOARD_ID.eq(boardId))
+        .fetchInto(PostCategoryDto.class);
   }
 }

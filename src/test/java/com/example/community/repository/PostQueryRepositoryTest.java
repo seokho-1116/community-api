@@ -7,6 +7,7 @@ import static com.example.api.jooqgen.tables.PostCategory.POST_CATEGORY;
 import static org.assertj.core.api.Assertions.*;
 
 import com.example.api.jooqgen.tables.Post;
+import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostDetailDto;
 import com.example.community.service.dto.PostSummaryDto;
 import java.time.OffsetDateTime;
@@ -124,6 +125,19 @@ class PostQueryRepositoryTest {
         .execute();
 
     assertThat(findPost(boardId, postId)).isNotPresent();
+  }
+
+  @Test
+  void selectPostCategories() {
+    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
+
+    List<PostCategoryDto> categories = dslContext
+        .select(POST_CATEGORY.NAME, POST_CATEGORY.DESCRIPTION)
+        .from(POST_CATEGORY)
+        .where(POST_CATEGORY.BOARD_ID.eq(boardId))
+        .fetchInto(PostCategoryDto.class);
+
+    assertThat(categories).isNotEmpty();
   }
 
   private Optional<com.example.community.service.entity.Post> findPost(UUID boardId, UUID postId) {

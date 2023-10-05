@@ -2,12 +2,14 @@ package com.example.community.service;
 
 import com.example.community.repository.PostJpaRepository;
 import com.example.community.repository.PostQueryRepository;
+import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostCreateDto;
 import com.example.community.service.dto.PostDetailDto;
 import com.example.community.service.dto.PostSummaryDto;
 import com.example.community.service.dto.PostUpdateDto;
 import com.example.community.service.entity.Post;
 import java.time.OffsetDateTime;
+import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -49,5 +51,9 @@ public class PostService {
 
   public String deletePost(String boardId, String postId) {
     return postQueryRepository.deletePost(UUID.fromString(boardId), UUID.fromString(postId));
+  }
+
+  public List<PostCategoryDto> findPostCategoryById(String boardId) {
+    return postQueryRepository.findPostCategoryById(UUID.fromString(boardId));
   }
 }

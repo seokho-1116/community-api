@@ -1,14 +1,10 @@
 package com.example.community.controller;
 
-import com.example.community.controller.response.ApiResponse;
 import com.example.community.controller.response.BoardDetailResponse;
 import com.example.community.controller.response.BoardSummaryResponse;
 import com.example.community.controller.response.factory.BoardResponseFactory;
 import com.example.community.service.BoardService;
-import com.example.community.service.dto.BoardDetailDto;
-import com.example.community.service.dto.BoardSummaryDto;
 import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
