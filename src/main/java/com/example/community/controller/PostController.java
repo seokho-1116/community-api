@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.RestController;
 public class PostController {
   private final PostService postService;
 
+  //TODO: 과연 페이지 번호가 필요한가?
   @GetMapping("/posts")
   public ResponseEntity<PageResponse<PostSummaryResponse>> getPosts(
       @RequestBody PagePostRequest request) {

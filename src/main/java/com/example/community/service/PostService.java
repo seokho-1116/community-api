@@ -49,6 +49,7 @@ public class PostService {
     return postQueryRepository.updatePost(dto);
   }
 
+  //TODO: Hard delete vs Soft delete
   public String deletePost(String boardId, String postId) {
     return postQueryRepository.deletePost(UUID.fromString(boardId), UUID.fromString(postId));
   }
