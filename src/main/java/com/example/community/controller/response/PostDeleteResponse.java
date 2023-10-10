@@ -1,4 +1,4 @@
-package com.example.community.controller;
+package com.example.community.controller.response;
 
 import lombok.Getter;
 
