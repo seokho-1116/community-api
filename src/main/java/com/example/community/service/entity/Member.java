@@ -4,11 +4,19 @@ import java.time.OffsetDateTime;
 import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import lombok.AccessLevel;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 @Entity
 @Table(name = "member")
+@Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member {
   @Id
   @Column(name = "id")
@@ -42,5 +50,35 @@ public class Member {
   private Boolean accountLocked;
 
   @Column(name = "role")
-  private String role;
+  @Enumerated(value = EnumType.STRING)
+  private Role role;
+
+  @Builder
+  private Member(UUID id, UUID publicId, String nickname, OffsetDateTime createdDate,
+      OffsetDateTime modifiedDate, String signupId, String signupPassword, String email,
+      OffsetDateTime expirationDate, Boolean accountLocked, Role role) {
+    this.id = id;
+    this.publicId = publicId;
+    this.nickname = nickname;
+    this.createdDate = createdDate;
+    this.modifiedDate = modifiedDate;
+    this.signupId = signupId;
+    this.signupPassword = signupPassword;
+    this.email = email;
+    this.expirationDate = expirationDate;
+    this.accountLocked = accountLocked;
+    this.role = role;
+  }
+
+  public void changeNickname(String nickname) {
+    this.nickname = nickname;
+  }
+
+  public void changeEmail(String email) {
+    this.email = email;
+  }
+
+  public void changePassword(String password) {
+    this.signupPassword = password;
+  }
 }
