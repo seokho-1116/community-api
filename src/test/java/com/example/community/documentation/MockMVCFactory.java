@@ -1,5 +1,6 @@
 package com.example.community.documentation;
 
+import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 
 import org.springframework.restdocs.RestDocumentationContextProvider;
@@ -15,6 +16,7 @@ public class MockMVCFactory {
       RestDocumentationContextProvider provider, RestDocumentationResultHandler document) {
     return MockMvcBuilders.webAppContextSetup(context)
         .apply(MockMvcRestDocumentation.documentationConfiguration(provider))
+        .apply(springSecurity())
         .alwaysDo(document)
         .alwaysDo(print())
         .addFilter(new CharacterEncodingFilter("UTF-8", true))
