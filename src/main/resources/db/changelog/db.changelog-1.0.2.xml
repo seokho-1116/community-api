@@ -1,0 +1,29 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <changeSet author="seokho" id="1.0.2-1">
+    <createTable tableName="token">
+      <column name="id" type="UUID">
+        <constraints nullable="false" primaryKey="true" primaryKeyName="pk_token"/>
+      </column>
+      <column name="member_public_id" type="UUID"/>
+      <column name="role" type="varchar(255)"/>
+    </createTable>
+  </changeSet>
+  <changeSet id="1.0.2-2" author="seokho">
+    <addColumn tableName="token">
+      <column name="public_id" type="UUID"/>
+    </addColumn>
+  </changeSet>
+  <changeSet id="1.0.2-3" author="seokho">
+    <addColumn tableName="token">
+      <column name="refresh_token" type="UUID"/>
+    </addColumn>
+  </changeSet>
+  <changeSet id="1.0.2-4" author="seokho">
+    <modifyDataType tableName="token" columnName="refresh_token" newDataType="varchar(255)"/>
+  </changeSet>
+</databaseChangeLog>

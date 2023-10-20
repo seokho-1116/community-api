@@ -9,6 +9,7 @@ import com.example.community.security.authentication.jwt.JwtFactory;
 import com.example.community.security.authentication.login.handler.LoginFailureHandler;
 import com.example.community.security.authentication.login.handler.LoginSuccessHandler;
 import com.example.community.security.userdetails.CustomUserDetailsService;
+import com.example.community.service.TokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
@@ -28,6 +29,7 @@ import org.springframework.security.web.authentication.AuthenticationSuccessHand
 @RequiredArgsConstructor
 public class SecurityConfig {
   private final MemberQueryRepository memberQueryRepository;
+  private final TokenService tokenService;
   private final JwtFactory jwtFactory;
   private final ObjectMapper objectMapper;
 
@@ -50,8 +52,8 @@ public class SecurityConfig {
     http.authenticationProvider(daoAuthenticationProvider(userDetailsService()));
 
     http.apply(commonSecurityDsl());
-    http.apply(loginSecurityDsl(authenticationSuccessHandler(), authenticationFailureHandler(),
-        objectMapper));
+    http.apply(loginSecurityDsl(authenticationSuccessHandler(),
+        authenticationFailureHandler(), objectMapper));
 
     return http.build();
   }
@@ -70,7 +72,7 @@ public class SecurityConfig {
   }
 
   private AuthenticationSuccessHandler authenticationSuccessHandler() {
-    return new LoginSuccessHandler(jwtFactory, objectMapper);
+    return new LoginSuccessHandler(tokenService, objectMapper);
   }
 
   private AuthenticationFailureHandler authenticationFailureHandler() {

@@ -141,7 +141,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
   void loginSuccessTest() throws Exception {
     LoginRequest request = new LoginRequest("id", "password");
 
-    mockMvc.perform(post("/api/me/login")
+    mockMvc.perform(post("/api/auth/login")
           .contentType(MediaType.APPLICATION_JSON)
           .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
@@ -156,7 +156,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
   void loginFailureTest() throws Exception {
     LoginRequest request = new LoginRequest("id", "none");
 
-    mockMvc.perform(post("/api/me/login")
+    mockMvc.perform(post("/api/auth/login")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isUnauthorized());

@@ -22,7 +22,7 @@ public class LoginSecurityDsl extends AbstractHttpConfigurer<LoginSecurityDsl, H
     AuthenticationManager authenticationManager = http.getSharedObject(AuthenticationManager.class);
 
     http.requestMatchers(request -> request
-        .antMatchers("/api/me/login")
+        .antMatchers("/api/auth/login")
     ).addFilterBefore(loginFilter(authenticationManager),
         UsernamePasswordAuthenticationFilter.class);
   }

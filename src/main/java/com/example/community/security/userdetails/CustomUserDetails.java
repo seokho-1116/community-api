@@ -1,6 +1,7 @@
 package com.example.community.security.userdetails;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,7 +22,7 @@ public class CustomUserDetails implements UserDetails {
 
   @Override
   public Collection<? extends GrantedAuthority> getAuthorities() {
-    return authorities;
+    return Collections.unmodifiableList(authorities);
   }
 
   @Override
@@ -36,6 +37,10 @@ public class CustomUserDetails implements UserDetails {
 
   public String getPublicId() {
     return publicId;
+  }
+
+  public String getFirstAuthority() {
+    return authorities.get(0).getAuthority();
   }
 
   @Override
