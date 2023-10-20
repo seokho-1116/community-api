@@ -14,7 +14,6 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-//TODO: need test
 @Service
 @RequiredArgsConstructor
 public class TokenService {
