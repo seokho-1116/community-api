@@ -1,9 +1,11 @@
 package com.example.community.service;
 
 import com.example.community.repository.BoardQueryRepository;
-import com.example.community.service.dto.BoardDetailDto;
-import com.example.community.service.dto.BoardSummaryDto;
+import com.example.community.service.dto.BoardDetailResponseDto;
+import com.example.community.service.dto.BoardSummaryResponseDto;
+import com.example.community.service.exception.BoardNotExistException;
 import java.util.List;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,11 +14,12 @@ import org.springframework.stereotype.Service;
 public class BoardService {
   private final BoardQueryRepository boardQueryRepository;
 
-  public List<BoardSummaryDto> findAllBoards() {
+  public List<BoardSummaryResponseDto> findAllBoards() {
     return boardQueryRepository.findAllBoards();
   }
 
-  public BoardDetailDto findBoardById(String boardId) {
-    return boardQueryRepository.findBoardById(boardId);
+  public BoardDetailResponseDto findBoardById(final UUID boardPublicId) {
+    return boardQueryRepository.findBoardById(boardPublicId)
+        .orElseThrow(BoardNotExistException::new);
   }
 }

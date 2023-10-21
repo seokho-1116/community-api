@@ -2,9 +2,11 @@ package com.example.community.repository;
 
 import static com.example.api.jooqgen.tables.Board.BOARD;
 
-import com.example.community.service.dto.BoardDetailDto;
-import com.example.community.service.dto.BoardSummaryDto;
+import com.example.community.service.dto.BoardDetailResponseDto;
+import com.example.community.service.dto.BoardSummaryResponseDto;
 import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.stereotype.Repository;
@@ -14,15 +16,18 @@ import org.springframework.stereotype.Repository;
 public class BoardQueryRepository {
   private final DSLContext dslContext;
 
-  public List<BoardSummaryDto> findAllBoards() {
-    return dslContext.select(BOARD.PUBLIC_ID, BOARD.NAME)
+  public List<BoardSummaryResponseDto> findAllBoards() {
+    return dslContext
+        .select(BOARD.PUBLIC_ID, BOARD.NAME)
         .from(BOARD)
-        .fetchInto(BoardSummaryDto.class);
+        .fetchInto(BoardSummaryResponseDto.class);
   }
 
-  public BoardDetailDto findBoardById(String boardId) {
-    return dslContext.select(BOARD.PUBLIC_ID, BOARD.NAME, BOARD.DESCRIPTION, BOARD.CREATED_DATE)
+  public Optional<BoardDetailResponseDto> findBoardById(UUID boardPublicId) {
+    return dslContext
+        .select(BOARD.PUBLIC_ID, BOARD.NAME, BOARD.DESCRIPTION, BOARD.CREATED_DATE)
         .from(BOARD)
-        .fetchOneInto(BoardDetailDto.class);
+        .where(BOARD.PUBLIC_ID.eq(boardPublicId))
+        .fetchOptionalInto(BoardDetailResponseDto.class);
   }
 }

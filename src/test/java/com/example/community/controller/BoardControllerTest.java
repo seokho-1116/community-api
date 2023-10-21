@@ -1,15 +1,16 @@
 package com.example.community.controller;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.community.documentation.ResponseFieldsFactory;
+import com.example.community.documentation.fieldsfactory.BoardFieldsFactory;
 import com.example.community.service.BoardService;
-import com.example.community.service.dto.BoardDetailDto;
-import com.example.community.service.dto.BoardSummaryDto;
+import com.example.community.service.dto.BoardDetailResponseDto;
+import com.example.community.service.dto.BoardSummaryResponseDto;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -21,7 +22,6 @@ import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders;
 
 
 @ExtendWith(MockitoExtension.class)
@@ -32,40 +32,41 @@ class BoardControllerTest extends AbstractRestDocsControllerTest {
 
   @Test
   void getAllBoards() throws Exception {
-    Mockito.when(boardService.findAllBoards()).thenReturn(createBoards());
+    Mockito.when(boardService.findAllBoards()).thenReturn(createTestBoards());
 
     mockMvc.perform(get("/api/boards"))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getBoardSummaryResponseFields())
+            responseFields(BoardFieldsFactory.getBoardSummaryResponseFields())
         ));
   }
 
   @Test
   void getBoardById() throws Exception {
-    String boardId = UUID.randomUUID().toString();
-    Mockito.when(boardService.findBoardById(boardId)).thenReturn(createBoardDetail());
+    UUID boardPublicId = UUID.randomUUID();
 
-    mockMvc.perform(get("/api/boards/{board_id}", boardId))
+    Mockito.when(boardService.findBoardById(boardPublicId)).thenReturn(createTestBoardDetail());
+
+    mockMvc.perform(get("/api/boards/{board_id}", boardPublicId))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getBoardDetailResponseFields()),
+            responseFields(BoardFieldsFactory.getBoardDetailResponseFields()),
             pathParameters(parameterWithName("board_id").description("게시판 id"))
         ));
   }
 
-  private static List<BoardSummaryDto> createBoards() {
+  private static List<BoardSummaryResponseDto> createTestBoards() {
     return IntStream.range(0, 10)
-        .mapToObj(BoardControllerTest::createBoardSummary)
+        .mapToObj(BoardControllerTest::createTestBoardSummary)
         .collect(Collectors.toList());
   }
 
-  private static BoardSummaryDto createBoardSummary(int number) {
-    return new BoardSummaryDto(UUID.randomUUID().toString(), String.valueOf(number));
+  private static BoardSummaryResponseDto createTestBoardSummary(int number) {
+    return new BoardSummaryResponseDto(UUID.randomUUID().toString(), String.valueOf(number));
   }
 
-  private static BoardDetailDto createBoardDetail() {
-    return new BoardDetailDto(UUID.randomUUID().toString(), "name", "description",
+  private static BoardDetailResponseDto createTestBoardDetail() {
+    return new BoardDetailResponseDto(UUID.randomUUID().toString(), "name", "description",
         OffsetDateTime.now());
   }
 }

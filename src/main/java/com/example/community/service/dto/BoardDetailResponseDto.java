@@ -4,13 +4,13 @@ import java.time.OffsetDateTime;
 import lombok.Getter;
 
 @Getter
-public class BoardDetailDto {
+public class BoardDetailResponseDto {
   private final String publicId;
   private final String name;
   private final String description;
   private final OffsetDateTime createdDate;
 
-  public BoardDetailDto(String publicId, String name, String description,
+  public BoardDetailResponseDto(String publicId, String name, String description,
       OffsetDateTime createdDate) {
     this.publicId = publicId;
     this.name = name;
