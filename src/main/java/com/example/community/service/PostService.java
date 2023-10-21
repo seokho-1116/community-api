@@ -4,16 +4,16 @@ import com.example.community.repository.PostJpaRepository;
 import com.example.community.repository.PostQueryRepository;
 import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostCreateDto;
-import com.example.community.service.dto.PostDetailDto;
-import com.example.community.service.dto.PostSummaryDto;
+import com.example.community.service.dto.PostDetailResponseDto;
+import com.example.community.service.dto.PostSummaryResponseDto;
 import com.example.community.service.dto.PostUpdateDto;
 import com.example.community.service.entity.Post;
+import com.example.community.service.exception.PostNotExistException;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -22,22 +22,21 @@ public class PostService {
   private final PostQueryRepository postQueryRepository;
   private final PostJpaRepository postJpaRepository;
 
-  public Page<PostSummaryDto> findPosts(String previousDate, Pageable pageable) {
-    return postQueryRepository.findPosts(OffsetDateTime.parse(previousDate), pageable);
+  public Page<PostSummaryResponseDto> findPosts(final OffsetDateTime previousDate, final int size) {
+    return postQueryRepository.findPosts(previousDate, size);
   }
 
-  public Page<PostSummaryDto> findPostsByBoardId(String boardId, String previousDate,
-      Pageable pageable) {
-    return postQueryRepository.findPostsByBoardId(UUID.fromString(boardId),
-        OffsetDateTime.parse(previousDate), pageable);
+  public Page<PostSummaryResponseDto> findPostsByBoardId(final UUID boardId,
+      final OffsetDateTime previousDate, final int size) {
+    return postQueryRepository.findPostsByBoardId(boardId, previousDate, size);
   }
 
-  public PostDetailDto findBoardPostByPostId(String boardId, String postId) {
-    return postQueryRepository.findBoardPostByPostId(UUID.fromString(boardId),
-        UUID.fromString(postId));
+  public PostDetailResponseDto findBoardPostByPostId(final UUID boardId, final UUID postId) {
+    return postQueryRepository.findBoardPostByPostId(boardId, postId)
+        .orElseThrow(PostNotExistException::new);
   }
 
-  public String createNewPost(PostCreateDto dto) {
+  public String createNewPost(final PostCreateDto dto) {
     Post post = dto.toEntity();
 
     postJpaRepository.save(post);
@@ -45,16 +44,15 @@ public class PostService {
     return post.getPublicId().toString();
   }
 
-  public String updatePost(PostUpdateDto dto) {
+  public String updatePost(final PostUpdateDto dto) {
     return postQueryRepository.updatePost(dto);
   }
 
-  //TODO: Hard delete vs Soft delete
-  public String deletePost(String boardId, String postId) {
-    return postQueryRepository.deletePost(UUID.fromString(boardId), UUID.fromString(postId));
+  public String deletePost(final UUID boardId, final UUID postId) {
+    return postQueryRepository.deletePost(boardId, postId);
   }
 
-  public List<PostCategoryDto> findPostCategoryById(String boardId) {
-    return postQueryRepository.findPostCategoryById(UUID.fromString(boardId));
+  public List<PostCategoryDto> findPostCategoryById(final UUID boardId) {
+    return postQueryRepository.findPostCategoryById(boardId);
   }
 }

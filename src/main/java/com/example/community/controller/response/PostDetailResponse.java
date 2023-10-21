@@ -1,5 +1,6 @@
 package com.example.community.controller.response;
 
+import com.example.community.service.dto.PostDetailResponseDto;
 import java.time.OffsetDateTime;
 import lombok.Getter;
 
@@ -17,7 +18,7 @@ public class PostDetailResponse {
   private final String postCategory;
   private final String postURL;
 
-  public PostDetailResponse(String publicId, String title, String content, String nickname,
+  private PostDetailResponse(String publicId, String title, String content, String nickname,
       OffsetDateTime createdDate, int viewsCount, int upVotesCount, int downVotesCount,
       String boardCategory, String postCategory, String postURL) {
     this.publicId = publicId;
@@ -31,5 +32,11 @@ public class PostDetailResponse {
     this.boardCategory = boardCategory;
     this.postCategory = postCategory;
     this.postURL = postURL;
+  }
+
+  public static PostDetailResponse create(PostDetailResponseDto dto) {
+    return new PostDetailResponse(dto.getPublicId(), dto.getTitle(), dto.getContent(),
+        dto.getNickname(), dto.getCreatedDate(), dto.getViewsCount(), dto.getUpVotesCount(),
+        dto.getDownVotesCount(), dto.getBoardCategory(), dto.getPostCategory(), dto.getPostURL());
   }
 }

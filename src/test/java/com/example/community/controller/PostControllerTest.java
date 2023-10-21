@@ -1,7 +1,7 @@
 package com.example.community.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
@@ -14,11 +14,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.community.controller.request.PagePostRequest;
 import com.example.community.controller.request.PostCreateRequest;
 import com.example.community.controller.request.PostUpdateRequest;
-import com.example.community.documentation.ResponseFieldsFactory;
+import com.example.community.documentation.fieldsfactory.PostFieldsFactory;
 import com.example.community.service.PostService;
 import com.example.community.service.dto.PostCategoryDto;
-import com.example.community.service.dto.PostDetailDto;
-import com.example.community.service.dto.PostSummaryDto;
+import com.example.community.service.dto.PostDetailResponseDto;
+import com.example.community.service.dto.PostSummaryResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -27,7 +27,6 @@ import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,6 +43,8 @@ import org.springframework.test.context.TestConstructor.AutowireMode;
 @WebMvcTest(controllers = PostController.class)
 @TestConstructor(autowireMode = AutowireMode.ANNOTATED)
 class PostControllerTest extends AbstractRestDocsControllerTest {
+  private static final long TOTAL_POST = 50L;
+
   @MockBean
   private PostService postService;
 
@@ -52,36 +53,34 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
 
   @Test
   void getPosts() throws Exception {
-    long total = 50L;
-    PagePostRequest request = new PagePostRequest(OffsetDateTime.now().toString(), 0, 10);
+    PagePostRequest request = createTestPageRequest();
 
-    Mockito.when(postService.findPosts(anyString(), any()))
-        .thenReturn(createTestPage(request.getSize(), total));
+    Mockito.when(postService.findPosts(any(), anyInt()))
+        .thenReturn(createTestPage(request.getSize()));
 
     mockMvc.perform(get("/api/boards/posts")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getPagePostsResponseField())
+            responseFields(PostFieldsFactory.getPagePostsResponseField())
         ));
   }
 
   @Test
   void getPostsByBoardId() throws Exception {
-    long total = 50L;
-    PagePostRequest request = new PagePostRequest(OffsetDateTime.now().toString(), 0, 10);
+    PagePostRequest request = createTestPageRequest();
     String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
 
-    Mockito.when(postService.findPostsByBoardId(anyString(), anyString(), any()))
-        .thenReturn(createTestPage(request.getSize(), total));
+    Mockito.when(postService.findPostsByBoardId(any(), any(), anyInt()))
+        .thenReturn(createTestPage(request.getSize()));
 
     mockMvc.perform(get("/api/boards/{board_id}/posts", boardId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getPagePostsResponseField()),
+            responseFields(PostFieldsFactory.getPagePostsResponseField()),
             pathParameters(parameterWithName("board_id").description("게시판 id"))
         ));
   }
@@ -91,13 +90,13 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
     String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
     String postId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
 
-    Mockito.when(postService.findBoardPostByPostId(anyString(), anyString()))
+    Mockito.when(postService.findBoardPostByPostId(any(), any()))
         .thenReturn(createTestPostDetailDto());
 
     mockMvc.perform(get("/api/boards/{board_id}/posts/{post_id}", boardId, postId))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getPostDetailResponseField()),
+            responseFields(PostFieldsFactory.getPostDetailResponseField()),
             pathParameters(
                 parameterWithName("board_id").description("게시판 id"),
                 parameterWithName("post_id").description("게시글 id")
@@ -110,7 +109,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
     String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
     String postId = UUID.randomUUID().toString();
     PostCreateRequest request = new PostCreateRequest("title", "content",
-        "2efa778a-8734-4b96-bf14-c75c4756888d");
+        UUID.fromString("2efa778a-8734-4b96-bf14-c75c4756888d"));
 
     Mockito.when(postService.createNewPost(any())).thenReturn(postId);
 
@@ -119,7 +118,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getPostCreateResponseField()),
+            responseFields(PostFieldsFactory.getPostCreateResponseField()),
             pathParameters(parameterWithName("board_id").description("게시판 id"))
         ));
   }
@@ -137,7 +136,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getPostUpdateResponseField()),
+            responseFields(PostFieldsFactory.getPostUpdateResponseField()),
             pathParameters(
                 parameterWithName("board_id").description("게시판 id"),
                 parameterWithName("post_id").description("게시글 id")
@@ -150,12 +149,12 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
     String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
     String postId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
 
-    Mockito.when(postService.deletePost(anyString(), anyString())).thenReturn(postId);
+    Mockito.when(postService.deletePost(any(), any())).thenReturn(postId);
 
     mockMvc.perform(delete("/api/boards/{board_id}/posts/{post_id}", boardId, postId))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getPostDeleteResponseField()),
+            responseFields(PostFieldsFactory.getPostDeleteResponseField()),
             pathParameters(
                 parameterWithName("board_id").description("게시판 id"),
                 parameterWithName("post_id").description("게시글 id")
@@ -165,35 +164,41 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
 
   @Test
   void getPostCategoriesById() throws Exception {
-    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
 
     Mockito.when(postService.findPostCategoryById(boardId)).thenReturn(createTestPostCategoryDto());
 
     mockMvc.perform(get("/api/boards/{board_id}/posts/categories", boardId))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getPostCategoryResponseField()),
+            responseFields(PostFieldsFactory.getPostCategoryResponseField()),
             pathParameters(parameterWithName("board_id").description("게시판 id"))
         ));
   }
 
-  private Page<PostSummaryDto> createTestPage(int size, long total) {
-    List<PostSummaryDto> content = IntStream.range(0, size)
+  private PagePostRequest createTestPageRequest() {
+    return new PagePostRequest(OffsetDateTime.now(), 10);
+  }
+
+  private Page<PostSummaryResponseDto> createTestPage(int size) {
+    List<PostSummaryResponseDto> content = IntStream.range(0, size)
         .mapToObj(PostControllerTest::createTestPostSummaryDto)
         .collect(Collectors.toList());
 
-    return new PageImpl<>(content, Pageable.ofSize(size), total);
+    return new PageImpl<>(content, Pageable.ofSize(size), TOTAL_POST);
   }
 
-  private static PostSummaryDto createTestPostSummaryDto(int number) {
-    return new PostSummaryDto(UUID.randomUUID().toString(), "title", "content",
-        "user", number, "", "유머", "인기", OffsetDateTime.now());
+  private static PostSummaryResponseDto createTestPostSummaryDto(int number) {
+    return new PostSummaryResponseDto(UUID.randomUUID().toString(), "title", "content",
+        "user", number, "", "유머", "인기",
+        OffsetDateTime.now());
   }
 
-  private PostDetailDto createTestPostDetailDto() {
-    return new PostDetailDto("id", "title", "content", "nickname",
-        "author", OffsetDateTime.now(), 10, 10,
-        10, "category", "category", "URL");
+  private PostDetailResponseDto createTestPostDetailDto() {
+    return new PostDetailResponseDto("id", "title", "content",
+        "nickname", "author", OffsetDateTime.now(), 10,
+        10, 10, "category", "category",
+        "URL");
   }
 
   private List<PostCategoryDto> createTestPostCategoryDto() {

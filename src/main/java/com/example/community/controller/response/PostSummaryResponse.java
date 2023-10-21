@@ -1,5 +1,6 @@
 package com.example.community.controller.response;
 
+import com.example.community.service.dto.PostSummaryResponseDto;
 import java.time.OffsetDateTime;
 import lombok.Getter;
 
@@ -28,11 +29,9 @@ public class PostSummaryResponse {
     this.createdDate = createdDate;
   }
 
-  public static PostSummaryResponse create(String publicId, String title, String content,
-      String userId, long viewCount, String boardId, String boardCategory, String postCategory,
-      OffsetDateTime createdDate) {
-    return new PostSummaryResponse(publicId, title, content, userId, viewCount, boardId,
-        boardCategory,
-        postCategory, createdDate);
+  public static PostSummaryResponse create(PostSummaryResponseDto dto) {
+    return new PostSummaryResponse(dto.getPublicId(), dto.getTitle(), dto.getContent(),
+        dto.getNickname(), dto.getViewsCount(), dto.getBoardId(), dto.getBoardCategory(),
+        dto.getPostCategory(), dto.getCreatedDate());
   }
 }

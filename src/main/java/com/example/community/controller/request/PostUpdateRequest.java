@@ -18,7 +18,7 @@ public class PostUpdateRequest {
     this.content = content;
   }
 
-  public PostUpdateDto toDto(String boardId, String postId) {
-    return new PostUpdateDto(title, content, UUID.fromString(boardId), UUID.fromString(postId));
+  public PostUpdateDto toDto(UUID boardId, UUID postId) {
+    return new PostUpdateDto(title, content, boardId, postId);
   }
 }

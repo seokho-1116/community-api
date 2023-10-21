@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 import lombok.Getter;
 
 @Getter
-public class PostSummaryDto {
+public class PostSummaryResponseDto {
   private final String publicId;
   private final String title;
   private final String content;
@@ -15,7 +15,7 @@ public class PostSummaryDto {
   private final String postCategory;
   private final OffsetDateTime createdDate;
 
-  public PostSummaryDto(String publicId, String title, String content, String nickname,
+  public PostSummaryResponseDto(String publicId, String title, String content, String nickname,
       long viewsCount, String boardId, String boardCategory, String postCategory, OffsetDateTime createdDate) {
     this.publicId = publicId;
     this.title = title;
