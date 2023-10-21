@@ -1,7 +1,8 @@
 package com.example.community.service;
 
 import com.example.community.repository.CommunityQueryRepository;
-import com.example.community.service.dto.CommunityDetailDto;
+import com.example.community.service.dto.CommunityDetailResponseDto;
+import com.example.community.service.exception.CommunityNotFoundException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +11,8 @@ import org.springframework.stereotype.Service;
 public class CommunityService {
   private final CommunityQueryRepository communityQueryRepository;
 
-  public CommunityDetailDto findCommunity() {
-    return communityQueryRepository.findCommunity();
+  public CommunityDetailResponseDto findCommunity() {
+    return communityQueryRepository.findCommunity()
+        .orElseThrow(CommunityNotFoundException::new);
   }
 }

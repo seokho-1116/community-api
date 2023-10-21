@@ -1,8 +1,8 @@
 package com.example.community.controller;
 
-import com.example.community.controller.response.ApiResponse;
+import com.example.community.controller.response.CommunityDetailResponse;
 import com.example.community.service.CommunityService;
-import com.example.community.service.dto.CommunityDetailDto;
+import com.example.community.service.dto.CommunityDetailResponseDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,7 +16,9 @@ public class CommunityController {
   private final CommunityService communityService;
 
   @GetMapping
-  public CommunityDetailDto getCommunity() {
-    return communityService.findCommunity();
+  public ResponseEntity<CommunityDetailResponse> getCommunity() {
+    CommunityDetailResponseDto dto = communityService.findCommunity();
+
+    return ResponseEntity.ok(CommunityDetailResponse.create(dto));
   }
 }
