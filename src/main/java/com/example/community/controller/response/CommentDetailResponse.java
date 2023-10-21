@@ -1,6 +1,6 @@
 package com.example.community.controller.response;
 
-import com.example.community.service.dto.CommentDetailDto;
+import com.example.community.service.dto.CommentDetailResponseDto;
 import java.time.OffsetDateTime;
 import lombok.Getter;
 
@@ -21,7 +21,7 @@ public class CommentDetailResponse {
     this.downVotesCount = downVotesCount;
   }
 
-  public static CommentDetailResponse createFrom(CommentDetailDto dto) {
+  public static CommentDetailResponse create(CommentDetailResponseDto dto) {
     return new CommentDetailResponse(dto.getNickname(), dto.getContent(), dto.getCreatedDate(),
         dto.getUpVotesCount(), dto.getDownVotesCount());
   }

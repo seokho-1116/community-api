@@ -1,7 +1,7 @@
 package com.example.community.controller;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -13,9 +13,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.example.community.controller.request.CommentCreateRequest;
 import com.example.community.controller.request.CommentUpdateRequest;
 import com.example.community.controller.request.PageCommentRequest;
-import com.example.community.documentation.ResponseFieldsFactory;
+import com.example.community.documentation.fieldsfactory.CommentFieldsFactory;
 import com.example.community.service.CommentService;
-import com.example.community.service.dto.CommentDetailDto;
+import com.example.community.service.dto.CommentDetailResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -47,91 +47,101 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
 
   @Test
   void getComments() throws Exception {
-    String boardId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
-    String postId = "4c063a22-5716-4012-a770-57299395ecdc";
+    String boardPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
+    String postPublicId = "4c063a22-5716-4012-a770-57299395ecdc";
     int size = 10;
-    int page = 0;
-    PageCommentRequest request = new PageCommentRequest(OffsetDateTime.now().toString(),
-        page, size);
+    PageCommentRequest request = createTestPageCommentRequest(size);
 
-    when(commentService.findComments(anyString(), anyString(), any()))
+    when(commentService.findComments(any(), any(), anyInt()))
         .thenReturn(createTestPage(size, size));
 
-    mockMvc.perform(get("/api/boards/{board_id}/posts/{post_id}/comments", boardId,
-            postId)
+    mockMvc.perform(get("/api/boards/{board_id}/posts/{post_id}/comments", boardPublicId,
+            postPublicId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getPageCommentsResponseField())
+            responseFields(CommentFieldsFactory.getPageCommentsResponseField())
         ));
   }
 
   @Test
   void createComment() throws Exception {
-    String boardId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
-    String postId = "4c063a22-5716-4012-a770-57299395ecdc";
+    String boardPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
+    String postPublicId = "4c063a22-5716-4012-a770-57299395ecdc";
     UUID commentId = UUID.randomUUID();
-    CommentCreateRequest request = new CommentCreateRequest(UUID.randomUUID(), "content");
+    CommentCreateRequest request = createTestCreateRequest();
 
     when(commentService.createComment(any())).thenReturn(commentId);
 
-    mockMvc.perform(post("/api/boards/{board_id}/posts/{post_id}/comments", boardId,
-        postId)
+    mockMvc.perform(post("/api/boards/{board_id}/posts/{post_id}/comments", boardPublicId,
+        postPublicId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getCommentCreateResponseField())
+            responseFields(CommentFieldsFactory.getCommentCreateResponseField())
         ));
+  }
+
+  private CommentCreateRequest createTestCreateRequest() {
+    return new CommentCreateRequest(UUID.randomUUID(), "content");
   }
 
   @Test
   void updateComment() throws Exception {
-    String boardId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
-    String postId = "4c063a22-5716-4012-a770-57299395ecdc";
-    String commentId = "ba585502-4506-45b7-b38d-78d3d4314425";
+    String boardPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
+    String postPublicId = "4c063a22-5716-4012-a770-57299395ecdc";
+    String commentPublicId = "ba585502-4506-45b7-b38d-78d3d4314425";
     String content = "content";
-    CommentUpdateRequest request = new CommentUpdateRequest(content);
+    CommentUpdateRequest request = createTestCommentUpdateRequest(content);
 
-    when(commentService.updateComment(any())).thenReturn(UUID.fromString(commentId));
+    when(commentService.updateComment(any())).thenReturn(UUID.fromString(commentPublicId));
 
     mockMvc.perform(patch("/api/boards/{board_id}/posts/{post_id}/comments/{comment_id}",
-            boardId, postId, commentId)
+            boardPublicId, postPublicId, commentPublicId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getCommentUpdateResponseField())
+            responseFields(CommentFieldsFactory.getCommentUpdateResponseField())
         ));
   }
 
   @Test
   void deleteComment() throws Exception {
-    String boardId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
-    String postId = "4c063a22-5716-4012-a770-57299395ecdc";
-    String commentId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
+    String boardPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
+    String postPublicId = "4c063a22-5716-4012-a770-57299395ecdc";
+    String commentPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
 
-    when(commentService.deleteComment(any(), any())).thenReturn(UUID.fromString(commentId));
+    when(commentService.deleteComment(any(), any())).thenReturn(UUID.fromString(commentPublicId));
 
     mockMvc.perform(delete("/api/boards/{board_id}/posts/{post_id}/comments/{comment_id}",
-            boardId, postId, commentId))
+            boardPublicId, postPublicId, commentPublicId))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getCommentDeleteResponseField())
+            responseFields(CommentFieldsFactory.getCommentDeleteResponseField())
         ));
   }
 
-  private static Page<CommentDetailDto> createTestPage(int size, int total) {
-    List<CommentDetailDto> content = IntStream.range(0, size)
+  private CommentUpdateRequest createTestCommentUpdateRequest(String content) {
+    return new CommentUpdateRequest(content);
+  }
+
+  private PageCommentRequest createTestPageCommentRequest(int size) {
+    return new PageCommentRequest(OffsetDateTime.now(), size);
+  }
+
+  private Page<CommentDetailResponseDto> createTestPage(int size, int total) {
+    List<CommentDetailResponseDto> content = IntStream.range(0, size)
         .mapToObj(d -> createTestComment())
         .collect(Collectors.toList());
 
     return new PageImpl<>(content, Pageable.ofSize(size), total);
   }
 
-  private static CommentDetailDto createTestComment() {
-    return new CommentDetailDto("nickname", "content", OffsetDateTime.now(),
+  private CommentDetailResponseDto createTestComment() {
+    return new CommentDetailResponseDto("nickname", "content", OffsetDateTime.now(),
         0, 0);
   }
 }

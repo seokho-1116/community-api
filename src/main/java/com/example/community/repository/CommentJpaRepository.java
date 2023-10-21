@@ -1,20 +1,34 @@
 package com.example.community.repository;
 
 import com.example.community.service.entity.Comment;
+import java.util.UUID;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
 public class CommentJpaRepository {
   private final EntityManager em;
 
-  @Transactional
   public Comment save(Comment entity) {
     em.persist(entity);
 
     return entity;
+  }
+
+  public Comment findByPostPublicIdAndPublicId(UUID postPublicId, UUID commentPublicId) {
+    TypedQuery<Comment> query = em.createQuery("select c from Comment c "
+        + "where c.publicId=:commentPublicId and c.postPublicId=:postPublicId", Comment.class);
+
+    query.setParameter("commentPublicId", commentPublicId);
+    query.setParameter("postPublicId", postPublicId);
+
+    return query.getSingleResult();
+  }
+
+  public void remove(Comment comment) {
+    em.remove(comment);
   }
 }

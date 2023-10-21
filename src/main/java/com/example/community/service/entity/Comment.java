@@ -41,13 +41,19 @@ public class Comment {
   @Column(name = "member_id")
   private UUID memberId;
 
+  @Column(name = "post_public_id")
+  private UUID postPublicId;
+
+  @Column(name = "member_public_id")
+  private UUID memberPublicId;
+
   protected Comment() {
   }
 
   @Builder
   private Comment(UUID id, UUID publicId, String content, OffsetDateTime createdDate,
       OffsetDateTime modifiedDate, Integer upVotesCount, Integer downVotesCount, UUID postId,
-      UUID memberId) {
+      UUID memberId, UUID postPublicId, UUID memberPublicId) {
     this.id = id;
     this.publicId = publicId;
     this.content = content;
@@ -57,5 +63,11 @@ public class Comment {
     this.downVotesCount = downVotesCount;
     this.postId = postId;
     this.memberId = memberId;
+    this.postPublicId = postPublicId;
+    this.memberPublicId = memberPublicId;
+  }
+
+  public void changeContent(String content) {
+    this.content = content;
   }
 }

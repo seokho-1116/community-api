@@ -8,17 +8,17 @@ import lombok.Getter;
 
 @Getter
 public class CommentCreateRequest {
-  private final UUID memberId;
+  private final UUID memberPublicId;
   private final String content;
 
   @JsonCreator
-  public CommentCreateRequest(@JsonProperty("memberId") UUID memberId,
+  public CommentCreateRequest(@JsonProperty("memberId") UUID memberPublicId,
       @JsonProperty("content") String content) {
-    this.memberId = memberId;
+    this.memberPublicId = memberPublicId;
     this.content = content;
   }
 
   public CommentCreateRequestDto toDto(UUID postId) {
-    return CommentCreateRequestDto.create(postId, memberId, content);
+    return CommentCreateRequestDto.create(postId, memberPublicId, content);
   }
 }

@@ -43,7 +43,7 @@ public class PostQueryRepository {
     return new PageImpl<>(dtoList, Pageable.ofSize(size), count);
   }
 
-  public Page<PostSummaryResponseDto> findPostsByBoardId(final UUID boardId,
+  public Page<PostSummaryResponseDto> findPostsByBoardPublicId(final UUID boardPublicId,
       final OffsetDateTime previousDate, final int size) {
     List<PostSummaryResponseDto> dtoList = dslContext
         .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, POST.VIEWS_COUNT, MEMBER.NICKNAME,
@@ -53,17 +53,18 @@ public class PostQueryRepository {
         .join(POST_CATEGORY).on(POST.POST_CATEGORY_ID.eq(POST_CATEGORY.ID))
         .join(BOARD).on(POST.BOARD_ID.eq(BOARD.ID))
         .where(POST.CREATED_DATE.lt(previousDate)
-            .and(POST.BOARD_ID.eq(boardId)))
+            .and(POST.BOARD_PUBLIC_ID.eq(boardPublicId)))
         .orderBy(POST.CREATED_DATE.desc(), POST.ID.desc())
         .limit(size)
         .fetchInto(PostSummaryResponseDto.class);
 
-    int count  = dslContext.fetchCount(POST, POST.BOARD_ID.eq(boardId));
+    int count  = dslContext.fetchCount(POST, POST.BOARD_ID.eq(boardPublicId));
 
     return new PageImpl<>(dtoList, Pageable.ofSize(size), count);
   }
 
-  public Optional<PostDetailResponseDto> findBoardPostByPostId(final UUID boardId, final UUID postId) {
+  public Optional<PostDetailResponseDto> findBoardPostByPostId(final UUID boardPublicId,
+      final UUID postPublicId) {
     return dslContext
         .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, MEMBER.PUBLIC_ID, MEMBER.NICKNAME,
             POST.CREATED_DATE, POST.VIEWS_COUNT, POST.UP_VOTES_COUNT, POST.DOWN_VOTES_COUNT,
@@ -72,8 +73,8 @@ public class PostQueryRepository {
         .join(MEMBER).on(POST.MEMBER_ID.eq(MEMBER.ID))
         .join(POST_CATEGORY).on(POST.POST_CATEGORY_ID.eq(POST_CATEGORY.ID))
         .join(BOARD).on(POST.BOARD_ID.eq(BOARD.ID))
-        .where(POST.BOARD_ID.eq(boardId)
-            .and(POST.PUBLIC_ID.eq(postId)))
+        .where(POST.BOARD_PUBLIC_ID.eq(boardPublicId)
+            .and(POST.PUBLIC_ID.eq(postPublicId)))
         .fetchOptionalInto(PostDetailResponseDto.class);
   }
 
@@ -82,28 +83,36 @@ public class PostQueryRepository {
         .update(POST)
         .set(POST.TITLE, dto.getTitle())
         .set(POST.CONTENT, dto.getContent())
-        .where(POST.BOARD_ID.eq(dto.getBoardId())
-            .and(POST.PUBLIC_ID.eq(dto.getPostId())))
+        .where(POST.BOARD_PUBLIC_ID.eq(dto.getBoardPublicId())
+            .and(POST.PUBLIC_ID.eq(dto.getPostPublicId())))
         .execute();
 
-    return dto.getPostId().toString();
+    return dto.getPostPublicId().toString();
   }
 
-  public String deletePost(final UUID boardId, final UUID postId) {
+  public String deletePost(final UUID boardPublicId, final UUID postId) {
     dslContext
         .delete(POST)
-        .where(POST.BOARD_ID.eq(boardId)
+        .where(POST.BOARD_PUBLIC_ID.eq(boardPublicId)
             .and(POST.PUBLIC_ID.eq(postId)))
         .execute();
 
     return postId.toString();
   }
 
-  public List<PostCategoryDto> findPostCategoryById(final UUID boardId) {
+  public List<PostCategoryDto> findPostCategoryById(final UUID boardPublicId) {
     return dslContext
         .select(POST_CATEGORY.NAME, POST_CATEGORY.DESCRIPTION)
         .from(POST_CATEGORY)
-        .where(POST_CATEGORY.BOARD_ID.eq(boardId))
+        .where(POST_CATEGORY.BOARD_PUBLIC_ID.eq(boardPublicId))
         .fetchInto(PostCategoryDto.class);
+  }
+
+  public Optional<UUID> findPostIdByPostPublicId(UUID postPublicId) {
+    return dslContext
+        .select(POST.ID)
+        .from(POST)
+        .where(POST.PUBLIC_ID.eq(postPublicId))
+        .fetchOptionalInto(UUID.class);
   }
 }

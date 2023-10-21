@@ -30,4 +30,12 @@ public class MemberQueryRepository {
         .where(MEMBER.PUBLIC_ID.eq(memberId))
         .fetchOptionalInto(MemberDetailDto.class);
   }
+
+  public Optional<UUID> findMemberIdByPostPublicId(UUID memberPublicId) {
+    return dslContext
+        .select(MEMBER.ID)
+        .from(MEMBER)
+        .where(MEMBER.PUBLIC_ID.eq(memberPublicId))
+        .fetchOptionalInto(UUID.class);
+  }
 }

@@ -1,0 +1,85 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <changeSet id="1.0.3-1" author="seokho">
+    <addColumn tableName="comment">
+      <column type="uuid" name="board_id"/>
+    </addColumn>
+
+    <addForeignKeyConstraint baseColumnNames="board_id" baseTableName="comment" constraintName="fk_comment_board" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="board" validate="true"/>
+
+    <addColumn tableName="comment">
+      <column type="uuid" name="board_public_id"/>
+    </addColumn>
+
+    <addColumn tableName="image">
+      <column name="post_public_id" type="UUID"/>
+    </addColumn>
+
+    <addColumn tableName="video">
+      <column name="post_public_id" type="UUID"/>
+    </addColumn>
+
+    <addColumn tableName="draft_post">
+      <column name="board_public_id" type="UUID"/>
+      <column name="member_public_id" type="UUID"/>
+      <column name="post_category_public_id" type="UUID"/>
+    </addColumn>
+
+    <addColumn tableName="chat_message">
+      <column name="chat_room_public_id" type="UUID"/>
+      <column name="member_public_id" type="UUID"/>
+    </addColumn>
+
+    <addColumn tableName="board">
+      <column name="community_public_id" type="UUID"/>
+    </addColumn>
+
+    <addColumn tableName="post">
+      <column name="board_public_id" type="UUID"/>
+      <column name="member_public_id" type="UUID"/>
+    </addColumn>
+
+    <addColumn tableName="post_category">
+      <column name="board_public_id" type="UUID"/>
+    </addColumn>
+
+    <addColumn tableName="public_chat_room">
+      <column name="board_public_id" type="UUID"/>
+    </addColumn>
+
+    <addColumn tableName="message">
+      <column name="sender_public_id" type="UUID"/>
+      <column name="receiver_public_id" type="UUID"/>
+    </addColumn>
+  </changeSet>
+  <changeSet id="1.0.3-2" author="seokho">
+    <addColumn tableName="comment">
+      <column name="post_public_id" type="UUID"/>
+    </addColumn>
+  </changeSet>
+  <changeSet id="1.0.3-3" author="seokho">
+    <addColumn tableName="comment">
+      <column name="member_public_id" type="UUID"/>
+    </addColumn>
+    <addColumn tableName="video">
+      <column name="member_public_id" type="UUID"/>
+    </addColumn>
+    <addColumn tableName="image">
+      <column name="member_public_id" type="UUID"/>
+    </addColumn>
+    <renameColumn tableName="draft_post" oldColumnName="category_id"
+      newColumnName="post_category_id"/>
+    <addForeignKeyConstraint baseColumnNames="member_id" baseTableName="draft_post" constraintName="fk_draft_post_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="post_category_id" baseTableName="draft_post" constraintName="fk_draft_post_post_category" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="post_category" validate="true"/>
+    <addForeignKeyConstraint baseColumnNames="member_id" baseTableName="chat_message" constraintName="fk_chat_message_member" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="member" validate="true"/>
+  </changeSet>
+  <changeSet id="1.0.3-4" author="seokho">
+    <addColumn tableName="post">
+      <column name="post_category_public_id" type="uuid"/>
+    </addColumn>
+  </changeSet>
+</databaseChangeLog>

@@ -59,7 +59,7 @@ def generate_post_category_data(board_id):
         "public_id": uuid.uuid4(),
         "name": fake.word(),
         "description": fake.text(),
-        "board_id": board_id
+        "board_public_id": board_id
     }
 
 def generate_post_data(board_id, post_category_id, member_id):
@@ -75,12 +75,12 @@ def generate_post_data(board_id, post_category_id, member_id):
         "down_votes_count": random.randint(0, 100),
         "is_featured": random.choice([True, False]),
         "post_url": fake.url(),
-        "board_id": board_id,
+        "board_public_id": board_id,
         "post_category_id": post_category_id,
-        "member_id": member_id
+        "member_public_id": member_id
     }
 
-def generate_comment_data(post_id, member_id):
+def generate_comment_data(board_id, post_id, member_id):
     return {
         "id": uuid.uuid4(),
         "public_id": uuid.uuid4(),
@@ -90,8 +90,9 @@ def generate_comment_data(post_id, member_id):
         "modified_date": to_offsetdatetime_format(fake.date_time_this_decade(tzinfo=None)),
         "up_votes_count": random.randint(0, 1000),
         "down_votes_count": random.randint(0, 100),
-        "post_id": post_id,
-        "member_id": member_id
+        "board_public_id": board_id,
+        "post_public_id": post_id,
+        "member_public_id": member_id
     }
 
 def generate_image_data(post_id, member_id):
@@ -102,8 +103,8 @@ def generate_image_data(post_id, member_id):
         "size": random.randint(1000, 5000),
         "uploaded_date": to_offsetdatetime_format(fake.date_time_this_decade(tzinfo=None)),
         "extension": fake.file_extension(),
-        "post_id": post_id,
-        "member_id": member_id
+        "post_public_id": post_id,
+        "member_public_id": member_id
     }
 
 def generate_chat_message_data(chat_room_id, member_id):
@@ -113,8 +114,8 @@ def generate_chat_message_data(chat_room_id, member_id):
         "content": fake.text(),
         "created_date": to_offsetdatetime_format(fake.date_time_this_decade(tzinfo=None)),
         "reports_count": random.randint(0, 100),
-        "char_room_id": chat_room_id,
-        "member_id": member_id
+        "char_room_public_id": chat_room_id,
+        "member_public_id": member_id
     }
 
 def generate_draft_post_data(board_id, member_id, category_id):
@@ -124,9 +125,9 @@ def generate_draft_post_data(board_id, member_id, category_id):
         "title": fake.sentence(),
         "content": fake.text(),
         "created_date": to_offsetdatetime_format(fake.date_time_this_decade(tzinfo=None)),
-        "board_id": board_id,
-        "member_id": member_id,
-        "category_id": category_id
+        "board_public_id": board_id,
+        "member_public_id": member_id,
+        "post_category_id": category_id
     }
 
 def generate_video_data(post_id, member_id):
@@ -137,8 +138,8 @@ def generate_video_data(post_id, member_id):
         "size": random.randint(1000, 5000),
         "uploaded_date": to_offsetdatetime_format(fake.date_time_this_decade(tzinfo=None)),
         "extension": fake.file_extension(),
-        "post_id": post_id,
-        "member_id": member_id
+        "post_public_id": post_id,
+        "member_public_id": member_id
     }
 
 def generate_message_data(sender_id, receiver_id):
@@ -147,8 +148,8 @@ def generate_message_data(sender_id, receiver_id):
         "public_id": uuid.uuid4(),
         "content": fake.text(),
         "created_date": to_offsetdatetime_format(fake.date_time_this_decade(tzinfo=None)),
-        "sender_id": sender_id,
-        "receiver_id": receiver_id
+        "sender_public_id": sender_id,
+        "receiver_public_id": receiver_id
     }
 
 def generate_public_chat_room_data(board_id):
@@ -159,7 +160,7 @@ def generate_public_chat_room_data(board_id):
         "participants_count": random.randint(1, 100),
         "description": fake.text(),
         "created_date": to_offsetdatetime_format(fake.date_time_this_decade(tzinfo=None)),
-        "board_id": board_id
+        "board_public_id": board_id
     }
 
 def data_to_csv(table_name, data_list, filename):
@@ -171,43 +172,43 @@ def data_to_csv(table_name, data_list, filename):
             writer.writerow(data.values())
 
 # 각 테이블에 대한 데이터 생성 및 CSV로 저장
-community_data_list = [generate_community_data() for _ in range(10)]
+community_data_list = [generate_community_data() for _ in range(1)]
 data_to_csv("community", community_data_list, "script/community_data.csv")
 
-board_data_list = [generate_board_data(community_data["id"]) for community_data in community_data_list]
+board_data_list = [generate_board_data(community_data["public_id"]) for community_data in community_data_list]
 data_to_csv("board", board_data_list, "script/board_data.csv")
 
-member_data_list = [generate_member_data() for _ in range(10)]
+member_data_list = [generate_member_data() for _ in range(1000)]
 data_to_csv("member", member_data_list, "script/member_data.csv")
 
-post_category_data_list = [generate_post_category_data(board_data["id"]) for board_data in board_data_list]
+post_category_data_list = [generate_post_category_data(board_data["public_id"]) for board_data in board_data_list]
 data_to_csv("post_category", post_category_data_list,
             "script/post_category_data.csv")
 
-post_data_list = [generate_post_data(board_data["id"], post_category_data["id"], member_data["id"]) for board_data in board_data_list for post_category_data in post_category_data_list for member_data in member_data_list]
+post_data_list = [generate_post_data(board_data["public_id"], post_category_data["id"], member_data["public_id"]) for board_data in board_data_list for post_category_data in post_category_data_list for member_data in member_data_list]
 data_to_csv("post", post_data_list, "script/post_data.csv")
 
-comment_data_list = [generate_comment_data(post_data["id"], member_data["id"]) for post_data in post_data_list for member_data in member_data_list]
+comment_data_list = [generate_comment_data(board_data["public_id"], post_data["public_id"], member_data["public_id"]) for board_data in board_data_list for post_data in post_data_list for member_data in member_data_list]
 data_to_csv("comment", comment_data_list, "script/comment_data.csv")
 
-image_data_list = [generate_image_data(post_data["id"], member_data["id"]) for post_data in post_data_list for member_data in member_data_list]
+image_data_list = [generate_image_data(post_data["public_id"], member_data["public_id"]) for post_data in post_data_list for member_data in member_data_list]
 data_to_csv("image", image_data_list, "script/image_data.csv")
 
-public_chat_room_data_list = [generate_public_chat_room_data(board_data["id"]) for board_data in board_data_list]
+public_chat_room_data_list = [generate_public_chat_room_data(board_data["public_id"]) for board_data in board_data_list]
 data_to_csv("public_chat_room", public_chat_room_data_list,
             "script/public_chat_room_data.csv")
 
-chat_message_data_list = [generate_chat_message_data(public_chat_room_data["id"], member_data["id"]) for public_chat_room_data in public_chat_room_data_list for member_data in member_data_list]
+chat_message_data_list = [generate_chat_message_data(public_chat_room_data["public_id"], member_data["public_id"]) for public_chat_room_data in public_chat_room_data_list for member_data in member_data_list]
 data_to_csv("chat_message", chat_message_data_list,
             "script/chat_message_data.csv")
 
-draft_post_data_list = [generate_draft_post_data(board_data["id"], member_data["id"], post_category_data["id"]) for board_data in board_data_list for member_data in member_data_list for post_category_data in post_category_data_list]
+draft_post_data_list = [generate_draft_post_data(board_data["public_id"], member_data["public_id"], post_category_data["id"]) for board_data in board_data_list for member_data in member_data_list for post_category_data in post_category_data_list]
 data_to_csv("draft_post", draft_post_data_list, "script/draft_post_data.csv")
 
-video_data_list = [generate_video_data(post_data["id"], member_data["id"]) for post_data in post_data_list for member_data in member_data_list]
+video_data_list = [generate_video_data(post_data["public_id"], member_data["public_id"]) for post_data in post_data_list for member_data in member_data_list]
 data_to_csv("video", video_data_list, "script/video_data.csv")
 
-message_data_list = [generate_message_data(member_data["id"], member_data["id"]) for member_data in member_data_list]
+message_data_list = [generate_message_data(member_data["public_id"], member_data["public_id"]) for member_data in member_data_list]
 data_to_csv("message", message_data_list, "script/message_data.csv")
 
 def generate_copy_sql(table_name, csv_filename):

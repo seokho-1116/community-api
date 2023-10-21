@@ -5,13 +5,13 @@ import lombok.Getter;
 
 @Getter
 public class CommentUpdateRequestDto {
-  private final UUID postId;
-  private final UUID commentId;
+  private final UUID postPublicId;
+  private final UUID commentPublicId;
   private final String content;
 
-  public CommentUpdateRequestDto(UUID postId, UUID commentId, String content) {
-    this.postId = postId;
-    this.commentId = commentId;
+  public CommentUpdateRequestDto(UUID postPublicId, UUID commentPublicId, String content) {
+    this.postPublicId = postPublicId;
+    this.commentPublicId = commentPublicId;
     this.content = content;
   }
 
