@@ -18,7 +18,8 @@ public class TokenController {
   private final TokenService tokenService;
 
   @PostMapping("/token")
-  public ResponseEntity<TokenRefreshResponse> refreshToken(@RequestBody TokenRefreshRequest request) {
+  public ResponseEntity<TokenRefreshResponse> refreshToken(
+      @RequestBody TokenRefreshRequest request) {
     TokenRefreshResponseDto dto = tokenService.refresh(request.getRefreshTokenPublicId());
 
     return ResponseEntity.ok(TokenRefreshResponse.create(dto));

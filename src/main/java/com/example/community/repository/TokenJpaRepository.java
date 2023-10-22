@@ -9,11 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @RequiredArgsConstructor
 public class TokenJpaRepository {
-  private final EntityManager entityManager;
+  private final EntityManager em;
 
   @Transactional
   public Token save(Token token) {
-    entityManager.persist(token);
+    em.persist(token);
+
     return token;
   }
 }

@@ -3,6 +3,7 @@ package com.example.community.repository;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import com.example.community.service.dto.TokenDto;
+import java.util.Optional;
 import java.util.UUID;
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
@@ -21,8 +22,8 @@ class TokenQueryRepositoryTest {
   void findTokenByPublicId() {
     UUID refreshTokenPublicId = UUID.fromString("e37fec2d-9e56-4049-a65a-b8eb44575f1f");
 
-    TokenDto dto = tokenQueryRepository.findTokenByPublicId(refreshTokenPublicId);
+    Optional<TokenDto> dto = tokenQueryRepository.findTokenByPublicId(refreshTokenPublicId);
 
-    assertThat(dto).isNotNull();
+    assertThat(dto).isPresent();
   }
 }

@@ -10,6 +10,7 @@ import com.example.community.service.dto.TokenRefreshResponseDto;
 import com.example.community.service.dto.TokenResponseDto;
 import com.example.community.service.entity.Role;
 import com.example.community.service.entity.Token;
+import com.example.community.service.exception.TokenNotExistException;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,8 @@ public class TokenService {
   private final TokenJpaRepository tokenJpaRepository;
 
   public TokenRefreshResponseDto refresh(UUID publicId) throws InvalidTokenException {
-    TokenDto dto = tokenQueryRepository.findTokenByPublicId(publicId);
+    TokenDto dto = tokenQueryRepository.findTokenByPublicId(publicId)
+        .orElseThrow(TokenNotExistException::new);
 
     if (isNotValid(dto)) {
       throw new InvalidTokenException("refresh 토큰이 올바르지 않습니다.");

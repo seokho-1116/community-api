@@ -33,7 +33,7 @@ class TokenControllerTest extends AbstractRestDocsControllerTest {
 
   @Test
   void refreshToken() throws Exception {
-    TokenRefreshRequest request = new TokenRefreshRequest(UUID.randomUUID());
+    TokenRefreshRequest request = createTestTokenRefreshRequest();
 
     Mockito.when(tokenService.refresh(request.getRefreshTokenPublicId()))
         .thenReturn(createTokenRefreshResponseDto());
@@ -45,6 +45,10 @@ class TokenControllerTest extends AbstractRestDocsControllerTest {
         .andDo(document.document(
             responseFields(ResponseFieldsFactory.getTokenRefreshResponseField())
         ));
+  }
+
+  private static TokenRefreshRequest createTestTokenRefreshRequest() {
+    return new TokenRefreshRequest(UUID.randomUUID());
   }
 
   private TokenRefreshResponseDto createTokenRefreshResponseDto() {

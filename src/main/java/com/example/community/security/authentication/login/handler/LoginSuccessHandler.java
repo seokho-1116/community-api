@@ -23,18 +23,16 @@ public class LoginSuccessHandler implements AuthenticationSuccessHandler {
       Authentication authentication) throws IOException {
     CustomUserDetails customUserDetails = (CustomUserDetails) authentication.getPrincipal();
 
-    ApiResponse<TokenResponse> apiResponseBody = makeResponse(customUserDetails);
+    TokenResponseDto dto = tokenService.createToken(customUserDetails.getPublicId(),
+        customUserDetails.getFirstAuthority());
 
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
     response.getWriter()
-        .write(objectMapper.writeValueAsString(apiResponseBody));
+        .write(objectMapper.writeValueAsString(toResponse(dto)));
   }
 
-  private ApiResponse<TokenResponse> makeResponse(CustomUserDetails customUserDetails) {
-    TokenResponseDto dto = tokenService.createToken(customUserDetails.getPublicId(),
-        customUserDetails.getFirstAuthority());
-
+  private ApiResponse<TokenResponse> toResponse(TokenResponseDto dto) {
     return ApiResponse.success(TokenResponse.create(dto));
   }
 }
