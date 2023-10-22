@@ -28,49 +28,46 @@ class MemberJpaRepositoryTest {
 
   @Test
   void updateNickname() {
-    UUID publicId = UUID.fromString("cfd8be94-42d9-49b4-b021-5b0da1945c5a");
+    UUID publicId = UUID.fromString("7da7aa39-d829-43ac-a3f1-b770d8deff1e");
     String nickname = "new";
 
-    memberJpaRepository.updateNickname(publicId, nickname);
+    Member entity = memberJpaRepository.findMemberByPublicId(publicId);
+    entity.changeNickname(nickname);
     em.flush();
+    em.clear();
 
-    Member member = getMember(publicId);
+    Member member = memberJpaRepository.findMemberByPublicId(publicId);
 
     assertThat(nickname).isEqualTo(member.getNickname());
   }
 
-  private Member getMember(UUID memberId) {
-    TypedQuery<Member> query = em.createQuery(
-        "select m from Member m where m.publicId=:memberId", Member.class);
-
-    query.setParameter("memberId", memberId);
-
-    return query.getSingleResult();
-  }
-
   @Test
   void updateEmail() {
-    UUID publicId = UUID.fromString("cfd8be94-42d9-49b4-b021-5b0da1945c5a");
+    UUID publicId = UUID.fromString("7da7aa39-d829-43ac-a3f1-b770d8deff1e");
     String email = "new";
 
-    memberJpaRepository.updateEmail(publicId, email);
+    Member entity = memberJpaRepository.findMemberByPublicId(publicId);
+    entity.changeEmail(email);
     em.flush();
+    em.clear();
 
-    Member member = getMember(publicId);
+    Member member = memberJpaRepository.findMemberByPublicId(publicId);
 
     assertThat(email).isEqualTo(member.getEmail());
   }
 
   @Test
   void updatePassword() {
-    UUID publicId = UUID.fromString("cfd8be94-42d9-49b4-b021-5b0da1945c5a");
+    UUID publicId = UUID.fromString("7da7aa39-d829-43ac-a3f1-b770d8deff1e");
     PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     String password = passwordEncoder.encode("new");
 
-    memberJpaRepository.updatePassword(publicId, password);
+    Member entity = memberJpaRepository.findMemberByPublicId(publicId);
+    entity.changePassword(password);
     em.flush();
+    em.clear();
 
-    Member member = getMember(publicId);
+    Member member = memberJpaRepository.findMemberByPublicId(publicId);
 
     assertThat(password).isEqualTo(member.getSignupPassword());
   }

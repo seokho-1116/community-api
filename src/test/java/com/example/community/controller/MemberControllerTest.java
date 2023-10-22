@@ -8,7 +8,6 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestBody;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -31,7 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.TestConstructor.AutowireMode;
 
@@ -45,13 +43,9 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
-  @Autowired
-  private PasswordEncoder passwordEncoder;
-
   @Test
   void signup() throws Exception {
-    SignupRequest request = new SignupRequest("id", "nickname", "password",
-        "email");
+    SignupRequest request = createTestSingupRequest();
     UUID publicId = UUID.randomUUID();
 
     when(memberService.createMember(any())).thenReturn(publicId);
@@ -63,6 +57,11 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
         .andDo(document.document(
             responseFields(ResponseFieldsFactory.getMemberCreateResponseField())
         ));
+  }
+
+  private SignupRequest createTestSingupRequest() {
+    return new SignupRequest("id", "nickname", "password",
+        "email");
   }
 
   @Test
@@ -88,7 +87,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
   @Test
   void updateEmail() throws Exception {
     String jwt = "Bearer token";
-    EmailUpdateRequest request = new EmailUpdateRequest("new");
+    EmailUpdateRequest request = createTestEmailUpdateRequest();
 
     when(memberService.updateEmail(any(), any())).thenReturn(request.getEmail());
 
@@ -103,10 +102,14 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  private EmailUpdateRequest createTestEmailUpdateRequest() {
+    return new EmailUpdateRequest("new");
+  }
+
   @Test
   void updateNickname() throws Exception {
     String jwt = "Bearer token";
-    NicknameUpdateRequest request = new NicknameUpdateRequest("new");
+    NicknameUpdateRequest request = createTestNicknameUpdateRequest();
 
     when(memberService.updateNickname(any(), any())).thenReturn(request.getNickname());
 
@@ -121,10 +124,14 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  private NicknameUpdateRequest createTestNicknameUpdateRequest() {
+    return new NicknameUpdateRequest("new");
+  }
+
   @Test
   void updatePassword() throws Exception {
     String jwt = "Bearer token";
-    PasswordUpdateRequest request = new PasswordUpdateRequest("new");
+    PasswordUpdateRequest request = createTestPasswordupdateRequest();
 
     mockMvc.perform(patch("/api/me/password")
             .contentType(MediaType.APPLICATION_JSON)
@@ -137,9 +144,13 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  private PasswordUpdateRequest createTestPasswordupdateRequest() {
+    return new PasswordUpdateRequest("new");
+  }
+
   @Test
   void loginSuccessTest() throws Exception {
-    LoginRequest request = new LoginRequest("id", "password");
+    LoginRequest request = createTestLoginRequest("id", "password");
 
     mockMvc.perform(post("/api/auth/login")
           .contentType(MediaType.APPLICATION_JSON)
@@ -154,11 +165,15 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
 
   @Test
   void loginFailureTest() throws Exception {
-    LoginRequest request = new LoginRequest("id", "none");
+    LoginRequest request = createTestLoginRequest("id", "none");
 
     mockMvc.perform(post("/api/auth/login")
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isUnauthorized());
+  }
+
+  private LoginRequest createTestLoginRequest(String id, String password) {
+    return new LoginRequest(id, password);
   }
 }

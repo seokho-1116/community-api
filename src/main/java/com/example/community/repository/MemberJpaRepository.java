@@ -16,34 +16,12 @@ public class MemberJpaRepository {
     em.persist(entity);
   }
 
-  public String updateNickname(UUID memberId, String nickname) {
-    Member member = getMember(memberId);
-
-    member.changeNickname(nickname);
-
-    return nickname;
-  }
-
-  private Member getMember(UUID memberId) {
+  public Member findMemberByPublicId(UUID memberPublicId) {
     TypedQuery<Member> query = em.createQuery(
-        "select m from Member m where m.publicId=:memberId", Member.class);
+        "select m from Member m where m.publicId=:memberPublicId", Member.class);
 
-    query.setParameter("memberId", memberId);
+    query.setParameter("memberPublicId", memberPublicId);
 
     return query.getSingleResult();
-  }
-
-  public String updateEmail(UUID memberId, String email) {
-    Member member = getMember(memberId);
-
-    member.changeEmail(email);
-
-    return email;
-  }
-
-  public void updatePassword(UUID memberId, String password) {
-    Member member = getMember(memberId);
-
-    member.changePassword(password);
   }
 }

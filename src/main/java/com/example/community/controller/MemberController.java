@@ -29,38 +29,38 @@ public class MemberController {
 
   @PostMapping("/signup")
   public ResponseEntity<SignupResponse> signup(@RequestBody SignupRequest request) {
-    UUID memberId = memberService.createMember(request.toDto());
+    UUID memberPublicId = memberService.createMember(request.toDto());
 
-    return ResponseEntity.ok(SignupResponse.create(memberId));
+    return ResponseEntity.ok(SignupResponse.create(memberPublicId));
   }
 
   @GetMapping
-  public ResponseEntity<MemberDetailResponse> getMember(@AuthenticationPrincipal UUID memberId) {
-    MemberDetailDto dto = memberService.findMemberByPublicId(memberId);
+  public ResponseEntity<MemberDetailResponse> getMember(@AuthenticationPrincipal UUID memberPublicId) {
+    MemberDetailDto dto = memberService.findMemberByPublicId(memberPublicId);
 
     return ResponseEntity.ok(MemberDetailResponse.create(dto));
   }
 
   @PatchMapping("/email")
   public ResponseEntity<EmailUpdateResponse> updateEmail(@RequestBody EmailUpdateRequest request,
-      @AuthenticationPrincipal UUID memberId) {
-    String email = memberService.updateEmail(memberId, request.getEmail());
+      @AuthenticationPrincipal UUID memberPublicId) {
+    String email = memberService.updateEmail(memberPublicId, request.getEmail());
 
     return ResponseEntity.ok(EmailUpdateResponse.create(email));
   }
 
   @PatchMapping("/nickname")
   public ResponseEntity<NicknameUpdateResponse> updateNickname(
-      @RequestBody NicknameUpdateRequest request, @AuthenticationPrincipal UUID memberId) {
-    String nickname = memberService.updateNickname(memberId,request.getNickname());
+      @RequestBody NicknameUpdateRequest request, @AuthenticationPrincipal UUID memberPublicId) {
+    String nickname = memberService.updateNickname(memberPublicId, request.getNickname());
 
     return ResponseEntity.ok(NicknameUpdateResponse.create(nickname));
   }
 
   @PatchMapping("/password")
   public ResponseEntity<Void> updatePassword(@RequestBody PasswordUpdateRequest request,
-      @AuthenticationPrincipal UUID memberId) {
-    memberService.updatePassword(memberId,request.getPassword());
+      @AuthenticationPrincipal UUID memberPublicId) {
+    memberService.updatePassword(memberPublicId, request.getPassword());
 
     return ResponseEntity.ok().build();
   }

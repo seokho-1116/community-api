@@ -32,24 +32,34 @@ public class MemberService {
   }
 
   @Transactional
-  public String updateNickname(UUID memberId, String nickname) {
-    return memberJpaRepository.updateNickname(memberId, nickname);
+  public String updateNickname(UUID memberPublicId, String nickname) {
+    Member member = memberJpaRepository.findMemberByPublicId(memberPublicId);
+
+    member.changeNickname(nickname);
+
+    return member.getNickname();
   }
 
   @Transactional
-  public String updateEmail(UUID memberId, String email) {
-    return memberJpaRepository.updateEmail(memberId, email);
+  public String updateEmail(UUID memberPublicId, String email) {
+    Member member = memberJpaRepository.findMemberByPublicId(memberPublicId);
+
+    member.changeEmail(email);
+
+    return member.getEmail();
   }
 
   @Transactional
-  public void updatePassword(UUID memberId, String password) {
+  public void updatePassword(UUID memberPublicId, String password) {
     String encodedPassword = passwordEncoder.encode(password);
 
-    memberJpaRepository.updatePassword(memberId, encodedPassword);
+    Member member = memberJpaRepository.findMemberByPublicId(memberPublicId);
+
+    member.changePassword(encodedPassword);
   }
 
-  public MemberDetailDto findMemberByPublicId(UUID memberId) {
-      return memberQueryRepository.findMemberDetailDtoByPublicId(memberId)
-        .orElseThrow(() -> new MemberNotFoundException());
+  public MemberDetailDto findMemberByPublicId(UUID memberPublicId) {
+      return memberQueryRepository.findMemberDetailDtoByPublicId(memberPublicId)
+        .orElseThrow(MemberNotFoundException::new);
   }
 }

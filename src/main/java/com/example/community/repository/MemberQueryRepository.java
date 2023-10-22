@@ -23,15 +23,15 @@ public class MemberQueryRepository {
         .fetchOptionalInto(MemberAuthenticationDto.class);
   }
 
-  public Optional<MemberDetailDto> findMemberDetailDtoByPublicId(UUID memberId) {
+  public Optional<MemberDetailDto> findMemberDetailDtoByPublicId(UUID memberPublicId) {
     return dslContext
         .select(MEMBER.SIGNUP_ID, MEMBER.NICKNAME, MEMBER.CREATED_DATE, MEMBER.EMAIL)
         .from(MEMBER)
-        .where(MEMBER.PUBLIC_ID.eq(memberId))
+        .where(MEMBER.PUBLIC_ID.eq(memberPublicId))
         .fetchOptionalInto(MemberDetailDto.class);
   }
 
-  public Optional<UUID> findMemberIdByPostPublicId(UUID memberPublicId) {
+  public Optional<UUID> findMemberIdByPublicId(UUID memberPublicId) {
     return dslContext
         .select(MEMBER.ID)
         .from(MEMBER)

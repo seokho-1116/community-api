@@ -21,7 +21,7 @@ class MemberQueryRepositoryTest {
 
   @Test
   void findMemberAuthenticationDtoBySignupIdTest() {
-    String signupId = "23f797cb-838b-4451-950d-f8ac8f88b4c6";
+    String signupId = "brooke35@example.com";
 
     MemberAuthenticationDto dto = memberQueryRepository.findMemberAuthenticationDtoBySignupId(
         signupId)
@@ -32,7 +32,7 @@ class MemberQueryRepositoryTest {
 
   @Test
   void findMemberDetailDtoByPublicIdTest() {
-    UUID publicId = UUID.fromString("cfd8be94-42d9-49b4-b021-5b0da1945c5a");
+    UUID publicId = UUID.fromString("7da7aa39-d829-43ac-a3f1-b770d8deff1e");
 
     MemberDetailDto dto = memberQueryRepository.findMemberDetailDtoByPublicId(publicId)
         .orElseThrow();
