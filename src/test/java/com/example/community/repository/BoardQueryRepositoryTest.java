@@ -29,7 +29,7 @@ class BoardQueryRepositoryTest {
 
   @Test
   void findBoardById() {
-    UUID boardPublicId = UUID.fromString("c40cf43b-3466-4e15-b450-d8be1f648efe");
+    UUID boardPublicId = UUID.fromString("8f712b3f-bdf2-4261-bacb-9d224b05a6e8");
 
     Optional<BoardDetailResponseDto> board = boardQueryRepository.findBoardByPublicId(boardPublicId);
 
