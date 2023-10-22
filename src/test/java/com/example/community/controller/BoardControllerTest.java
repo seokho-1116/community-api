@@ -1,7 +1,6 @@
 package com.example.community.controller;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
-import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
@@ -45,7 +44,8 @@ class BoardControllerTest extends AbstractRestDocsControllerTest {
   void getBoardById() throws Exception {
     UUID boardPublicId = UUID.randomUUID();
 
-    Mockito.when(boardService.findBoardById(boardPublicId)).thenReturn(createTestBoardDetail());
+    Mockito.when(boardService.findBoardByPublicId(boardPublicId))
+        .thenReturn(createTestBoardDetail());
 
     mockMvc.perform(get("/api/boards/{board_id}", boardPublicId))
         .andExpect(status().isOk())
@@ -66,7 +66,7 @@ class BoardControllerTest extends AbstractRestDocsControllerTest {
   }
 
   private static BoardDetailResponseDto createTestBoardDetail() {
-    return new BoardDetailResponseDto(UUID.randomUUID().toString(), "name", "description",
-        OffsetDateTime.now());
+    return new BoardDetailResponseDto(UUID.randomUUID().toString(), "name",
+        "description", OffsetDateTime.now());
   }
 }

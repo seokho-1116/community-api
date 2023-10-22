@@ -28,9 +28,9 @@ public class BoardController {
   }
 
   @GetMapping("/{board_id}")
-  public ResponseEntity<BoardDetailResponse> getBoardById(
+  public ResponseEntity<BoardDetailResponse> getBoardByPublicId(
       @PathVariable("board_id") final UUID boardPublicId) {
-    BoardDetailResponseDto dto = boardService.findBoardById(boardPublicId);
+    BoardDetailResponseDto dto = boardService.findBoardByPublicId(boardPublicId);
 
     return ResponseEntity.ok(BoardDetailResponse.create(dto));
   }

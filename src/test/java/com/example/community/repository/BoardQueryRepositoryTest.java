@@ -31,7 +31,7 @@ class BoardQueryRepositoryTest {
   void findBoardById() {
     UUID boardPublicId = UUID.fromString("c40cf43b-3466-4e15-b450-d8be1f648efe");
 
-    Optional<BoardDetailResponseDto> board = boardQueryRepository.findBoardById(boardPublicId);
+    Optional<BoardDetailResponseDto> board = boardQueryRepository.findBoardByPublicId(boardPublicId);
 
     assertThat(board).isPresent();
   }

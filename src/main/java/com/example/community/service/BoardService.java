@@ -18,8 +18,8 @@ public class BoardService {
     return boardQueryRepository.findAllBoards();
   }
 
-  public BoardDetailResponseDto findBoardById(final UUID boardPublicId) {
-    return boardQueryRepository.findBoardById(boardPublicId)
+  public BoardDetailResponseDto findBoardByPublicId(final UUID boardPublicId) {
+    return boardQueryRepository.findBoardByPublicId(boardPublicId)
         .orElseThrow(BoardNotExistException::new);
   }
 }

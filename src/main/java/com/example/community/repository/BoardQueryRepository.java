@@ -23,11 +23,19 @@ public class BoardQueryRepository {
         .fetchInto(BoardSummaryResponseDto.class);
   }
 
-  public Optional<BoardDetailResponseDto> findBoardById(UUID boardPublicId) {
+  public Optional<BoardDetailResponseDto> findBoardByPublicId(UUID boardPublicId) {
     return dslContext
         .select(BOARD.PUBLIC_ID, BOARD.NAME, BOARD.DESCRIPTION, BOARD.CREATED_DATE)
         .from(BOARD)
         .where(BOARD.PUBLIC_ID.eq(boardPublicId))
         .fetchOptionalInto(BoardDetailResponseDto.class);
+  }
+
+  public Optional<UUID> findBoardIdByPublicId(UUID boardPublicId) {
+    return dslContext
+        .select(BOARD.ID)
+        .from(BOARD)
+        .where(BOARD.PUBLIC_ID.eq(boardPublicId))
+        .fetchOptionalInto(UUID.class);
   }
 }
