@@ -5,8 +5,6 @@ import static org.assertj.core.api.Assertions.*;
 import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
-import com.example.community.service.dto.PostUpdateDto;
-import com.example.community.service.entity.Post;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -39,9 +37,9 @@ class PostQueryRepositoryTest {
   void selectPagePostSummaryByBoardId() {
     OffsetDateTime previousDate = OffsetDateTime.now();
     int size = 10;
-    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
+    UUID boardPublicId = UUID.fromString("8f712b3f-bdf2-4261-bacb-9d224b05a6e8");
 
-    Page<PostSummaryResponseDto> page = postQueryRepository.findPostsByBoardId(boardId,
+    Page<PostSummaryResponseDto> page = postQueryRepository.findPostsByBoardPublicId(boardPublicId,
         previousDate, size);
 
     assertThat(page).hasSize(size);
@@ -49,53 +47,22 @@ class PostQueryRepositoryTest {
 
   @Test
   void selectBoardPostDetailByPostId() {
-    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
-    UUID postId = UUID.fromString("ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d");
+    UUID boardPublicId = UUID.fromString("8f712b3f-bdf2-4261-bacb-9d224b05a6e8");
+    UUID postPublicId = UUID.fromString("75305692-3c7b-4875-95b7-56f275b65c24");
 
-    Optional<PostDetailResponseDto> dto = postQueryRepository.findBoardPostByPostId(boardId, postId);
+    Optional<PostDetailResponseDto> dto = postQueryRepository.findPostByBoardPublicIdAndPublicId(
+        boardPublicId, postPublicId);
 
     assertThat(dto).isPresent();
   }
 
   @Test
-  void updatePost() {
-    PostUpdateDto dto = createTestPostUpdateDto();
-
-    postQueryRepository.updatePost(dto);
-
-    PostDetailResponseDto post = findPost(dto.getBoardId(), dto.getPostId())
-        .orElseThrow();
-
-    assertThat(post.getTitle()).isEqualTo(dto.getTitle());
-    assertThat(post.getContent()).isEqualTo(dto.getContent());
-  }
-
-  @Test
-  void deletePost() {
-    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
-    UUID postId = UUID.fromString("ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d");
-
-    postQueryRepository.deletePost(boardId, postId);
-
-    assertThat(findPost(boardId, postId)).isNotPresent();
-  }
-
-  @Test
   void selectPostCategories() {
-    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
+    UUID boardPublicId = UUID.fromString("8f712b3f-bdf2-4261-bacb-9d224b05a6e8");
 
-    List<PostCategoryDto> categoryList = postQueryRepository.findPostCategoryById(boardId);
+    List<PostCategoryDto> categoryList = postQueryRepository.findPostCategoryByBoardPublicId(
+        boardPublicId);
 
     assertThat(categoryList).isNotEmpty();
-  }
-
-  private PostUpdateDto createTestPostUpdateDto() {
-    return new PostUpdateDto("update title", "update content",
-        UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010"),
-        UUID.fromString("ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d"));
-  }
-
-  private Optional<PostDetailResponseDto> findPost(UUID boardId, UUID postId) {
-    return postQueryRepository.findBoardPostByPostId(boardId, postId);
   }
 }

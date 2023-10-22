@@ -70,12 +70,12 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
   @Test
   void getPostsByBoardId() throws Exception {
     PagePostRequest request = createTestPageRequest();
-    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
 
-    Mockito.when(postService.findPostsByBoardId(any(), any(), anyInt()))
+    Mockito.when(postService.findPostsByBoardPublicId(any(), any(), anyInt()))
         .thenReturn(createTestPage(request.getSize()));
 
-    mockMvc.perform(get("/api/boards/{board_id}/posts", boardId)
+    mockMvc.perform(get("/api/boards/{board_id}/posts", boardPublicId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
@@ -87,13 +87,14 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
 
   @Test
   void getBoardPostByPostId() throws Exception {
-    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
-    String postId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
+    String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    String postPublicId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
 
     Mockito.when(postService.findBoardPostByPostId(any(), any()))
         .thenReturn(createTestPostDetailDto());
 
-    mockMvc.perform(get("/api/boards/{board_id}/posts/{post_id}", boardId, postId))
+    mockMvc.perform(get("/api/boards/{board_id}/posts/{post_id}", boardPublicId,
+            postPublicId))
         .andExpect(status().isOk())
         .andDo(document.document(
             responseFields(PostFieldsFactory.getPostDetailResponseField()),
@@ -106,14 +107,13 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
 
   @Test
   void createPost() throws Exception {
-    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
-    String postId = UUID.randomUUID().toString();
-    PostCreateRequest request = new PostCreateRequest("title", "content",
-        UUID.fromString("2efa778a-8734-4b96-bf14-c75c4756888d"));
+    String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    UUID postPublicId = UUID.fromString("ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d");
+    PostCreateRequest request = createTestPostCreateRequest();
 
-    Mockito.when(postService.createNewPost(any())).thenReturn(postId);
+    Mockito.when(postService.createNewPost(any())).thenReturn(postPublicId);
 
-    mockMvc.perform(post("/api/boards/{board_id}/posts", boardId)
+    mockMvc.perform(post("/api/boards/{board_id}/posts", boardPublicId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
@@ -123,15 +123,21 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  private static PostCreateRequest createTestPostCreateRequest() {
+    return new PostCreateRequest("title", "content",
+        UUID.fromString("2efa778a-8734-4b96-bf14-c75c4756888d"));
+  }
+
   @Test
   void updatePost() throws Exception {
-    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
-    String postId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
-    PostUpdateRequest request = new PostUpdateRequest("title", "content");
+    String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    UUID postPublicId = UUID.fromString("ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d");
+    PostUpdateRequest request = createTestPostUpdateRequest();
 
-    Mockito.when(postService.updatePost(any())).thenReturn(postId);
+    Mockito.when(postService.updatePost(any())).thenReturn(postPublicId);
 
-    mockMvc.perform(patch("/api/boards/{board_id}/posts/{post_id}", boardId, postId)
+    mockMvc.perform(patch("/api/boards/{board_id}/posts/{post_id}", boardPublicId,
+            postPublicId)
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
@@ -144,14 +150,19 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  private static PostUpdateRequest createTestPostUpdateRequest() {
+    return new PostUpdateRequest("title", "content");
+  }
+
   @Test
   void deletePost() throws Exception {
-    String boardId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
-    String postId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
+    String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
+    UUID postPublicId = UUID.fromString("ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d");
 
-    Mockito.when(postService.deletePost(any(), any())).thenReturn(postId);
+    Mockito.when(postService.deletePost(any(), any())).thenReturn(postPublicId);
 
-    mockMvc.perform(delete("/api/boards/{board_id}/posts/{post_id}", boardId, postId))
+    mockMvc.perform(delete("/api/boards/{board_id}/posts/{post_id}", boardPublicId,
+            postPublicId))
         .andExpect(status().isOk())
         .andDo(document.document(
             responseFields(PostFieldsFactory.getPostDeleteResponseField()),
@@ -164,11 +175,12 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
 
   @Test
   void getPostCategoriesById() throws Exception {
-    UUID boardId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
+    UUID boardPublicid = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
 
-    Mockito.when(postService.findPostCategoryById(boardId)).thenReturn(createTestPostCategoryDto());
+    Mockito.when(postService.findPostCategoryById(boardPublicid))
+        .thenReturn(createTestPostCategoryDto());
 
-    mockMvc.perform(get("/api/boards/{board_id}/posts/categories", boardId))
+    mockMvc.perform(get("/api/boards/{board_id}/posts/categories", boardPublicid))
         .andExpect(status().isOk())
         .andDo(document.document(
             responseFields(PostFieldsFactory.getPostCategoryResponseField()),

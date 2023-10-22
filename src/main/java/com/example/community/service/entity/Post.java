@@ -56,13 +56,23 @@ public class Post {
   @Column(name = "member_id")
   private UUID memberId;
 
+  @Column(name = "board_public_id")
+  private UUID boardPublicId;
+
+  @Column(name = "post_category_public_id")
+  private UUID postCategoryPublicId;
+
+  @Column(name = "member_public_id")
+  private UUID memberPublicId;
+
   protected Post() {
   }
 
   @Builder
   public Post(UUID id, UUID publicId, String title, String content, OffsetDateTime createdDate,
       OffsetDateTime modifiedDate, Long viewsCount, Integer upVotesCount, Integer downVotesCount,
-      Boolean isFeatured, String postUrl, UUID boardId, UUID postCategoryId, UUID memberId) {
+      Boolean isFeatured, String postUrl, UUID boardId, UUID postCategoryId, UUID memberId,
+      UUID boardPublicId, UUID postCategoryPublicId, UUID memberPublicId) {
     this.id = id;
     this.publicId = publicId;
     this.title = title;
@@ -77,5 +87,16 @@ public class Post {
     this.boardId = boardId;
     this.postCategoryId = postCategoryId;
     this.memberId = memberId;
+    this.boardPublicId = boardPublicId;
+    this.postCategoryPublicId = postCategoryPublicId;
+    this.memberPublicId = memberPublicId;
+  }
+
+  public void changeContent(String content) {
+    this.content = content;
+  }
+
+  public void changeTitle(String title) {
+    this.title = title;
   }
 }

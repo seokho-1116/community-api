@@ -8,7 +8,6 @@ import static com.example.api.jooqgen.tables.PostCategory.POST_CATEGORY;
 import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
-import com.example.community.service.dto.PostUpdateDto;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -58,12 +57,12 @@ public class PostQueryRepository {
         .limit(size)
         .fetchInto(PostSummaryResponseDto.class);
 
-    int count  = dslContext.fetchCount(POST, POST.BOARD_ID.eq(boardPublicId));
+    int count  = dslContext.fetchCount(POST, POST.BOARD_PUBLIC_ID.eq(boardPublicId));
 
     return new PageImpl<>(dtoList, Pageable.ofSize(size), count);
   }
 
-  public Optional<PostDetailResponseDto> findBoardPostByPostId(final UUID boardPublicId,
+  public Optional<PostDetailResponseDto> findPostByBoardPublicIdAndPublicId(final UUID boardPublicId,
       final UUID postPublicId) {
     return dslContext
         .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, MEMBER.PUBLIC_ID, MEMBER.NICKNAME,
@@ -78,29 +77,7 @@ public class PostQueryRepository {
         .fetchOptionalInto(PostDetailResponseDto.class);
   }
 
-  public String updatePost(final PostUpdateDto dto) {
-    dslContext
-        .update(POST)
-        .set(POST.TITLE, dto.getTitle())
-        .set(POST.CONTENT, dto.getContent())
-        .where(POST.BOARD_PUBLIC_ID.eq(dto.getBoardPublicId())
-            .and(POST.PUBLIC_ID.eq(dto.getPostPublicId())))
-        .execute();
-
-    return dto.getPostPublicId().toString();
-  }
-
-  public String deletePost(final UUID boardPublicId, final UUID postId) {
-    dslContext
-        .delete(POST)
-        .where(POST.BOARD_PUBLIC_ID.eq(boardPublicId)
-            .and(POST.PUBLIC_ID.eq(postId)))
-        .execute();
-
-    return postId.toString();
-  }
-
-  public List<PostCategoryDto> findPostCategoryById(final UUID boardPublicId) {
+  public List<PostCategoryDto> findPostCategoryByBoardPublicId(final UUID boardPublicId) {
     return dslContext
         .select(POST_CATEGORY.NAME, POST_CATEGORY.DESCRIPTION)
         .from(POST_CATEGORY)

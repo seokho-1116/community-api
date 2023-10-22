@@ -9,17 +9,20 @@ import lombok.Getter;
 public class PostCreateDto {
   private final String title;
   private final String content;
-  private final UUID boardId;
-  private final UUID postCategoryId;
+  private final UUID boardPublicId;
+  private final UUID postCategoryPublicId;
+  private final UUID memberPublicId;
 
-  public PostCreateDto(String title, String content, UUID boardId, UUID postCategoryId) {
+  public PostCreateDto(String title, String content, UUID boardPublicId, UUID postCategoryPublicId,
+      UUID memberPublicId) {
     this.title = title;
     this.content = content;
-    this.boardId = boardId;
-    this.postCategoryId = postCategoryId;
+    this.boardPublicId = boardPublicId;
+    this.postCategoryPublicId = postCategoryPublicId;
+    this.memberPublicId = memberPublicId;
   }
 
-  public Post toEntity() {
+  public Post toEntity(UUID boardId, UUID memberId, UUID postCategoryId) {
     OffsetDateTime now = OffsetDateTime.now();
 
     return Post.builder()
@@ -28,6 +31,9 @@ public class PostCreateDto {
         .title(title)
         .content(content)
         .boardId(boardId)
+        .boardPublicId(boardPublicId)
+        .postCategoryPublicId(postCategoryPublicId)
+        .memberId(memberId)
         .postCategoryId(postCategoryId)
         .createdDate(now)
         .modifiedDate(now)

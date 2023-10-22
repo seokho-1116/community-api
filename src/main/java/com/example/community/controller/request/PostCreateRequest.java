@@ -10,18 +10,18 @@ import lombok.Getter;
 public class PostCreateRequest {
   private final String title;
   private final String content;
-  private final UUID postCategoryId;
+  private final UUID postCategoryPublicId;
 
   @JsonCreator
   public PostCreateRequest(@JsonProperty("title") String title,
       @JsonProperty("content") String content,
-      @JsonProperty("postCategoryId") UUID postCategoryId) {
+      @JsonProperty("postCategoryId") UUID postCategoryPublicId) {
     this.title = title;
     this.content = content;
-    this.postCategoryId = postCategoryId;
+    this.postCategoryPublicId = postCategoryPublicId;
   }
 
-  public PostCreateDto toDto(UUID boardId) {
-    return new PostCreateDto(title, content, boardId, postCategoryId);
+  public PostCreateDto toDto(UUID boardPublicId, UUID memberPublicId) {
+    return new PostCreateDto(title, content, boardPublicId, postCategoryPublicId, memberPublicId);
   }
 }

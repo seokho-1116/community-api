@@ -7,13 +7,13 @@ import lombok.Getter;
 public class PostUpdateDto {
   private final String title;
   private final String content;
-  private final UUID boardId;
-  private final UUID postId;
+  private final UUID boardPublicId;
+  private final UUID postPublicId;
 
-  public PostUpdateDto(String title, String content, UUID boardId, UUID postId) {
+  public PostUpdateDto(String title, String content, UUID boardPublicId, UUID postPublicId) {
     this.title = title;
     this.content = content;
-    this.boardId = boardId;
-    this.postId = postId;
+    this.boardPublicId = boardPublicId;
+    this.postPublicId = postPublicId;
   }
 }

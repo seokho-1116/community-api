@@ -1,5 +1,8 @@
 package com.example.community.service;
 
+import com.example.community.repository.BoardQueryRepository;
+import com.example.community.repository.MemberQueryRepository;
+import com.example.community.repository.PostCategoryQueryRepository;
 import com.example.community.repository.PostJpaRepository;
 import com.example.community.repository.PostQueryRepository;
 import com.example.community.service.dto.PostCategoryDto;
@@ -8,6 +11,9 @@ import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
 import com.example.community.service.dto.PostUpdateDto;
 import com.example.community.service.entity.Post;
+import com.example.community.service.exception.BoardNotExistException;
+import com.example.community.service.exception.MemberNotFoundException;
+import com.example.community.service.exception.PostCategoryNotFoundException;
 import com.example.community.service.exception.PostNotExistException;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -15,44 +21,68 @@ import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
+@Transactional(readOnly = true)
 public class PostService {
   private final PostQueryRepository postQueryRepository;
   private final PostJpaRepository postJpaRepository;
+  private final MemberQueryRepository memberQueryRepository;
+  private final BoardQueryRepository boardQueryRepository;
+  private final PostCategoryQueryRepository postCategoryQueryRepository;
 
   public Page<PostSummaryResponseDto> findPosts(final OffsetDateTime previousDate, final int size) {
     return postQueryRepository.findPosts(previousDate, size);
   }
 
-  public Page<PostSummaryResponseDto> findPostsByBoardId(final UUID boardId,
+  public Page<PostSummaryResponseDto> findPostsByBoardPublicId(final UUID boardPublicId,
       final OffsetDateTime previousDate, final int size) {
-    return postQueryRepository.findPostsByBoardId(boardId, previousDate, size);
+    return postQueryRepository.findPostsByBoardPublicId(boardPublicId, previousDate, size);
   }
 
-  public PostDetailResponseDto findBoardPostByPostId(final UUID boardId, final UUID postId) {
-    return postQueryRepository.findBoardPostByPostId(boardId, postId)
+  public PostDetailResponseDto findBoardPostByPostId(final UUID boardPublicId, final UUID postId) {
+    return postQueryRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postId)
         .orElseThrow(PostNotExistException::new);
   }
 
-  public String createNewPost(final PostCreateDto dto) {
-    Post post = dto.toEntity();
+  @Transactional
+  public UUID createNewPost(final PostCreateDto dto) {
+    UUID boardId = boardQueryRepository.findBoardIdByPublicId(dto.getBoardPublicId())
+        .orElseThrow(BoardNotExistException::new);
+    UUID memberId = memberQueryRepository.findMemberIdByPublicId(dto.getMemberPublicId())
+        .orElseThrow(MemberNotFoundException::new);
+    UUID postCategoryId = postCategoryQueryRepository.findPostCategoryIdByPublicId(
+        dto.getPostCategoryPublicId())
+        .orElseThrow(PostCategoryNotFoundException::new);
 
-    postJpaRepository.save(post);
+    Post savedPost = postJpaRepository.save(dto.toEntity(boardId, memberId, postCategoryId));
 
-    return post.getPublicId().toString();
+    return savedPost.getPublicId();
   }
 
-  public String updatePost(final PostUpdateDto dto) {
-    return postQueryRepository.updatePost(dto);
+  @Transactional
+  public UUID updatePost(final PostUpdateDto dto) {
+    Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(dto.getBoardPublicId(),
+        dto.getPostPublicId());
+
+    post.changeContent(dto.getContent());
+    post.changeTitle(dto.getTitle());
+
+    return dto.getPostPublicId();
   }
 
-  public String deletePost(final UUID boardId, final UUID postId) {
-    return postQueryRepository.deletePost(boardId, postId);
+  @Transactional
+  public UUID deletePost(final UUID boardPublicId, final UUID postPublicId) {
+    Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postPublicId);
+
+    postJpaRepository.remove(post);
+
+    return postPublicId;
   }
 
-  public List<PostCategoryDto> findPostCategoryById(final UUID boardId) {
-    return postQueryRepository.findPostCategoryById(boardId);
+  public List<PostCategoryDto> findPostCategoryById(final UUID boardPublicId) {
+    return postQueryRepository.findPostCategoryByBoardPublicId(boardPublicId);
   }
 }
