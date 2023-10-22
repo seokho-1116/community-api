@@ -18,10 +18,13 @@ public class CommentJpaRepository {
     return entity;
   }
 
-  public Comment findByPostPublicIdAndPublicId(UUID postPublicId, UUID commentPublicId) {
+  public Comment findByBoardPublicIdAndPostPublicIdAndPublicId(UUID boardPublicId, UUID postPublicId,
+      UUID commentPublicId) {
     TypedQuery<Comment> query = em.createQuery("select c from Comment c "
-        + "where c.publicId=:commentPublicId and c.postPublicId=:postPublicId", Comment.class);
+        + "where c.boardPublicId=:boardPublicId "
+        + "and c.publicId=:commentPublicId and c.postPublicId=:postPublicId", Comment.class);
 
+    query.setParameter("boardPublicId", boardPublicId);
     query.setParameter("commentPublicId", commentPublicId);
     query.setParameter("postPublicId", postPublicId);
 

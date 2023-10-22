@@ -52,7 +52,7 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
     int size = 10;
     PageCommentRequest request = createTestPageCommentRequest(size);
 
-    when(commentService.findComments(any(), any(), anyInt()))
+    when(commentService.findComments(any()))
         .thenReturn(createTestPage(size, size));
 
     mockMvc.perform(get("/api/boards/{board_id}/posts/{post_id}/comments", boardPublicId,
@@ -114,7 +114,7 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
     String postPublicId = "4c063a22-5716-4012-a770-57299395ecdc";
     String commentPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
 
-    when(commentService.deleteComment(any(), any())).thenReturn(UUID.fromString(commentPublicId));
+    when(commentService.deleteComment(any(), any(), any())).thenReturn(UUID.fromString(commentPublicId));
 
     mockMvc.perform(delete("/api/boards/{board_id}/posts/{post_id}/comments/{comment_id}",
             boardPublicId, postPublicId, commentPublicId))

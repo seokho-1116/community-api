@@ -31,35 +31,39 @@ public class CommentController {
 
   @GetMapping("/comments")
   public ResponseEntity<PageResponse> getComments(
-      @PathVariable("post_id") UUID postPublicId, @RequestBody PageCommentRequest request) {
-    Page<CommentDetailResponseDto> page = commentService.findComments(postPublicId,
-        request.getPreviousDate(), request.getSize());
+      @PathVariable("board_id") UUID boardPublicId, @PathVariable("post_id") UUID postPublicId,
+      @RequestBody PageCommentRequest request) {
+    Page<CommentDetailResponseDto> page = commentService.findComments(request.toDto(boardPublicId,
+        postPublicId));
 
     return ResponseEntity.ok(PageCommentResponse.create(page));
   }
 
   @PostMapping("/comments")
   public ResponseEntity<CommentCreateResponse> createComment(
-      @PathVariable("post_id") UUID postPublicId, @RequestBody CommentCreateRequest request) {
-    UUID publicId = commentService.createComment(request.toDto(postPublicId));
+      @PathVariable("board_id") UUID boardPublicId, @PathVariable("post_id") UUID postPublicId,
+      @RequestBody CommentCreateRequest request) {
+    UUID publicId = commentService.createComment(request.toDto(boardPublicId, postPublicId));
 
     return ResponseEntity.ok(CommentCreateResponse.create(publicId));
   }
 
   @PatchMapping("/comments/{comment_id}")
   public ResponseEntity<CommentUpdateResponse> updateComment(
-      @PathVariable("post_id") UUID postPublicId, @PathVariable("comment_id") UUID commentPublicId,
-      @RequestBody CommentUpdateRequest request) {
-    UUID publicId = commentService.updateComment(request.toDto(postPublicId, commentPublicId));
+      @PathVariable("board_id") UUID boardPublicId, @PathVariable("post_id") UUID postPublicId,
+      @PathVariable("comment_id") UUID commentPublicId, @RequestBody CommentUpdateRequest request) {
+    UUID publicId = commentService.updateComment(request.toDto(boardPublicId, postPublicId,
+        commentPublicId));
 
     return ResponseEntity.ok(CommentUpdateResponse.create(publicId));
   }
 
   @DeleteMapping("/comments/{comment_id}")
   public ResponseEntity<CommentDeleteResponse> deleteComment(
+      @PathVariable("board_id") UUID boardPublicId,
       @PathVariable("post_id") UUID postPublicId,
       @PathVariable("comment_id") UUID commentPublicId) {
-    UUID publicId = commentService.deleteComment(postPublicId, commentPublicId);
+    UUID publicId = commentService.deleteComment(boardPublicId, postPublicId, commentPublicId);
 
     return ResponseEntity.ok(CommentDeleteResponse.create(publicId));
   }

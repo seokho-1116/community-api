@@ -35,11 +35,17 @@ public class Comment {
   @Column(name = "down_votes_count")
   private Integer downVotesCount;
 
+  @Column(name = "board_id")
+  private UUID boardId;
+
   @Column(name = "post_id")
   private UUID postId;
 
   @Column(name = "member_id")
   private UUID memberId;
+
+  @Column(name = "board_public_id")
+  private UUID boardPublicId;
 
   @Column(name = "post_public_id")
   private UUID postPublicId;
@@ -52,8 +58,8 @@ public class Comment {
 
   @Builder
   private Comment(UUID id, UUID publicId, String content, OffsetDateTime createdDate,
-      OffsetDateTime modifiedDate, Integer upVotesCount, Integer downVotesCount, UUID postId,
-      UUID memberId, UUID postPublicId, UUID memberPublicId) {
+      OffsetDateTime modifiedDate, Integer upVotesCount, Integer downVotesCount, UUID boardId, UUID postId,
+      UUID memberId, UUID boardPublicId, UUID postPublicId, UUID memberPublicId) {
     this.id = id;
     this.publicId = publicId;
     this.content = content;
@@ -61,8 +67,10 @@ public class Comment {
     this.modifiedDate = modifiedDate;
     this.upVotesCount = upVotesCount;
     this.downVotesCount = downVotesCount;
+    this.boardId = boardId;
     this.postId = postId;
     this.memberId = memberId;
+    this.boardPublicId = boardPublicId;
     this.postPublicId = postPublicId;
     this.memberPublicId = memberPublicId;
   }

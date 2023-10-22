@@ -15,7 +15,7 @@ public class CommentUpdateRequest {
     this.content = content;
   }
 
-  public CommentUpdateRequestDto toDto(UUID postId, UUID commentId) {
-    return CommentUpdateRequestDto.create(postId, commentId, content);
+  public CommentUpdateRequestDto toDto(UUID boardPublicId, UUID postPublicId, UUID commentPublicId) {
+    return CommentUpdateRequestDto.create(boardPublicId, postPublicId, commentPublicId, content);
   }
 }

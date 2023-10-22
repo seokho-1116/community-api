@@ -7,21 +7,24 @@ import lombok.Getter;
 
 @Getter
 public class CommentCreateRequestDto {
+  private final UUID boardPublicId;
   private final UUID postPublicId;
   private final UUID memberPublicId;
   private final String content;
 
-  private CommentCreateRequestDto(UUID postPublicId, UUID memberPublicId, String content) {
+  private CommentCreateRequestDto(UUID boardPublicId, UUID postPublicId, UUID memberPublicId, String content) {
+    this.boardPublicId = boardPublicId;
     this.postPublicId = postPublicId;
     this.memberPublicId = memberPublicId;
     this.content = content;
   }
 
-  public static CommentCreateRequestDto create(UUID postId, UUID memberId, String content) {
-    return new CommentCreateRequestDto(postId, memberId, content);
+  public static CommentCreateRequestDto create(UUID boardPublicId, UUID postId, UUID memberId,
+      String content) {
+    return new CommentCreateRequestDto(boardPublicId, postId, memberId, content);
   }
 
-  public Comment toEntity(UUID postId, UUID memberId) {
+  public Comment toEntity(UUID boardId, UUID postId, UUID memberId) {
     OffsetDateTime now = OffsetDateTime.now();
 
     return Comment.builder()
@@ -32,8 +35,10 @@ public class CommentCreateRequestDto {
         .content(content)
         .upVotesCount(0)
         .downVotesCount(0)
+        .boardId(boardId)
         .postId(postId)
         .memberId(memberId)
+        .boardPublicId(boardPublicId)
         .postPublicId(postPublicId)
         .memberPublicId(memberPublicId)
         .build();

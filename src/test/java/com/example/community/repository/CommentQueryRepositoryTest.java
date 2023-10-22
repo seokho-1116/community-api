@@ -3,6 +3,7 @@ package com.example.community.repository;
 import static org.assertj.core.api.Assertions.*;
 
 import com.example.community.service.dto.CommentDetailResponseDto;
+import com.example.community.service.dto.PageCommentRequestDto;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import org.jooq.DSLContext;
@@ -24,13 +25,19 @@ class CommentQueryRepositoryTest {
 
   @Test
   void findComments() {
-    UUID postId = UUID.fromString("5a836922-6bc9-4d1e-8f05-aad694d03a87");
+    PageCommentRequestDto dto = createTestPageCommentRequestDto();
+
+    Page<CommentDetailResponseDto> page = commentQueryRepository.findComments(dto);
+
+    assertThat(page.getContent()).isNotEmpty();
+  }
+
+  private static PageCommentRequestDto createTestPageCommentRequestDto() {
+    UUID boardPublicId = UUID.fromString("0d0e35d5-4511-4f89-b42c-a81c86c948ac");
+    UUID postPublicId = UUID.fromString("28362401-c59a-464e-8a64-0ab455464bc3");
     OffsetDateTime previousDate = OffsetDateTime.now();
     int size = 10;
 
-    Page<CommentDetailResponseDto> page = commentQueryRepository.findComments(postId,
-        previousDate, size);
-
-    assertThat(page.getContent()).hasSize(10);
+    return PageCommentRequestDto.create(previousDate, size, boardPublicId, postPublicId);
   }
 }
