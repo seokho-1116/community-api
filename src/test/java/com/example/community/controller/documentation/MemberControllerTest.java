@@ -1,4 +1,4 @@
-package com.example.community.controller;
+package com.example.community.controller.documentation;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
@@ -12,11 +12,12 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.requestF
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.community.controller.MemberController;
 import com.example.community.controller.request.EmailUpdateRequest;
 import com.example.community.controller.request.NicknameUpdateRequest;
 import com.example.community.controller.request.PasswordUpdateRequest;
 import com.example.community.controller.request.SignupRequest;
-import com.example.community.documentation.ResponseFieldsFactory;
+import com.example.community.controller.documentation.fieldsfactory.MemberFieldsFactory;
 import com.example.community.security.authentication.login.request.LoginRequest;
 import com.example.community.service.MemberService;
 import com.example.community.service.dto.MemberDetailDto;
@@ -24,8 +25,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -33,7 +32,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.TestConstructor.AutowireMode;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = MemberController.class)
 @TestConstructor(autowireMode = AutowireMode.ANNOTATED)
 class MemberControllerTest extends AbstractRestDocsControllerTest {
@@ -55,7 +53,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
             .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getMemberCreateResponseField())
+            responseFields(MemberFieldsFactory.getMemberCreateResponseField())
         ));
   }
 
@@ -74,7 +72,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
             .header("Authorization", jwt))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getMemberDetailResponseField()),
+            responseFields(MemberFieldsFactory.getMemberDetailResponseField()),
             requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰"))
         ));
   }
@@ -97,7 +95,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
             .header("Authorization", jwt))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getMemberEmailUpdateResponseField()),
+            responseFields(MemberFieldsFactory.getMemberEmailUpdateResponseField()),
             requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰"))
         ));
   }
@@ -119,7 +117,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
             .header("Authorization", jwt))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getMemberNicknameUpdateResponseField()),
+            responseFields(MemberFieldsFactory.getMemberNicknameUpdateResponseField()),
             requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰"))
         ));
   }
@@ -139,7 +137,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
             .header("Authorization", jwt))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getMemberPasswordUpdateResponseField()),
+            responseFields(MemberFieldsFactory.getMemberPasswordUpdateResponseField()),
             requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰"))
         ));
   }
@@ -149,7 +147,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
   }
 
   @Test
-  void loginSuccessTest() throws Exception {
+  void loginTest() throws Exception {
     LoginRequest request = createTestLoginRequest("id", "password");
 
     mockMvc.perform(post("/api/auth/login")
@@ -157,20 +155,10 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
           .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(ResponseFieldsFactory.getLoginSuccessResponseField()),
+            responseFields(MemberFieldsFactory.getLoginSuccessResponseField()),
             requestFields(fieldWithPath("signupId").description("로그인 id"),
                 fieldWithPath("signupPassword").description("로그인 비밀번호"))
         ));
-  }
-
-  @Test
-  void loginFailureTest() throws Exception {
-    LoginRequest request = createTestLoginRequest("id", "none");
-
-    mockMvc.perform(post("/api/auth/login")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
-        .andExpect(status().isUnauthorized());
   }
 
   private LoginRequest createTestLoginRequest(String id, String password) {

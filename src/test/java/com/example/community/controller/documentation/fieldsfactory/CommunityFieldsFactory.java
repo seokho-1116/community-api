@@ -1,4 +1,4 @@
-package com.example.community.documentation.fieldsfactory;
+package com.example.community.controller.documentation.fieldsfactory;
 
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;

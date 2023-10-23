@@ -1,4 +1,4 @@
-package com.example.community.documentation.fieldsfactory;
+package com.example.community.controller.documentation.fieldsfactory;
 
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.OBJECT;

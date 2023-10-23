@@ -1,21 +1,19 @@
-package com.example.community.controller;
+package com.example.community.controller.documentation;
 
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.community.documentation.fieldsfactory.CommunityFieldsFactory;
+import com.example.community.controller.CommunityController;
+import com.example.community.controller.documentation.fieldsfactory.CommunityFieldsFactory;
 import com.example.community.service.CommunityService;
 import com.example.community.service.dto.CommunityDetailResponseDto;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = CommunityController.class)
 class CommunityControllerTest extends AbstractRestDocsControllerTest{
   @MockBean

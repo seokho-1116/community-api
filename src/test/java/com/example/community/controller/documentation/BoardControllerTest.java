@@ -1,4 +1,4 @@
-package com.example.community.controller;
+package com.example.community.controller.documentation;
 
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
@@ -6,7 +6,8 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-import com.example.community.documentation.fieldsfactory.BoardFieldsFactory;
+import com.example.community.controller.BoardController;
+import com.example.community.controller.documentation.fieldsfactory.BoardFieldsFactory;
 import com.example.community.service.BoardService;
 import com.example.community.service.dto.BoardDetailResponseDto;
 import com.example.community.service.dto.BoardSummaryResponseDto;
@@ -16,14 +17,11 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = BoardController.class)
 class BoardControllerTest extends AbstractRestDocsControllerTest {
   @MockBean

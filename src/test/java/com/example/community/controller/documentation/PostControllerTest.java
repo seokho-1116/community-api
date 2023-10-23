@@ -1,4 +1,4 @@
-package com.example.community.controller;
+package com.example.community.controller.documentation;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
@@ -11,10 +11,11 @@ import static org.springframework.restdocs.request.RequestDocumentation.paramete
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.community.controller.PostController;
 import com.example.community.controller.request.PagePostRequest;
 import com.example.community.controller.request.PostCreateRequest;
 import com.example.community.controller.request.PostUpdateRequest;
-import com.example.community.documentation.fieldsfactory.PostFieldsFactory;
+import com.example.community.controller.documentation.fieldsfactory.PostFieldsFactory;
 import com.example.community.service.PostService;
 import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostDetailResponseDto;
@@ -26,9 +27,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -39,7 +38,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.TestConstructor.AutowireMode;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = PostController.class)
 @TestConstructor(autowireMode = AutowireMode.ANNOTATED)
 class PostControllerTest extends AbstractRestDocsControllerTest {

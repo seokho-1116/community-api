@@ -1,7 +1,6 @@
-package com.example.community.controller;
+package com.example.community.controller.documentation;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.delete;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
@@ -10,10 +9,11 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import com.example.community.controller.CommentController;
 import com.example.community.controller.request.CommentCreateRequest;
 import com.example.community.controller.request.CommentUpdateRequest;
 import com.example.community.controller.request.PageCommentRequest;
-import com.example.community.documentation.fieldsfactory.CommentFieldsFactory;
+import com.example.community.controller.documentation.fieldsfactory.CommentFieldsFactory;
 import com.example.community.service.CommentService;
 import com.example.community.service.dto.CommentDetailResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -23,8 +23,6 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -35,7 +33,6 @@ import org.springframework.http.MediaType;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.TestConstructor.AutowireMode;
 
-@ExtendWith(MockitoExtension.class)
 @WebMvcTest(controllers = CommentController.class)
 @TestConstructor(autowireMode = AutowireMode.ANNOTATED)
 class CommentControllerTest extends AbstractRestDocsControllerTest {
