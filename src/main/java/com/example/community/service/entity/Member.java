@@ -81,4 +81,8 @@ public class Member {
   public void changePassword(String password) {
     this.signupPassword = password;
   }
+
+  public boolean isNotOwner(UUID requestMemberPublicId) {
+    return publicId != requestMemberPublicId;
+  }
 }

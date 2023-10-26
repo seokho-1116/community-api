@@ -6,7 +6,9 @@ import com.example.community.service.dto.MemberDetailDto;
 import com.example.community.service.dto.SignupRequestDto;
 import com.example.community.service.entity.Member;
 import com.example.community.service.exception.MemberNotFoundException;
+import com.example.community.service.exception.NotResourceOwnerException;
 import java.util.UUID;
+import liquibase.pro.packaged.P;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -35,6 +37,10 @@ public class MemberService {
   public String updateNickname(UUID memberPublicId, String nickname) {
     Member member = memberJpaRepository.findMemberByPublicId(memberPublicId);
 
+    if (member.isNotOwner(memberPublicId)) {
+      throw NotResourceOwnerException.ofMember();
+    }
+
     member.changeNickname(nickname);
 
     return member.getNickname();
@@ -44,6 +50,10 @@ public class MemberService {
   public String updateEmail(UUID memberPublicId, String email) {
     Member member = memberJpaRepository.findMemberByPublicId(memberPublicId);
 
+    if (member.isNotOwner(memberPublicId)) {
+      throw NotResourceOwnerException.ofMember();
+    }
+
     member.changeEmail(email);
 
     return member.getEmail();
@@ -51,9 +61,13 @@ public class MemberService {
 
   @Transactional
   public void updatePassword(UUID memberPublicId, String password) {
-    String encodedPassword = passwordEncoder.encode(password);
-
     Member member = memberJpaRepository.findMemberByPublicId(memberPublicId);
+
+    if (member.isNotOwner(memberPublicId)) {
+      throw NotResourceOwnerException.ofMember();
+    }
+
+    String encodedPassword = passwordEncoder.encode(password);
 
     member.changePassword(encodedPassword);
   }
