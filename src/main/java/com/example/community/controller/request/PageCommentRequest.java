@@ -19,7 +19,8 @@ public class PageCommentRequest {
     this.size = size;
   }
 
-  public PageCommentRequestDto toDto(UUID boardPublicId, UUID postPublicId) {
-    return PageCommentRequestDto.create(previousDate, size, boardPublicId, postPublicId);
+  public PageCommentRequestDto toDto(UUID boardPublicId, UUID postPublicId, UUID memberPublicId) {
+    return PageCommentRequestDto.create(previousDate, size, boardPublicId, postPublicId,
+        memberPublicId);
   }
 }

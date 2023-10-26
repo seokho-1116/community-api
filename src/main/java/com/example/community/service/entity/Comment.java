@@ -78,4 +78,8 @@ public class Comment {
   public void changeContent(String content) {
     this.content = content;
   }
+
+  public boolean isNotOwner(UUID requestMemberPublicId) {
+    return memberPublicId != requestMemberPublicId;
+  }
 }

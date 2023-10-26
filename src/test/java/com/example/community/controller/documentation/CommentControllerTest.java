@@ -82,7 +82,7 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
   }
 
   private CommentCreateRequest createTestCreateRequest() {
-    return new CommentCreateRequest(UUID.randomUUID(), "content");
+    return new CommentCreateRequest("content");
   }
 
   @Test
@@ -111,7 +111,7 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
     String postPublicId = "4c063a22-5716-4012-a770-57299395ecdc";
     String commentPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
 
-    when(commentService.deleteComment(any(), any(), any())).thenReturn(UUID.fromString(commentPublicId));
+    when(commentService.deleteComment(any())).thenReturn(UUID.fromString(commentPublicId));
 
     mockMvc.perform(delete("/api/boards/{board_id}/posts/{post_id}/comments/{comment_id}",
             boardPublicId, postPublicId, commentPublicId))
@@ -138,7 +138,7 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
   }
 
   private CommentDetailResponseDto createTestComment() {
-    return new CommentDetailResponseDto("nickname", "content", OffsetDateTime.now(),
-        0, 0);
+    return new CommentDetailResponseDto(UUID.randomUUID(), "nickname", "content",
+        OffsetDateTime.now(), 0, 0);
   }
 }

@@ -19,9 +19,9 @@ public class CommentCreateRequestDto {
     this.content = content;
   }
 
-  public static CommentCreateRequestDto create(UUID boardPublicId, UUID postId, UUID memberId,
+  public static CommentCreateRequestDto create(UUID boardPublicId, UUID postId, UUID memberPublicId,
       String content) {
-    return new CommentCreateRequestDto(boardPublicId, postId, memberId, content);
+    return new CommentCreateRequestDto(boardPublicId, postId, memberPublicId, content);
   }
 
   public Comment toEntity(UUID boardId, UUID postId, UUID memberId) {

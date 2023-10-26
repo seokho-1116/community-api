@@ -5,9 +5,7 @@ import static com.example.api.jooqgen.tables.Member.MEMBER;
 
 import com.example.community.service.dto.CommentDetailResponseDto;
 import com.example.community.service.dto.PageCommentRequestDto;
-import java.time.OffsetDateTime;
 import java.util.List;
-import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
 import org.springframework.data.domain.Page;
@@ -22,8 +20,8 @@ public class CommentQueryRepository {
 
   public Page<CommentDetailResponseDto> findComments(PageCommentRequestDto dto) {
     List<CommentDetailResponseDto> dtoList = dslContext
-        .select(MEMBER.NICKNAME, COMMENT.CONTENT, COMMENT.CREATED_DATE, COMMENT.UP_VOTES_COUNT,
-            COMMENT.DOWN_VOTES_COUNT)
+        .select(MEMBER.PUBLIC_ID, MEMBER.NICKNAME, COMMENT.CONTENT, COMMENT.CREATED_DATE,
+            COMMENT.UP_VOTES_COUNT, COMMENT.DOWN_VOTES_COUNT)
         .from(COMMENT)
         .join(MEMBER).on(COMMENT.MEMBER_ID.eq(MEMBER.ID))
         .where(COMMENT.POST_PUBLIC_ID.eq(dto.getPostPublicId())

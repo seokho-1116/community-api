@@ -35,9 +35,11 @@ class CommentQueryRepositoryTest {
   private static PageCommentRequestDto createTestPageCommentRequestDto() {
     UUID boardPublicId = UUID.fromString("0d0e35d5-4511-4f89-b42c-a81c86c948ac");
     UUID postPublicId = UUID.fromString("28362401-c59a-464e-8a64-0ab455464bc3");
+    UUID memberPublicId = UUID.fromString("");
     OffsetDateTime previousDate = OffsetDateTime.now();
     int size = 10;
 
-    return PageCommentRequestDto.create(previousDate, size, boardPublicId, postPublicId);
+    return PageCommentRequestDto.create(previousDate, size, boardPublicId, postPublicId,
+        memberPublicId);
   }
 }

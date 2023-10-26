@@ -9,11 +9,13 @@ import com.example.community.controller.response.CommentUpdateResponse;
 import com.example.community.controller.response.PageCommentResponse;
 import com.example.community.controller.response.PageResponse;
 import com.example.community.service.CommentService;
+import com.example.community.service.dto.CommentDeleteRequestDto;
 import com.example.community.service.dto.CommentDetailResponseDto;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -32,9 +34,9 @@ public class CommentController {
   @GetMapping("/comments")
   public ResponseEntity<PageResponse> getComments(
       @PathVariable("board_id") UUID boardPublicId, @PathVariable("post_id") UUID postPublicId,
-      @RequestBody PageCommentRequest request) {
+      @AuthenticationPrincipal UUID memberPublicId, @RequestBody PageCommentRequest request) {
     Page<CommentDetailResponseDto> page = commentService.findComments(request.toDto(boardPublicId,
-        postPublicId));
+        postPublicId, memberPublicId));
 
     return ResponseEntity.ok(PageCommentResponse.create(page));
   }
@@ -42,8 +44,9 @@ public class CommentController {
   @PostMapping("/comments")
   public ResponseEntity<CommentCreateResponse> createComment(
       @PathVariable("board_id") UUID boardPublicId, @PathVariable("post_id") UUID postPublicId,
-      @RequestBody CommentCreateRequest request) {
-    UUID publicId = commentService.createComment(request.toDto(boardPublicId, postPublicId));
+      @AuthenticationPrincipal UUID memberPublicId, @RequestBody CommentCreateRequest request) {
+    UUID publicId = commentService.createComment(request.toDto(boardPublicId, postPublicId,
+        memberPublicId));
 
     return ResponseEntity.ok(CommentCreateResponse.create(publicId));
   }
@@ -51,19 +54,21 @@ public class CommentController {
   @PatchMapping("/comments/{comment_id}")
   public ResponseEntity<CommentUpdateResponse> updateComment(
       @PathVariable("board_id") UUID boardPublicId, @PathVariable("post_id") UUID postPublicId,
-      @PathVariable("comment_id") UUID commentPublicId, @RequestBody CommentUpdateRequest request) {
+      @PathVariable("comment_id") UUID commentPublicId, @AuthenticationPrincipal UUID memberPublicId,
+      @RequestBody CommentUpdateRequest request) {
     UUID publicId = commentService.updateComment(request.toDto(boardPublicId, postPublicId,
-        commentPublicId));
+        commentPublicId, memberPublicId));
 
     return ResponseEntity.ok(CommentUpdateResponse.create(publicId));
   }
 
   @DeleteMapping("/comments/{comment_id}")
   public ResponseEntity<CommentDeleteResponse> deleteComment(
-      @PathVariable("board_id") UUID boardPublicId,
-      @PathVariable("post_id") UUID postPublicId,
-      @PathVariable("comment_id") UUID commentPublicId) {
-    UUID publicId = commentService.deleteComment(boardPublicId, postPublicId, commentPublicId);
+      @PathVariable("board_id") UUID boardPublicId, @PathVariable("post_id") UUID postPublicId,
+      @PathVariable("comment_id") UUID commentPublicId,
+      @AuthenticationPrincipal UUID memberPublicId) {
+    UUID publicId = commentService.deleteComment(CommentDeleteRequestDto.create(boardPublicId,
+        postPublicId, commentPublicId, memberPublicId));
 
     return ResponseEntity.ok(CommentDeleteResponse.create(publicId));
   }
