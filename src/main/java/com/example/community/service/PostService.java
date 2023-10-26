@@ -13,8 +13,10 @@ import com.example.community.service.dto.PostUpdateDto;
 import com.example.community.service.entity.Post;
 import com.example.community.service.exception.BoardNotExistException;
 import com.example.community.service.exception.MemberNotFoundException;
+import com.example.community.service.exception.NotResourceOwnerException;
 import com.example.community.service.exception.PostCategoryNotFoundException;
 import com.example.community.service.exception.PostNotExistException;
+import io.jsonwebtoken.lang.Assert;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.UUID;
@@ -42,17 +44,37 @@ public class PostService {
     return postQueryRepository.findPostsByBoardPublicId(boardPublicId, previousDate, size);
   }
 
-  public PostDetailResponseDto findBoardPostByPostId(final UUID boardPublicId, final UUID postId) {
-    return postQueryRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postId)
+  public PostDetailResponseDto findBoardPostByPostId(final UUID boardPublicId, final UUID postId,
+      final UUID memberPublicId) {
+    PostDetailResponseDto dto = postQueryRepository.findPostByBoardPublicIdAndPublicId(
+            boardPublicId, postId)
         .orElseThrow(PostNotExistException::new);
+
+    if (isNotOwner(memberPublicId, dto.getMemberPublicId())) {
+      return dto;
+    }
+
+    assignOwnership(dto);
+
+    return dto;
+  }
+
+  private void assignOwnership(PostDetailResponseDto dto) {
+    Assert.isTrue(!dto.isOwner(), "소유권은 한 번만 변경 가능합니다.");
+
+    dto.setIsOwner(true);
+  }
+
+  private boolean isNotOwner(final UUID memberPublicId, final UUID requestUserPublicId) {
+    return memberPublicId != requestUserPublicId;
   }
 
   @Transactional
   public UUID createNewPost(final PostCreateDto dto) {
-    UUID boardId = boardQueryRepository.findBoardIdByPublicId(dto.getBoardPublicId())
-        .orElseThrow(BoardNotExistException::new);
     UUID memberId = memberQueryRepository.findMemberIdByPublicId(dto.getMemberPublicId())
         .orElseThrow(MemberNotFoundException::new);
+    UUID boardId = boardQueryRepository.findBoardIdByPublicId(dto.getBoardPublicId())
+        .orElseThrow(BoardNotExistException::new);
     UUID postCategoryId = postCategoryQueryRepository.findPostCategoryIdByPublicId(
         dto.getPostCategoryPublicId())
         .orElseThrow(PostCategoryNotFoundException::new);
@@ -67,6 +89,10 @@ public class PostService {
     Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(dto.getBoardPublicId(),
         dto.getPostPublicId());
 
+    if (post.isNotOwner(dto.getMemberPublicId())) {
+      throw NotResourceOwnerException.ofPost();
+    }
+
     post.changeContent(dto.getContent());
     post.changeTitle(dto.getTitle());
 
@@ -74,8 +100,13 @@ public class PostService {
   }
 
   @Transactional
-  public UUID deletePost(final UUID boardPublicId, final UUID postPublicId) {
+  public UUID deletePost(final UUID boardPublicId, final UUID postPublicId,
+      final UUID memberPublicId) {
     Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postPublicId);
+
+    if (post.isNotOwner(memberPublicId)) {
+      throw NotResourceOwnerException.ofPost();
+    }
 
     postJpaRepository.remove(post);
 

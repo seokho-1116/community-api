@@ -56,15 +56,17 @@ public class PostController {
   @GetMapping("/{board_id}/posts/{post_id}")
   public ResponseEntity<PostDetailResponse> getBoardPostByPostId(
       @PathVariable("board_id") final UUID boardPublicId,
-      @PathVariable("post_id") final UUID postPublicId) {
-    PostDetailResponseDto dto = postService.findBoardPostByPostId(boardPublicId, postPublicId);
+      @PathVariable("post_id") final UUID postPublicId,
+      @AuthenticationPrincipal final UUID memberPublicId) {
+    PostDetailResponseDto dto = postService.findBoardPostByPostId(boardPublicId, postPublicId,
+        memberPublicId);
 
     return ResponseEntity.ok(PostDetailResponse.create(dto));
   }
 
   @PostMapping("/{board_id}/posts")
   public ResponseEntity<PostCreateResponse> createPost(@PathVariable("board_id") final UUID boardId,
-      @AuthenticationPrincipal UUID memberPublicId,
+      @AuthenticationPrincipal final UUID memberPublicId,
       @RequestBody final PostCreateRequest request) {
     UUID publicId = postService.createNewPost(request.toDto(boardId, memberPublicId));
 
@@ -74,8 +76,9 @@ public class PostController {
   @PatchMapping("/{board_id}/posts/{post_id}")
   public ResponseEntity<PostUpdateResponse> updatePost(@PathVariable("board_id") final UUID boardId,
       @PathVariable("post_id") final UUID postPublicId,
+      @AuthenticationPrincipal final UUID memberPublicId,
       @RequestBody final PostUpdateRequest request) {
-    UUID publicId = postService.updatePost(request.toDto(boardId, postPublicId));
+    UUID publicId = postService.updatePost(request.toDto(boardId, postPublicId, memberPublicId));
 
     return ResponseEntity.ok(PostUpdateResponse.create(publicId));
   }
@@ -83,8 +86,9 @@ public class PostController {
   @DeleteMapping("/{board_id}/posts/{post_id}")
   public ResponseEntity<PostDeleteResponse> deletePost(
       @PathVariable("board_id") final UUID boardPublicId,
-      @PathVariable("post_id") final UUID postPublicId) {
-    UUID publicId = postService.deletePost(boardPublicId, postPublicId);
+      @PathVariable("post_id") final UUID postPublicId,
+      @AuthenticationPrincipal final UUID memberPublicId) {
+    UUID publicId = postService.deletePost(boardPublicId, postPublicId, memberPublicId);
 
     return ResponseEntity.ok(PostDeleteResponse.create(publicId));
   }

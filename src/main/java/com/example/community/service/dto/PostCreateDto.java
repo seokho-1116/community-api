@@ -22,6 +22,7 @@ public class PostCreateDto {
     this.memberPublicId = memberPublicId;
   }
 
+  //TODO: postUrl setting
   public Post toEntity(UUID boardId, UUID memberId, UUID postCategoryId) {
     OffsetDateTime now = OffsetDateTime.now();
 

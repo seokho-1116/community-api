@@ -88,7 +88,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
     String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
     String postPublicId = "ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d";
 
-    Mockito.when(postService.findBoardPostByPostId(any(), any()))
+    Mockito.when(postService.findBoardPostByPostId(any(), any(), any()))
         .thenReturn(createTestPostDetailDto());
 
     mockMvc.perform(get("/api/boards/{board_id}/posts/{post_id}", boardPublicId,
@@ -157,7 +157,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
     String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
     UUID postPublicId = UUID.fromString("ecd77fcd-6c61-4385-a9fe-fe9dbaa47a6d");
 
-    Mockito.when(postService.deletePost(any(), any())).thenReturn(postPublicId);
+    Mockito.when(postService.deletePost(any(), any(), any())).thenReturn(postPublicId);
 
     mockMvc.perform(delete("/api/boards/{board_id}/posts/{post_id}", boardPublicId,
             postPublicId))
@@ -206,7 +206,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
 
   private PostDetailResponseDto createTestPostDetailDto() {
     return new PostDetailResponseDto("id", "title", "content",
-        "nickname", "author", OffsetDateTime.now(), 10,
+        "nickname", UUID.randomUUID(), OffsetDateTime.now(), 10,
         10, 10, "category", "category",
         "URL");
   }

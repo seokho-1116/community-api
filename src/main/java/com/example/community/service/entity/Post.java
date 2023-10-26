@@ -69,7 +69,7 @@ public class Post {
   }
 
   @Builder
-  public Post(UUID id, UUID publicId, String title, String content, OffsetDateTime createdDate,
+  private Post(UUID id, UUID publicId, String title, String content, OffsetDateTime createdDate,
       OffsetDateTime modifiedDate, Long viewsCount, Integer upVotesCount, Integer downVotesCount,
       Boolean isFeatured, String postUrl, UUID boardId, UUID postCategoryId, UUID memberId,
       UUID boardPublicId, UUID postCategoryPublicId, UUID memberPublicId) {
@@ -98,5 +98,9 @@ public class Post {
 
   public void changeTitle(String title) {
     this.title = title;
+  }
+
+  public boolean isNotOwner(UUID requestMemberPublicId) {
+    return memberPublicId != requestMemberPublicId;
   }
 }

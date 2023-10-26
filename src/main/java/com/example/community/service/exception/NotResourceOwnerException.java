@@ -8,4 +8,8 @@ public class NotResourceOwnerException extends RuntimeException {
   public static NotResourceOwnerException ofComment() {
     return new NotResourceOwnerException("댓글에 대한 권한이 존재하지 않습니다.");
   }
+
+  public static NotResourceOwnerException ofPost() {
+    return new NotResourceOwnerException("게시글에 대한 권한이 존재하지 않습니다.");
+  }
 }
