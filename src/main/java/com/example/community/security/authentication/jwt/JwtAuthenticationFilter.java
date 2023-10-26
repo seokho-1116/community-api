@@ -8,6 +8,7 @@ import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -20,8 +21,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   private final JwtFactory jwtFactory;
 
   @Override
-  protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response,
-      FilterChain filterChain) throws ServletException, IOException {
+  protected void doFilterInternal(@NonNull HttpServletRequest request,
+      @NonNull HttpServletResponse response, @NonNull FilterChain filterChain)
+      throws ServletException, IOException {
     String accessToken = getAccessTokenFromRequest(request);
 
     Authentication authentication;
@@ -54,10 +56,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   }
 
   private Authentication createJwtAuthenticationTokenBy(String accessToken) {
-    String memberId = jwtFactory.getPayload(TokenType.ACCESS, accessToken, "member_id");
+    String memberPublicId = jwtFactory.getPayload(TokenType.ACCESS, accessToken,
+        "member_id");
     String role = jwtFactory.getPayload(TokenType.ACCESS, accessToken, "role");
 
-    return JwtAuthenticationToken.authenticated(UUID.fromString(memberId),
+    return JwtAuthenticationToken.authenticated(UUID.fromString(memberPublicId),
         List.of(new SimpleGrantedAuthority(role)));
   }
 }

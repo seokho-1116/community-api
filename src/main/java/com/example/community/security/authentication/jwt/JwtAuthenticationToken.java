@@ -22,7 +22,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
   }
 
   public static JwtAuthenticationToken unauthenticated() {
-    return new JwtAuthenticationToken(UUID.fromString(""));
+    return new JwtAuthenticationToken(new UUID(0, 0));
   }
 
   public static JwtAuthenticationToken authenticated(UUID principal,
