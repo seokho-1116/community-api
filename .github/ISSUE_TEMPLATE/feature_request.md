@@ -1,8 +1,8 @@
 ---
 name: ticket issue
-about: issue for ticket티켓 발행을 위한 이슈입니다.
+about: issue for ticket.
 title: ''
-labels: enhancement
+labels: ''
 assignees: ''
 
 ---
