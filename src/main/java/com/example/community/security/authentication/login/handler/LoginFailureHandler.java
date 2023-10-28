@@ -1,6 +1,6 @@
 package com.example.community.security.authentication.login.handler;
 
-import com.example.community.controller.response.ErrorResponse;
+import com.example.community.controller.response.ErrorResponses;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.io.IOException;
 import javax.servlet.http.HttpServletRequest;
@@ -20,7 +20,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
   @Override
   public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response,
       AuthenticationException exception) throws IOException {
-    ErrorResponse error = ErrorResponse.from(LOGIN_FAIL_MESSAGE);
+    ErrorResponses error = ErrorResponses.from(LOGIN_FAIL_MESSAGE);
 
     response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     response.setCharacterEncoding(CHARSET);
