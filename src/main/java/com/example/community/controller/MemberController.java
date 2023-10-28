@@ -11,6 +11,7 @@ import com.example.community.controller.response.SignupResponse;
 import com.example.community.service.MemberService;
 import com.example.community.service.dto.MemberDetailDto;
 import java.util.UUID;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -28,21 +29,23 @@ public class MemberController {
   private final MemberService memberService;
 
   @PostMapping("/signup")
-  public ResponseEntity<SignupResponse> signup(@RequestBody SignupRequest request) {
+  public ResponseEntity<SignupResponse> signup(@RequestBody @Valid SignupRequest request) {
     UUID memberPublicId = memberService.createMember(request.toDto());
 
     return ResponseEntity.ok(SignupResponse.create(memberPublicId));
   }
 
   @GetMapping
-  public ResponseEntity<MemberDetailResponse> getMember(@AuthenticationPrincipal UUID memberPublicId) {
+  public ResponseEntity<MemberDetailResponse> getMember(
+      @AuthenticationPrincipal UUID memberPublicId) {
     MemberDetailDto dto = memberService.findMemberByPublicId(memberPublicId);
 
     return ResponseEntity.ok(MemberDetailResponse.create(dto));
   }
 
   @PatchMapping("/email")
-  public ResponseEntity<EmailUpdateResponse> updateEmail(@RequestBody EmailUpdateRequest request,
+  public ResponseEntity<EmailUpdateResponse> updateEmail(
+      @RequestBody @Valid EmailUpdateRequest request,
       @AuthenticationPrincipal UUID memberPublicId) {
     String email = memberService.updateEmail(memberPublicId, request.getEmail());
 
@@ -51,14 +54,15 @@ public class MemberController {
 
   @PatchMapping("/nickname")
   public ResponseEntity<NicknameUpdateResponse> updateNickname(
-      @RequestBody NicknameUpdateRequest request, @AuthenticationPrincipal UUID memberPublicId) {
+      @RequestBody @Valid NicknameUpdateRequest request,
+      @AuthenticationPrincipal UUID memberPublicId) {
     String nickname = memberService.updateNickname(memberPublicId, request.getNickname());
 
     return ResponseEntity.ok(NicknameUpdateResponse.create(nickname));
   }
 
   @PatchMapping("/password")
-  public ResponseEntity<Void> updatePassword(@RequestBody PasswordUpdateRequest request,
+  public ResponseEntity<Void> updatePassword(@RequestBody @Valid PasswordUpdateRequest request,
       @AuthenticationPrincipal UUID memberPublicId) {
     memberService.updatePassword(memberPublicId, request.getPassword());
 

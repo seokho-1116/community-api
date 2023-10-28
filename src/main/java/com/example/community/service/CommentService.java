@@ -11,10 +11,10 @@ import com.example.community.service.dto.CommentDetailResponseDto;
 import com.example.community.service.dto.CommentUpdateRequestDto;
 import com.example.community.service.dto.PageCommentRequestDto;
 import com.example.community.service.entity.Comment;
-import com.example.community.service.exception.BoardNotExistException;
+import com.example.community.service.exception.BoardNotFoundException;
 import com.example.community.service.exception.MemberNotFoundException;
 import com.example.community.service.exception.NotResourceOwnerException;
-import com.example.community.service.exception.PostNotExistException;
+import com.example.community.service.exception.PostNotFoundException;
 import io.jsonwebtoken.lang.Assert;
 import java.util.UUID;
 import java.util.function.Predicate;
@@ -65,9 +65,9 @@ public class CommentService {
   @Transactional
   public UUID createComment(CommentCreateRequestDto dto) {
     UUID boardId = boardQueryRepository.findBoardIdByPublicId(dto.getBoardPublicId())
-        .orElseThrow(BoardNotExistException::new);
+        .orElseThrow(BoardNotFoundException::new);
     UUID postId = postQueryRepository.findPostIdByPostPublicId(dto.getPostPublicId())
-        .orElseThrow(PostNotExistException::new);
+        .orElseThrow(PostNotFoundException::new);
     UUID memberId = memberQueryRepository.findMemberIdByPublicId(dto.getMemberPublicId())
         .orElseThrow(MemberNotFoundException::new);
 

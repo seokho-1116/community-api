@@ -5,11 +5,15 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import javax.validation.constraints.NotNull;
 import lombok.Getter;
 
 @Getter
 public class PageCommentRequest {
+  @NotNull
   private final OffsetDateTime previousDate;
+
+  @NotNull
   private final int size;
 
   @JsonCreator

@@ -11,11 +11,11 @@ import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
 import com.example.community.service.dto.PostUpdateDto;
 import com.example.community.service.entity.Post;
-import com.example.community.service.exception.BoardNotExistException;
+import com.example.community.service.exception.BoardNotFoundException;
 import com.example.community.service.exception.MemberNotFoundException;
 import com.example.community.service.exception.NotResourceOwnerException;
 import com.example.community.service.exception.PostCategoryNotFoundException;
-import com.example.community.service.exception.PostNotExistException;
+import com.example.community.service.exception.PostNotFoundException;
 import io.jsonwebtoken.lang.Assert;
 import java.time.OffsetDateTime;
 import java.util.List;
@@ -48,7 +48,7 @@ public class PostService {
       final UUID memberPublicId) {
     PostDetailResponseDto dto = postQueryRepository.findPostByBoardPublicIdAndPublicId(
             boardPublicId, postId)
-        .orElseThrow(PostNotExistException::new);
+        .orElseThrow(PostNotFoundException::new);
 
     if (isNotOwner(memberPublicId, dto.getMemberPublicId())) {
       return dto;
@@ -74,7 +74,7 @@ public class PostService {
     UUID memberId = memberQueryRepository.findMemberIdByPublicId(dto.getMemberPublicId())
         .orElseThrow(MemberNotFoundException::new);
     UUID boardId = boardQueryRepository.findBoardIdByPublicId(dto.getBoardPublicId())
-        .orElseThrow(BoardNotExistException::new);
+        .orElseThrow(BoardNotFoundException::new);
     UUID postCategoryId = postCategoryQueryRepository.findPostCategoryIdByPublicId(
         dto.getPostCategoryPublicId())
         .orElseThrow(PostCategoryNotFoundException::new);

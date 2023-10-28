@@ -4,6 +4,7 @@ import com.example.community.controller.request.TokenRefreshRequest;
 import com.example.community.controller.response.TokenRefreshResponse;
 import com.example.community.service.TokenService;
 import com.example.community.service.dto.TokenRefreshResponseDto;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,7 +20,7 @@ public class TokenController {
 
   @PostMapping("/token")
   public ResponseEntity<TokenRefreshResponse> refreshToken(
-      @RequestBody TokenRefreshRequest request) {
+      @RequestBody @Valid TokenRefreshRequest request) {
     TokenRefreshResponseDto dto = tokenService.refresh(request.getRefreshTokenPublicId());
 
     return ResponseEntity.ok(TokenRefreshResponse.create(dto));

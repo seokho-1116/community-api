@@ -12,6 +12,7 @@ import com.example.community.service.CommentService;
 import com.example.community.service.dto.CommentDeleteRequestDto;
 import com.example.community.service.dto.CommentDetailResponseDto;
 import java.util.UUID;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
@@ -34,7 +35,8 @@ public class CommentController {
   @GetMapping("/comments")
   public ResponseEntity<PageResponse> getComments(
       @PathVariable("board_id") UUID boardPublicId, @PathVariable("post_id") UUID postPublicId,
-      @AuthenticationPrincipal UUID memberPublicId, @RequestBody PageCommentRequest request) {
+      @AuthenticationPrincipal UUID memberPublicId,
+      @RequestBody @Valid PageCommentRequest request) {
     Page<CommentDetailResponseDto> page = commentService.findComments(request.toDto(boardPublicId,
         postPublicId, memberPublicId));
 
