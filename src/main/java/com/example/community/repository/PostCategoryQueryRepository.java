@@ -2,6 +2,8 @@ package com.example.community.repository;
 
 import static com.example.api.jooqgen.tables.PostCategory.POST_CATEGORY;
 
+import com.example.community.service.dto.PostCategoryDto;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
@@ -19,5 +21,13 @@ public class PostCategoryQueryRepository {
         .from(POST_CATEGORY)
         .where(POST_CATEGORY.PUBLIC_ID.eq(postCategoryPublicId))
         .fetchOptionalInto(UUID.class);
+  }
+
+  public List<PostCategoryDto> findPostCategoryByBoardPublicId(final UUID boardPublicId) {
+    return dslContext
+        .select(POST_CATEGORY.NAME, POST_CATEGORY.DESCRIPTION)
+        .from(POST_CATEGORY)
+        .where(POST_CATEGORY.BOARD_PUBLIC_ID.eq(boardPublicId))
+        .fetchInto(PostCategoryDto.class);
   }
 }

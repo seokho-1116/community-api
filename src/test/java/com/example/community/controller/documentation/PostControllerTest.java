@@ -17,7 +17,6 @@ import com.example.community.controller.request.PostCreateRequest;
 import com.example.community.controller.request.PostUpdateRequest;
 import com.example.community.controller.documentation.fieldsfactory.PostFieldsFactory;
 import com.example.community.service.PostService;
-import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -171,21 +170,6 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
-  @Test
-  void getPostCategoriesById() throws Exception {
-    UUID boardPublicid = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
-
-    Mockito.when(postService.findPostCategoryById(boardPublicid))
-        .thenReturn(createTestPostCategoryDto());
-
-    mockMvc.perform(get("/api/boards/{board_id}/posts/categories", boardPublicid))
-        .andExpect(status().isOk())
-        .andDo(document.document(
-            responseFields(PostFieldsFactory.getPostCategoryResponseField()),
-            pathParameters(parameterWithName("board_id").description("게시판 id"))
-        ));
-  }
-
   private PagePostRequest createTestPageRequest() {
     return new PagePostRequest(OffsetDateTime.now(), 10);
   }
@@ -209,11 +193,5 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         "nickname", UUID.randomUUID(), OffsetDateTime.now(), 10,
         10, 10, "category", "category",
         "URL");
-  }
-
-  private List<PostCategoryDto> createTestPostCategoryDto() {
-    return IntStream.range(0, 10)
-        .mapToObj(num -> new PostCategoryDto("name", "description"))
-        .collect(Collectors.toList());
   }
 }

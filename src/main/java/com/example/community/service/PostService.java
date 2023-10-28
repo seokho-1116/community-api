@@ -5,7 +5,6 @@ import com.example.community.repository.MemberQueryRepository;
 import com.example.community.repository.PostCategoryQueryRepository;
 import com.example.community.repository.PostJpaRepository;
 import com.example.community.repository.PostQueryRepository;
-import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostCreateDto;
 import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
@@ -18,7 +17,6 @@ import com.example.community.service.exception.PostCategoryNotFoundException;
 import com.example.community.service.exception.PostNotFoundException;
 import io.jsonwebtoken.lang.Assert;
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -111,9 +109,5 @@ public class PostService {
     postJpaRepository.remove(post);
 
     return postPublicId;
-  }
-
-  public List<PostCategoryDto> findPostCategoryById(final UUID boardPublicId) {
-    return postQueryRepository.findPostCategoryByBoardPublicId(boardPublicId);
   }
 }

@@ -4,16 +4,13 @@ import com.example.community.controller.request.PagePostRequest;
 import com.example.community.controller.request.PostCreateRequest;
 import com.example.community.controller.request.PostUpdateRequest;
 import com.example.community.controller.response.PagePostResponse;
-import com.example.community.controller.response.PostCategoryResponse;
 import com.example.community.controller.response.PostCreateResponse;
 import com.example.community.controller.response.PostDeleteResponse;
 import com.example.community.controller.response.PostDetailResponse;
 import com.example.community.controller.response.PostUpdateResponse;
 import com.example.community.service.PostService;
-import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
-import java.util.List;
 import java.util.UUID;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -92,13 +89,5 @@ public class PostController {
     UUID publicId = postService.deletePost(boardPublicId, postPublicId, memberPublicId);
 
     return ResponseEntity.ok(PostDeleteResponse.create(publicId));
-  }
-
-  @GetMapping("/{board_id}/posts/categories")
-  public ResponseEntity<List<PostCategoryResponse>> getPostCategoriesById(
-      @PathVariable("board_id") final UUID boardPublicId) {
-    List<PostCategoryDto> dtoList = postService.findPostCategoryById(boardPublicId);
-
-    return ResponseEntity.ok(PostCategoryResponse.create(dtoList));
   }
 }

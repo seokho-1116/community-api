@@ -5,7 +5,6 @@ import static com.example.api.jooqgen.tables.Member.MEMBER;
 import static com.example.api.jooqgen.tables.Post.POST;
 import static com.example.api.jooqgen.tables.PostCategory.POST_CATEGORY;
 
-import com.example.community.service.dto.PostCategoryDto;
 import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
 import java.time.OffsetDateTime;
@@ -75,14 +74,6 @@ public class PostQueryRepository {
         .where(POST.BOARD_PUBLIC_ID.eq(boardPublicId)
             .and(POST.PUBLIC_ID.eq(postPublicId)))
         .fetchOptionalInto(PostDetailResponseDto.class);
-  }
-
-  public List<PostCategoryDto> findPostCategoryByBoardPublicId(final UUID boardPublicId) {
-    return dslContext
-        .select(POST_CATEGORY.NAME, POST_CATEGORY.DESCRIPTION)
-        .from(POST_CATEGORY)
-        .where(POST_CATEGORY.BOARD_PUBLIC_ID.eq(boardPublicId))
-        .fetchInto(PostCategoryDto.class);
   }
 
   public Optional<UUID> findPostIdByPostPublicId(UUID postPublicId) {
