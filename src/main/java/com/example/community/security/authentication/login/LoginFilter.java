@@ -14,7 +14,7 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 public class LoginFilter extends AbstractAuthenticationProcessingFilter {
   private static final AntPathRequestMatcher DEFAULT_ANT_PATH_REQUEST_MATCHER =
-      new AntPathRequestMatcher("/api/auth/login", "POST");
+      new AntPathRequestMatcher("/api/me/login", "POST");
 
   private final ObjectMapper objectMapper;
 

@@ -26,24 +26,27 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
       throws ServletException, IOException {
     String accessToken = getAccessTokenFromRequest(request);
 
-    Authentication authentication;
-    if (!StringUtils.hasText(accessToken)) {
-      authentication = JwtAuthenticationToken.unauthenticated();
-
-      SecurityContextHolder.getContext().setAuthentication(authentication);
-
-      filterChain.doFilter(request, response);
-    }
-
-    if (!jwtFactory.isValid(TokenType.ACCESS, accessToken)) {
+    if (isNotValidToken(accessToken)) {
       throw new InvalidTokenException("jwt 토큰이 유효하지 않습니다.");
     }
 
-    authentication = createJwtAuthenticationTokenBy(accessToken);
+    Authentication authentication = getAuthenticationToken(accessToken);
 
     SecurityContextHolder.getContext().setAuthentication(authentication);
 
     filterChain.doFilter(request, response);
+  }
+
+  private boolean isNotValidToken(String accessToken) {
+    return !accessToken.isEmpty() && !jwtFactory.isValid(TokenType.ACCESS, accessToken);
+  }
+
+  private Authentication getAuthenticationToken(String accessToken) {
+    if (!StringUtils.hasText(accessToken)) {
+      return JwtAuthenticationToken.unauthenticated();
+    }
+
+    return createJwtAuthenticationTokenBy(accessToken);
   }
 
   private String getAccessTokenFromRequest(HttpServletRequest request) {
@@ -57,7 +60,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
   private Authentication createJwtAuthenticationTokenBy(String accessToken) {
     String memberPublicId = jwtFactory.getPayload(TokenType.ACCESS, accessToken,
-        "member_id");
+        "memberId");
     String role = jwtFactory.getPayload(TokenType.ACCESS, accessToken, "role");
 
     return JwtAuthenticationToken.authenticated(UUID.fromString(memberPublicId),

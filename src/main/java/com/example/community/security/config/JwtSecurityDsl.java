@@ -15,7 +15,9 @@ public class JwtSecurityDsl  extends AbstractHttpConfigurer<JwtSecurityDsl, Http
   @Override
   public void configure(HttpSecurity http) {
     http.requestMatchers(request -> request
-        .antMatchers("/api/me", "/api/me/nickname")
+        .antMatchers("/api/me", "/api/me/nickname", "/api/me/email", "/api/me/password")
+        .antMatchers("/api/**/posts")
+        .antMatchers("/api/**/comments")
     ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 
