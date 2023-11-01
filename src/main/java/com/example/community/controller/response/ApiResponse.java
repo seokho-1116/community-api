@@ -1,5 +1,7 @@
 package com.example.community.controller.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
@@ -8,7 +10,8 @@ public class ApiResponse<T> {
 
   private final T data;
 
-  private ApiResponse(String message, T data) {
+  @JsonCreator
+  private ApiResponse(@JsonProperty("message") String message, @JsonProperty("data") T data) {
     this.message = message;
     this.data = data;
   }

@@ -1,6 +1,8 @@
 package com.example.community.controller.response;
 
 import com.example.community.service.dto.CommunityDetailResponseDto;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 
 @Getter
@@ -12,8 +14,12 @@ public class CommunityDetailResponse {
   private final String terms;
   private final String adsInfo;
 
-  private CommunityDetailResponse(String introduction, String companyInfo, String contactInfo,
-      String privacyPolicy, String terms, String adsInfo) {
+  @JsonCreator
+  private CommunityDetailResponse(@JsonProperty("introduction") String introduction,
+      @JsonProperty("companyInfo") String companyInfo,
+      @JsonProperty("contactInfo") String contactInfo,
+      @JsonProperty("privacyPolicy") String privacyPolicy, @JsonProperty("terms") String terms,
+      @JsonProperty("adsInfo") String adsInfo) {
     this.introduction = introduction;
     this.companyInfo = companyInfo;
     this.contactInfo = contactInfo;
