@@ -59,7 +59,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
 
   private SignupRequest createTestSingupRequest() {
     return new SignupRequest("id", "nickname", "password",
-        "email");
+        "id@email.com");
   }
 
   @Test
@@ -101,7 +101,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
   }
 
   private EmailUpdateRequest createTestEmailUpdateRequest() {
-    return new EmailUpdateRequest("new");
+    return new EmailUpdateRequest("new@email.com");
   }
 
   @Test
@@ -150,7 +150,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
   void loginTest() throws Exception {
     LoginRequest request = createTestLoginRequest("id", "password");
 
-    mockMvc.perform(post("/api/auth/login")
+    mockMvc.perform(post("/api/me/login")
           .contentType(MediaType.APPLICATION_JSON)
           .content(objectMapper.writeValueAsString(request)))
         .andExpect(status().isOk())
