@@ -14,6 +14,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.ComponentScan.Filter;
 import org.springframework.context.annotation.FilterType;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.transaction.annotation.Transactional;
 
 @TestConfiguration
 @ComponentScan(

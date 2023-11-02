@@ -1,6 +1,8 @@
 package com.example.community.controller.response;
 
 import com.example.community.service.dto.PostSummaryResponseDto;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import lombok.Getter;
 
@@ -16,8 +18,13 @@ public class PostSummaryResponse {
   private final String postCategory;
   private final OffsetDateTime createdDate;
 
-  private PostSummaryResponse(String publicId, String title, String content, String nickname,
-      long viewsCount, String boardId, String boardCategory, String postCategory, OffsetDateTime createdDate) {
+  @JsonCreator
+  private PostSummaryResponse(@JsonProperty("publicId") String publicId,
+      @JsonProperty("title") String title, @JsonProperty("content") String content,
+      @JsonProperty("nickname") String nickname, @JsonProperty("viewsCount") long viewsCount,
+      @JsonProperty("boardId") String boardId, @JsonProperty("boardCategory") String boardCategory,
+      @JsonProperty("postCategory") String postCategory,
+      @JsonProperty("createdDate") OffsetDateTime createdDate) {
     this.publicId = publicId;
     this.title = title;
     this.content = content;

@@ -35,6 +35,7 @@ public class PostCreateDto {
         .boardPublicId(boardPublicId)
         .postCategoryPublicId(postCategoryPublicId)
         .memberId(memberId)
+        .memberPublicId(memberPublicId)
         .postCategoryId(postCategoryId)
         .createdDate(now)
         .modifiedDate(now)

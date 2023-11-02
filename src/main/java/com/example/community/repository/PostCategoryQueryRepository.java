@@ -25,7 +25,7 @@ public class PostCategoryQueryRepository {
 
   public List<PostCategoryDto> findPostCategoryByBoardPublicId(final UUID boardPublicId) {
     return dslContext
-        .select(POST_CATEGORY.NAME, POST_CATEGORY.DESCRIPTION)
+        .select(POST_CATEGORY.PUBLIC_ID, POST_CATEGORY.NAME, POST_CATEGORY.DESCRIPTION)
         .from(POST_CATEGORY)
         .where(POST_CATEGORY.BOARD_PUBLIC_ID.eq(boardPublicId))
         .fetchInto(PostCategoryDto.class);

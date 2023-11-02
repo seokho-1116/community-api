@@ -55,14 +55,4 @@ class PostQueryRepositoryTest {
 
     assertThat(dto).isPresent();
   }
-
-  @Test
-  void selectPostCategories() {
-    UUID boardPublicId = UUID.fromString("8f712b3f-bdf2-4261-bacb-9d224b05a6e8");
-
-    List<PostCategoryDto> categoryList = postQueryRepository.findPostCategoryByBoardPublicId(
-        boardPublicId);
-
-    assertThat(categoryList).isNotEmpty();
-  }
 }

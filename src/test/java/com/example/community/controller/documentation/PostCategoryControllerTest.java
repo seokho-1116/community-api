@@ -41,7 +41,8 @@ class PostCategoryControllerTest extends AbstractRestDocsControllerTest {
 
   private List<PostCategoryDto> createTestPostCategoryDto() {
     return IntStream.range(0, 10)
-        .mapToObj(num -> new PostCategoryDto("name", "description"))
+        .mapToObj(num -> new PostCategoryDto(UUID.randomUUID(), "name",
+            "description"))
         .collect(Collectors.toList());
   }
 }

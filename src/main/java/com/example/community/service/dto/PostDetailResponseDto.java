@@ -1,5 +1,6 @@
 package com.example.community.service.dto;
 
+import java.beans.ConstructorProperties;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import lombok.Getter;

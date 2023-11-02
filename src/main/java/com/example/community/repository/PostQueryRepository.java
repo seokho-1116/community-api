@@ -13,6 +13,7 @@ import java.util.Optional;
 import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import org.jooq.DSLContext;
+import org.jooq.Field;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -64,9 +65,10 @@ public class PostQueryRepository {
   public Optional<PostDetailResponseDto> findPostByBoardPublicIdAndPublicId(final UUID boardPublicId,
       final UUID postPublicId) {
     return dslContext
-        .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, MEMBER.PUBLIC_ID, MEMBER.NICKNAME,
-            POST.CREATED_DATE, POST.VIEWS_COUNT, POST.UP_VOTES_COUNT, POST.DOWN_VOTES_COUNT,
-            BOARD.NAME, POST_CATEGORY.NAME, POST.POST_URL)
+        .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, MEMBER.NICKNAME,
+            MEMBER.PUBLIC_ID.as("memberPublicId"), POST.CREATED_DATE, POST.VIEWS_COUNT,
+            POST.UP_VOTES_COUNT, POST.DOWN_VOTES_COUNT, BOARD.NAME.as("boardCategory"),
+            POST_CATEGORY.NAME.as("postCategory"), POST.POST_URL)
         .from(POST)
         .join(MEMBER).on(POST.MEMBER_ID.eq(MEMBER.ID))
         .join(POST_CATEGORY).on(POST.POST_CATEGORY_ID.eq(POST_CATEGORY.ID))

@@ -1,6 +1,8 @@
 package com.example.community.controller.response;
 
 import com.example.community.service.dto.PostSummaryResponseDto;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.Getter;
@@ -10,8 +12,11 @@ import org.springframework.data.domain.Page;
 public class PagePostResponse extends PageResponse {
   private final List<PostSummaryResponse> content;
 
-  public PagePostResponse(List<PostSummaryResponse> content, long totalElements, int totalPages,
-      int number, int numberOfElements, boolean hasNext, boolean hasPrevious) {
+  @JsonCreator
+  private PagePostResponse(@JsonProperty("content") List<PostSummaryResponse> content,
+      @JsonProperty("totalElements") long totalElements, @JsonProperty("totalPages") int totalPages,
+      @JsonProperty("number") int number, @JsonProperty("numberOfElements") int numberOfElements,
+      @JsonProperty("hasNext") boolean hasNext, @JsonProperty("hasPrevious") boolean hasPrevious) {
     super(totalElements, totalPages, number, numberOfElements, hasNext, hasPrevious);
 
     this.content = content;

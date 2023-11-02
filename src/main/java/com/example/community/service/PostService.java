@@ -64,7 +64,7 @@ public class PostService {
   }
 
   private boolean isNotOwner(final UUID memberPublicId, final UUID requestUserPublicId) {
-    return memberPublicId != requestUserPublicId;
+    return !memberPublicId.equals(requestUserPublicId);
   }
 
   @Transactional
