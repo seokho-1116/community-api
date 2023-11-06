@@ -31,7 +31,7 @@ public class PostDetailResponse {
       @JsonProperty("downVotesCount") int downVotesCount,
       @JsonProperty("boardCategory") String boardCategory,
       @JsonProperty("postCategory") String postCategory, @JsonProperty("postURL") String postURL,
-      @JsonProperty("owner") boolean isOwner) {
+      @JsonProperty("isOwner") boolean isOwner) {
     this.publicId = publicId;
     this.title = title;
     this.content = content;
@@ -51,5 +51,10 @@ public class PostDetailResponse {
         dto.getNickname(), dto.getCreatedDate(), dto.getViewsCount(), dto.getUpVotesCount(),
         dto.getDownVotesCount(), dto.getBoardCategory(), dto.getPostCategory(), dto.getPostURL(),
         dto.isOwner());
+  }
+
+  @JsonProperty("isOwner")
+  public boolean isOwner() {
+    return isOwner;
   }
 }

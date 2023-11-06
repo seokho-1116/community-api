@@ -49,7 +49,8 @@ public class PostFieldsFactory {
         fieldWithPath("data.downVotesCount").type(NUMBER).description("게시글 비추천 수"),
         fieldWithPath("data.boardCategory").type(STRING).description("게시판 카테고리"),
         fieldWithPath("data.postCategory").type(STRING).description("게시글 카테고리"),
-        fieldWithPath("data.postURL").type(STRING).description("게시글 URL")
+        fieldWithPath("data.postURL").type(STRING).description("게시글 URL"),
+        fieldWithPath("data.isOwner").type(BOOLEAN).description("게시글 소유주 여부")
     );
   }
 

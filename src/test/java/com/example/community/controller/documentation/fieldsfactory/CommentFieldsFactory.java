@@ -26,8 +26,9 @@ public class CommentFieldsFactory {
         fieldWithPath("data.content[0].nickname").type(STRING).description("작성자 닉네임"),
         fieldWithPath("data.content[0].content").type(STRING).description("댓글 내용"),
         fieldWithPath("data.content[0].createdDate").type(STRING).description("댓글 생성일"),
-        fieldWithPath("data.content[0].upVotesCount").type(NUMBER).description("게시글 추천 수"),
-        fieldWithPath("data.content[0].downVotesCount").type(NUMBER).description("게시글 비추천 수")
+        fieldWithPath("data.content[0].upVotesCount").type(NUMBER).description("댓글 추천 수"),
+        fieldWithPath("data.content[0].downVotesCount").type(NUMBER).description("댓글 비추천 수"),
+        fieldWithPath("data.content[0].isOwner").type(BOOLEAN).description("댓글 소유주 여부")
     );
   }
 
