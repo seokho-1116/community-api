@@ -66,9 +66,9 @@ public class PostQueryRepository {
       final UUID postPublicId) {
     return dslContext
         .select(POST.PUBLIC_ID, POST.TITLE, POST.CONTENT, MEMBER.NICKNAME,
-            MEMBER.PUBLIC_ID.as("memberPublicId"), POST.CREATED_DATE, POST.VIEWS_COUNT,
-            POST.UP_VOTES_COUNT, POST.DOWN_VOTES_COUNT, BOARD.NAME.as("boardCategory"),
-            POST_CATEGORY.NAME.as("postCategory"), POST.POST_URL)
+            MEMBER.PUBLIC_ID, POST.CREATED_DATE, POST.VIEWS_COUNT,
+            POST.UP_VOTES_COUNT, POST.DOWN_VOTES_COUNT, BOARD.NAME,
+            POST_CATEGORY.NAME, POST.POST_URL)
         .from(POST)
         .join(MEMBER).on(POST.MEMBER_ID.eq(MEMBER.ID))
         .join(POST_CATEGORY).on(POST.POST_CATEGORY_ID.eq(POST_CATEGORY.ID))
