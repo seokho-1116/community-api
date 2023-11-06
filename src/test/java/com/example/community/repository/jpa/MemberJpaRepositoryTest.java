@@ -1,22 +1,17 @@
-package com.example.community.repository;
+package com.example.community.repository.jpa;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.example.community.repository.MemberJpaRepository;
 import com.example.community.service.entity.Member;
 import java.util.UUID;
 import javax.persistence.EntityManager;
-import javax.persistence.TypedQuery;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase.Replace;
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-@DataJpaTest
-@AutoConfigureTestDatabase(replace = Replace.NONE)
-class MemberJpaRepositoryTest {
+class MemberJpaRepositoryTest extends JpaRepositoryTest {
   private final EntityManager em;
   private final MemberJpaRepository memberJpaRepository;
 
@@ -28,7 +23,7 @@ class MemberJpaRepositoryTest {
 
   @Test
   void updateNickname() {
-    UUID publicId = UUID.fromString("7da7aa39-d829-43ac-a3f1-b770d8deff1e");
+    UUID publicId = UUID.fromString(TEST_DATA.getMemberPublicId());
     String nickname = "new";
 
     Member entity = memberJpaRepository.findMemberByPublicId(publicId);
@@ -43,7 +38,7 @@ class MemberJpaRepositoryTest {
 
   @Test
   void updateEmail() {
-    UUID publicId = UUID.fromString("7da7aa39-d829-43ac-a3f1-b770d8deff1e");
+    UUID publicId = UUID.fromString(TEST_DATA.getMemberPublicId());
     String email = "new";
 
     Member entity = memberJpaRepository.findMemberByPublicId(publicId);
@@ -58,7 +53,7 @@ class MemberJpaRepositoryTest {
 
   @Test
   void updatePassword() {
-    UUID publicId = UUID.fromString("7da7aa39-d829-43ac-a3f1-b770d8deff1e");
+    UUID publicId = UUID.fromString(TEST_DATA.getMemberPublicId());
     PasswordEncoder passwordEncoder = PasswordEncoderFactories.createDelegatingPasswordEncoder();
     String password = passwordEncoder.encode("new");
 

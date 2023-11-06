@@ -1,7 +1,8 @@
-package com.example.community.repository;
+package com.example.community.repository.query;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import com.example.community.repository.BoardQueryRepository;
 import com.example.community.service.dto.BoardDetailResponseDto;
 import com.example.community.service.dto.BoardSummaryResponseDto;
 import java.util.List;
@@ -10,10 +11,8 @@ import java.util.UUID;
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jooq.JooqTest;
 
-@JooqTest
-class BoardQueryRepositoryTest {
+class BoardQueryRepositoryTest extends QueryRepositoryTest {
   private final BoardQueryRepository boardQueryRepository;
 
   public BoardQueryRepositoryTest(@Autowired DSLContext dslContext) {
@@ -29,7 +28,7 @@ class BoardQueryRepositoryTest {
 
   @Test
   void findBoardById() {
-    UUID boardPublicId = UUID.fromString("8f712b3f-bdf2-4261-bacb-9d224b05a6e8");
+    UUID boardPublicId = UUID.fromString(TEST_DATA.getBoardPublicId());
 
     Optional<BoardDetailResponseDto> board = boardQueryRepository.findBoardByPublicId(boardPublicId);
 

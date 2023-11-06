@@ -1,22 +1,19 @@
-package com.example.community.repository;
+package com.example.community.repository.query;
 
 import static org.assertj.core.api.Assertions.*;
 
-import com.example.community.service.dto.PostCategoryDto;
+import com.example.community.repository.PostQueryRepository;
 import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
 import java.time.OffsetDateTime;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.jooq.DSLContext;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jooq.JooqTest;
 import org.springframework.data.domain.Page;
 
-@JooqTest
-class PostQueryRepositoryTest {
+class PostQueryRepositoryTest extends QueryRepositoryTest {
   private final PostQueryRepository postQueryRepository;
 
   public PostQueryRepositoryTest(@Autowired DSLContext dslContext) {
@@ -37,7 +34,7 @@ class PostQueryRepositoryTest {
   void selectPagePostSummaryByBoardId() {
     OffsetDateTime previousDate = OffsetDateTime.now();
     int size = 10;
-    UUID boardPublicId = UUID.fromString("8f712b3f-bdf2-4261-bacb-9d224b05a6e8");
+    UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId());
 
     Page<PostSummaryResponseDto> page = postQueryRepository.findPostsByBoardPublicId(boardPublicId,
         previousDate, size);
@@ -47,8 +44,8 @@ class PostQueryRepositoryTest {
 
   @Test
   void selectBoardPostDetailByPostId() {
-    UUID boardPublicId = UUID.fromString("8f712b3f-bdf2-4261-bacb-9d224b05a6e8");
-    UUID postPublicId = UUID.fromString("75305692-3c7b-4875-95b7-56f275b65c24");
+    UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId());
+    UUID postPublicId = UUID.fromString(TEST_DATA.getPostPublicId());
 
     Optional<PostDetailResponseDto> dto = postQueryRepository.findPostByBoardPublicIdAndPublicId(
         boardPublicId, postPublicId);
