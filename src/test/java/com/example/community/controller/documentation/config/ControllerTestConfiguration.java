@@ -1,11 +1,11 @@
 package com.example.community.controller.documentation.config;
 
 import com.example.community.repository.MemberQueryRepository;
-import com.example.community.repository.StubMemberQueryRepository;
+import com.example.community.controller.documentation.config.stub.StubMemberQueryRepository;
 import com.example.community.security.authentication.jwt.JwtFactory;
-import com.example.community.security.authentication.jwt.StubJwtFactory;
+import com.example.community.controller.documentation.config.stub.StubJwtFactory;
 import com.example.community.security.config.SecurityConfig;
-import com.example.community.service.StubTokenService;
+import com.example.community.controller.documentation.config.stub.StubTokenService;
 import com.example.community.service.TokenService;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;

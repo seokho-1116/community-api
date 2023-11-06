@@ -1,4 +1,8 @@
-package com.example.community.security.authentication.jwt;
+package com.example.community.controller.documentation.config.stub;
+
+import com.example.community.security.authentication.jwt.JwtFactory;
+import com.example.community.security.authentication.jwt.JwtProperties;
+import com.example.community.security.authentication.jwt.TokenType;
 
 public class StubJwtFactory extends JwtFactory {
   public StubJwtFactory(String key) {

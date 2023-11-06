@@ -1,9 +1,10 @@
-package com.example.community.service;
+package com.example.community.controller.documentation.config.stub;
 
 import com.example.community.repository.TokenJpaRepository;
 import com.example.community.repository.TokenQueryRepository;
 import com.example.community.security.authentication.jwt.JwtFactory;
 import com.example.community.security.authentication.jwt.exception.InvalidTokenException;
+import com.example.community.service.TokenService;
 import com.example.community.service.dto.TokenRefreshResponseDto;
 import com.example.community.service.dto.TokenResponseDto;
 import java.util.UUID;
