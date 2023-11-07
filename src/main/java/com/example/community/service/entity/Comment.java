@@ -80,6 +80,6 @@ public class Comment {
   }
 
   public boolean isNotOwner(UUID requestMemberPublicId) {
-    return memberPublicId != requestMemberPublicId;
+    return !memberPublicId.equals(requestMemberPublicId);
   }
 }

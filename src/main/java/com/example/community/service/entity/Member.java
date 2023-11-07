@@ -83,6 +83,6 @@ public class Member {
   }
 
   public boolean isNotOwner(UUID requestMemberPublicId) {
-    return publicId != requestMemberPublicId;
+    return !publicId.equals(requestMemberPublicId);
   }
 }
