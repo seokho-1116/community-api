@@ -12,7 +12,7 @@ import org.springframework.stereotype.Service;
 public class PostCategoryService {
   private final PostCategoryQueryRepository postCategoryQueryRepository;
 
-  public List<PostCategoryDto> findPostCategoryById(final UUID boardPublicId) {
+  public List<PostCategoryDto> findPostCategoryByBoardPublicId(final UUID boardPublicId) {
     return postCategoryQueryRepository.findPostCategoryByBoardPublicId(boardPublicId);
   }
 }

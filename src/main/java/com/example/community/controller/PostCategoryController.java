@@ -19,9 +19,10 @@ public class PostCategoryController {
   private final PostCategoryService postCategoryService;
 
   @GetMapping("/categories")
-  public ResponseEntity<List<PostCategoryResponse>> getPostCategoriesById(
+  public ResponseEntity<List<PostCategoryResponse>> getPostCategoriesByBoardPublicId(
       @PathVariable("board_id") final UUID boardPublicId) {
-    List<PostCategoryDto> dtoList = postCategoryService.findPostCategoryById(boardPublicId);
+    List<PostCategoryDto> dtoList = postCategoryService
+        .findPostCategoryByBoardPublicId(boardPublicId);
 
     return ResponseEntity.ok(PostCategoryResponse.create(dtoList));
   }
