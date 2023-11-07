@@ -66,6 +66,6 @@ public class MemberController {
       @AuthenticationPrincipal UUID memberPublicId) {
     memberService.updatePassword(memberPublicId, request.getPassword());
 
-    return ResponseEntity.ok().build();
+    return ResponseEntity.noContent().build();
   }
 }
