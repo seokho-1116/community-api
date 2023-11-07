@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   }
 
   private boolean isNotValidToken(String accessToken) {
-    return !accessToken.isEmpty() && !jwtFactory.isValid(TokenType.ACCESS, accessToken);
+    return !accessToken.isEmpty() && !jwtFactory.isValid(accessToken);
   }
 
   private Authentication getAuthenticationToken(String accessToken) {
@@ -59,9 +59,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   }
 
   private Authentication createJwtAuthenticationTokenBy(String accessToken) {
-    String memberPublicId = jwtFactory.getPayload(TokenType.ACCESS, accessToken,
-        "memberId");
-    String role = jwtFactory.getPayload(TokenType.ACCESS, accessToken, "role");
+    String memberPublicId = jwtFactory.getPayload(accessToken, "memberId");
+    String role = jwtFactory.getPayload(accessToken, "role");
 
     return JwtAuthenticationToken.authenticated(UUID.fromString(memberPublicId),
         List.of(new SimpleGrantedAuthority(role)));

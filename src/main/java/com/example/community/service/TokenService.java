@@ -3,7 +3,6 @@ package com.example.community.service;
 import com.example.community.repository.TokenJpaRepository;
 import com.example.community.repository.TokenQueryRepository;
 import com.example.community.security.authentication.jwt.JwtFactory;
-import com.example.community.security.authentication.jwt.TokenType;
 import com.example.community.security.authentication.jwt.exception.InvalidTokenException;
 import com.example.community.service.dto.TokenDto;
 import com.example.community.service.dto.TokenRefreshResponseDto;
@@ -36,7 +35,7 @@ public class TokenService {
   }
 
   private boolean isNotValid(TokenDto dto) {
-    return !jwtFactory.isValid(TokenType.REFRESH, dto.getRefreshToken());
+    return !jwtFactory.isValid(dto.getRefreshToken());
   }
 
   public TokenResponseDto createToken(String memberPublicId , String role) {

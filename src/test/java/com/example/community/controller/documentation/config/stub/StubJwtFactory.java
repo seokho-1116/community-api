@@ -2,7 +2,6 @@ package com.example.community.controller.documentation.config.stub;
 
 import com.example.community.security.authentication.jwt.JwtFactory;
 import com.example.community.security.authentication.jwt.JwtProperties;
-import com.example.community.security.authentication.jwt.TokenType;
 
 public class StubJwtFactory extends JwtFactory {
   public StubJwtFactory(String key) {
@@ -20,12 +19,12 @@ public class StubJwtFactory extends JwtFactory {
   }
 
   @Override
-  public String getPayload(TokenType type, String token, String claimName) {
+  public String getPayload(String token, String claimName) {
     return "71239da8-8d81-41cf-9328-5e754d8e6c80";
   }
 
   @Override
-  public boolean isValid(TokenType type, String token) {
+  public boolean isValid(String token) {
     return true;
   }
 

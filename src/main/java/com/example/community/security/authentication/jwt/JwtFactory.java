@@ -13,8 +13,6 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JwtFactory {
-  private static final String ISSUER = "community";
-
   private final SecretKey key;
   private final long accessTokenValidityMs;
   private final long refreshTokenValidityMs;
@@ -32,9 +30,6 @@ public class JwtFactory {
     return Jwts.builder()
         .claim("memberId", memberId)
         .claim("role", role)
-        .setSubject(TokenType.ACCESS.name())
-        .setIssuer(ISSUER)
-        .setIssuedAt(now)
         .setExpiration(validity)
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
@@ -47,17 +42,14 @@ public class JwtFactory {
     return Jwts.builder()
         .claim("memberId", memberId)
         .claim("role", role)
-        .setSubject(TokenType.REFRESH.name())
-        .setIssuer(ISSUER)
-        .setIssuedAt(now)
         .setExpiration(validity)
         .signWith(key, SignatureAlgorithm.HS256)
         .compact();
   }
 
-  public String getPayload(final TokenType type, final String token, final String claimName) {
+  public String getPayload(final String token, final String claimName) {
     try {
-      return jwtParser(type.name())
+      return jwtParser()
           .parseClaimsJws(token)
           .getBody()
           .get(claimName, String.class);
@@ -66,9 +58,9 @@ public class JwtFactory {
     }
   }
 
-  public boolean isValid(final TokenType type, final String token) {
+  public boolean isValid(final String token) {
     try {
-      jwtParser(type.name())
+      jwtParser()
           .parseClaimsJws(token);
 
       return true;
@@ -77,11 +69,9 @@ public class JwtFactory {
     }
   }
 
-  private JwtParser jwtParser(String subject) {
+  private JwtParser jwtParser() {
     return Jwts.parserBuilder()
         .setSigningKey(key)
-        .requireSubject(subject)
-        .requireIssuer(ISSUER)
         .build();
   }
 

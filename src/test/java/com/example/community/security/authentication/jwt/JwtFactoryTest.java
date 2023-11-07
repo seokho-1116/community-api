@@ -45,7 +45,7 @@ class JwtFactoryTest {
     String role = "USER";
     String accessToken = jwtFactory.createAccessToken(memberId, role);
 
-    String payload = jwtFactory.getPayload(TokenType.ACCESS, accessToken, "memberId");
+    String payload = jwtFactory.getPayload(accessToken, "memberId");
 
     assertThat(payload).isEqualTo(memberId);
   }
@@ -56,7 +56,7 @@ class JwtFactoryTest {
     String role = "USER";
     String refreshToken = jwtFactory.createRefreshToken(memberId, role);
 
-    String payload = jwtFactory.getPayload(TokenType.REFRESH, refreshToken, "memberId");
+    String payload = jwtFactory.getPayload(refreshToken, "memberId");
 
     assertThat(payload).isEqualTo(memberId);
   }
@@ -67,7 +67,7 @@ class JwtFactoryTest {
     String role = "USER";
     String accessToken = jwtFactory.createAccessToken(memberId, role);
 
-    String payload = jwtFactory.getPayload(TokenType.ACCESS, accessToken, "un");
+    String payload = jwtFactory.getPayload(accessToken, "un");
 
     assertThat(payload).isBlank();
   }
@@ -78,7 +78,7 @@ class JwtFactoryTest {
     String role = "USER";
     String accessToken = jwtFactory.createAccessToken(memberId, role);
 
-    boolean isValid = jwtFactory.isValid(TokenType.ACCESS, accessToken);
+    boolean isValid = jwtFactory.isValid(accessToken);
 
     assertThat(isValid).isTrue();
   }
@@ -87,7 +87,7 @@ class JwtFactoryTest {
   void isValidTestByUnValidToken() {
     String accessToken = "trash";
 
-    boolean isValid = jwtFactory.isValid(TokenType.ACCESS, accessToken);
+    boolean isValid = jwtFactory.isValid(accessToken);
 
     assertThat(isValid).isFalse();
   }
@@ -98,7 +98,7 @@ class JwtFactoryTest {
     String role = "USER";
     String accessToken = expiredJwtFactory.createAccessToken(memberId, role);
 
-    boolean isValid = jwtFactory.isValid(TokenType.ACCESS, accessToken);
+    boolean isValid = jwtFactory.isValid(accessToken);
 
     assertThat(isValid).isFalse();
   }
