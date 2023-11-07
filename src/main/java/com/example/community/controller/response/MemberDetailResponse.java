@@ -1,6 +1,8 @@
 package com.example.community.controller.response;
 
 import com.example.community.service.dto.MemberDetailDto;
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.OffsetDateTime;
 import lombok.Getter;
 
@@ -11,8 +13,10 @@ public class MemberDetailResponse {
   private final String email;
   private final OffsetDateTime createdDate;
 
-  private MemberDetailResponse(String signupId, String nickname, String email,
-      OffsetDateTime createdDate) {
+  @JsonCreator
+  private MemberDetailResponse(@JsonProperty("signupId") String signupId,
+      @JsonProperty("nickname") String nickname, @JsonProperty("email") String email,
+      @JsonProperty("createdDate") OffsetDateTime createdDate) {
     this.signupId = signupId;
     this.nickname = nickname;
     this.email = email;

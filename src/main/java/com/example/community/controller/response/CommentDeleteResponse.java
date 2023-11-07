@@ -1,5 +1,7 @@
 package com.example.community.controller.response;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
 import lombok.Getter;
 
@@ -7,7 +9,8 @@ import lombok.Getter;
 public class CommentDeleteResponse {
   private final UUID commentId;
 
-  private CommentDeleteResponse(UUID commentId) {
+  @JsonCreator
+  private CommentDeleteResponse(@JsonProperty("commentId") UUID commentId) {
     this.commentId = commentId;
   }
 

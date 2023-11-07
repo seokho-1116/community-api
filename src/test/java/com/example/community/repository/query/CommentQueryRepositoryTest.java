@@ -2,6 +2,7 @@ package com.example.community.repository.query;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.example.community.common.TestData.TestDataType;
 import com.example.community.repository.CommentQueryRepository;
 import com.example.community.service.dto.CommentDetailResponseDto;
 import com.example.community.service.dto.PageCommentRequestDto;
@@ -32,9 +33,9 @@ class CommentQueryRepositoryTest extends QueryRepositoryTest {
   }
 
   private static PageCommentRequestDto createTestPageCommentRequestDto() {
-    UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId());
-    UUID postPublicId = UUID.fromString(TEST_DATA.getPostPublicId());
-    UUID memberPublicId = UUID.fromString(TEST_DATA.getMemberPublicId());
+    UUID boardPublicId = UUID.fromString(TEST_DATA.getCommentBoardPublicId(TestDataType.COMMON));
+    UUID postPublicId = UUID.fromString(TEST_DATA.getCommentPostPublicId(TestDataType.COMMON));
+    UUID memberPublicId = UUID.fromString(TEST_DATA.getCommentMemberPublicId(TestDataType.COMMON));
     OffsetDateTime previousDate = OffsetDateTime.now();
     int size = 10;
 

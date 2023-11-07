@@ -2,6 +2,7 @@ package com.example.community.repository.query;
 
 import static org.assertj.core.api.Assertions.*;
 
+import com.example.community.common.TestData.TestDataType;
 import com.example.community.repository.PostQueryRepository;
 import com.example.community.service.dto.PostDetailResponseDto;
 import com.example.community.service.dto.PostSummaryResponseDto;
@@ -34,7 +35,7 @@ class PostQueryRepositoryTest extends QueryRepositoryTest {
   void selectPagePostSummaryByBoardId() {
     OffsetDateTime previousDate = OffsetDateTime.now();
     int size = 10;
-    UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId());
+    UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId(TestDataType.COMMON));
 
     Page<PostSummaryResponseDto> page = postQueryRepository.findPostsByBoardPublicId(boardPublicId,
         previousDate, size);
@@ -44,8 +45,8 @@ class PostQueryRepositoryTest extends QueryRepositoryTest {
 
   @Test
   void selectBoardPostDetailByPostId() {
-    UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId());
-    UUID postPublicId = UUID.fromString(TEST_DATA.getPostPublicId());
+    UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId(TestDataType.COMMON));
+    UUID postPublicId = UUID.fromString(TEST_DATA.getPostPublicId(TestDataType.COMMON));
 
     Optional<PostDetailResponseDto> dto = postQueryRepository.findPostByBoardPublicIdAndPublicId(
         boardPublicId, postPublicId);

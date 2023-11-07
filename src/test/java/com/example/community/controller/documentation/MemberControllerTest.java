@@ -135,7 +135,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectMapper.writeValueAsString(request))
             .header("Authorization", jwt))
-        .andExpect(status().isOk())
+        .andExpect(status().isNoContent())
         .andDo(document.document(
             responseFields(MemberFieldsFactory.getMemberPasswordUpdateResponseField()),
             requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰"))

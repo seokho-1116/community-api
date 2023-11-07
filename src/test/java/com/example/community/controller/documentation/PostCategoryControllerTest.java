@@ -28,7 +28,7 @@ class PostCategoryControllerTest extends AbstractRestDocsControllerTest {
   void getPostCategoriesById() throws Exception {
     UUID boardPublicId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");
 
-    Mockito.when(postCategoryService.findPostCategoryById(boardPublicId))
+    Mockito.when(postCategoryService.findPostCategoryByBoardPublicId(boardPublicId))
         .thenReturn(createTestPostCategoryDto());
 
     mockMvc.perform(get("/api/boards/{board_id}/posts/categories", boardPublicId))
