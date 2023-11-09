@@ -17,7 +17,6 @@ import com.example.community.service.exception.NotResourceOwnerException;
 import com.example.community.service.exception.PostNotFoundException;
 import io.jsonwebtoken.lang.Assert;
 import java.util.UUID;
-import java.util.function.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
@@ -40,9 +39,11 @@ public class CommentService {
       return page;
     }
 
-    page.stream()
-        .filter(isOwnerOfComment(dto.getMemberPublicId()))
-        .forEach(this::assignOwnership);
+    for (CommentDetailResponseDto comment : page.getContent()) {
+      if (isOwnerOfComment(dto, comment)) {
+        assignOwnership(comment);
+      }
+    }
 
     return page;
   }
@@ -52,14 +53,14 @@ public class CommentService {
         && memberPublicId.getLeastSignificantBits() == 0;
   }
 
+  private boolean isOwnerOfComment(PageCommentRequestDto dto, CommentDetailResponseDto comment) {
+    return dto.getMemberPublicId().equals(comment.getMemberPublicId());
+  }
+
   private void assignOwnership(CommentDetailResponseDto dto) {
     Assert.isTrue(!dto.isOwner(), "소유권은 한 번만 변경 가능합니다.");
 
     dto.setIsOwner(true);
-  }
-
-  private Predicate<CommentDetailResponseDto> isOwnerOfComment(UUID requestMemberPublicId) {
-    return comment -> comment.getMemberPublicId() == requestMemberPublicId;
   }
 
   @Transactional
