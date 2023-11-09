@@ -22,6 +22,15 @@ class MemberJpaRepositoryTest extends JpaRepositoryTest {
   }
 
   @Test
+  void findMemberByPublicId() {
+    UUID publicId = UUID.fromString(TEST_DATA.getMemberPublicId());
+
+    Member member = memberJpaRepository.findMemberByPublicId(publicId);
+
+    assertThat(member).isNotNull();
+  }
+
+  @Test
   void updateNickname() {
     UUID publicId = UUID.fromString(TEST_DATA.getMemberPublicId());
     String nickname = "new";
