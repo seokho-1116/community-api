@@ -2,6 +2,7 @@ package com.example.community.controller.documentation.config.stub;
 
 import com.example.community.security.authentication.jwt.JwtFactory;
 import com.example.community.security.authentication.jwt.JwtProperties;
+import java.util.UUID;
 
 public class StubJwtFactory extends JwtFactory {
   public StubJwtFactory(String key) {

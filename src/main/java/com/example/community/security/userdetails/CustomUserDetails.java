@@ -3,17 +3,18 @@ package com.example.community.security.userdetails;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.UUID;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 public class CustomUserDetails implements UserDetails {
   private final String signupId;
   private final String signupPassword;
-  private final String publicId;
+  private final UUID publicId;
   private final List<GrantedAuthority> authorities;
 
   public CustomUserDetails(String signupId, String signupPassword,
-      String publicId, List<GrantedAuthority> authorities) {
+      UUID publicId, List<GrantedAuthority> authorities) {
     this.signupId = signupId;
     this.signupPassword = signupPassword;
     this.publicId = publicId;
@@ -35,7 +36,7 @@ public class CustomUserDetails implements UserDetails {
     return signupId;
   }
 
-  public String getPublicId() {
+  public UUID getPublicId() {
     return publicId;
   }
 
