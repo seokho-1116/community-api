@@ -1,20 +1,32 @@
 package com.example.community.repository;
 
 import com.example.community.service.entity.Token;
+import java.util.Optional;
+import java.util.UUID;
 import javax.persistence.EntityManager;
+import javax.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 @RequiredArgsConstructor
 public class TokenJpaRepository {
   private final EntityManager em;
 
-  @Transactional
-  public Token save(Token token) {
-    em.persist(token);
+  public Optional<Token> findTokenByPublicId(UUID publicId) {
+    TypedQuery<Token> query = em.createQuery("select t from Token t "
+        + "where t.publicId = :publicId", Token.class);
 
-    return token;
+    query.setParameter("publicId", publicId);
+
+    return query.getResultStream().findFirst();
+  }
+
+  public void save(Token token) {
+    em.persist(token);
+  }
+
+  public void remove(Token token) {
+    em.remove(token);
   }
 }

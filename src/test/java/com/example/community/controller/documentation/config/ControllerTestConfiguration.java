@@ -29,6 +29,6 @@ public class ControllerTestConfiguration {
 
   @Bean
   public TokenService tokenService() {
-    return new StubTokenService(null, null, null);
+    return new StubTokenService(null, null);
   }
 }

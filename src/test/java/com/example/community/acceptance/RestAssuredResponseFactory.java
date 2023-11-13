@@ -28,7 +28,6 @@ import com.example.community.controller.response.PostDeleteResponse;
 import com.example.community.controller.response.PostDetailResponse;
 import com.example.community.controller.response.PostUpdateResponse;
 import com.example.community.controller.response.SignupResponse;
-import com.example.community.controller.response.TokenRefreshResponse;
 import com.example.community.security.authentication.login.request.LoginRequest;
 import com.example.community.security.authentication.login.response.TokenResponse;
 import io.restassured.RestAssured;
@@ -304,7 +303,7 @@ public class RestAssuredResponseFactory {
     return changeResponseType(response, new TypeRef<>() {});
   }
 
-  public static TokenRefreshResponse getTokenRefreshResponse(TokenRefreshRequest request) {
+  public static TokenResponse getTokenRefreshResponse(TokenRefreshRequest request) {
     ExtractableResponse<Response> response = RestAssured.given().log().all()
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .body(request)

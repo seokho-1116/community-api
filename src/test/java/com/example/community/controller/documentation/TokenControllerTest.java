@@ -1,5 +1,6 @@
 package com.example.community.controller.documentation;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -8,7 +9,7 @@ import com.example.community.controller.TokenController;
 import com.example.community.controller.request.TokenRefreshRequest;
 import com.example.community.controller.documentation.fieldsfactory.TokenFieldsFactory;
 import com.example.community.service.TokenService;
-import com.example.community.service.dto.TokenRefreshResponseDto;
+import com.example.community.service.dto.TokenResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
@@ -33,8 +34,8 @@ class TokenControllerTest extends AbstractRestDocsControllerTest {
   void refreshToken() throws Exception {
     TokenRefreshRequest request = createTestTokenRefreshRequest();
 
-    Mockito.when(tokenService.refresh(request.getRefreshTokenPublicId()))
-        .thenReturn(createTokenRefreshResponseDto());
+    Mockito.when(tokenService.refresh(any(UUID.class)))
+        .thenReturn(createTokenResponseDto());
 
     mockMvc.perform(post("/api/auth/token")
             .contentType(MediaType.APPLICATION_JSON)
@@ -45,11 +46,11 @@ class TokenControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
-  private static TokenRefreshRequest createTestTokenRefreshRequest() {
-    return new TokenRefreshRequest(UUID.randomUUID());
+  private TokenResponseDto createTokenResponseDto() {
+    return new TokenResponseDto("", UUID.randomUUID(), "");
   }
 
-  private TokenRefreshResponseDto createTokenRefreshResponseDto() {
-    return TokenRefreshResponseDto.create("access", "3600");
+  private TokenRefreshRequest createTestTokenRefreshRequest() {
+    return new TokenRefreshRequest(UUID.randomUUID());
   }
 }

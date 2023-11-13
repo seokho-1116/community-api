@@ -13,6 +13,7 @@ public class TokenFieldsFactory {
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data").type(OBJECT).description("응답 데이터"),
         fieldWithPath("data.accessToken").type(STRING).description("액세스 토큰"),
+        fieldWithPath("data.refreshTokenPublicId").type(STRING).description("리프레시 토큰"),
         fieldWithPath("data.expiresIn").type(STRING).description("액세스 토큰 만료 시간")
     );
   }
