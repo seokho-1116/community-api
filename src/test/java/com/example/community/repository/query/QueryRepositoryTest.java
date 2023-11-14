@@ -21,6 +21,7 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
+
 @JooqTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 @ActiveProfiles("test")
@@ -43,8 +44,8 @@ abstract class QueryRepositoryTest {
   @DynamicPropertySource
   static void registerPgProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.datasource.url", postgresqlContainer::getJdbcUrl);
-    registry.add("spring.datasource.username", () -> "test-user");
-    registry.add("spring.datasource.password", () -> "test-password");
+    registry.add("spring.datasource.username", postgresqlContainer::getUsername);
+    registry.add("spring.datasource.password", postgresqlContainer::getPassword);
   }
 
   @BeforeAll

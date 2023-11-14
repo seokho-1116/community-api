@@ -17,19 +17,22 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.jdbc.datasource.init.ScriptUtils;
+import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-@DataJpaTest
+@DirtiesContext
 @ActiveProfiles("test")
+@DataJpaTest
 @AutoConfigureTestDatabase(replace = Replace.NONE)
 abstract class JpaRepositoryTest {
   static final TestData TEST_DATA = new TestData();
 
   protected static final PostgreSQLContainer<?> postgresqlContainer =
       new PostgreSQLContainer<>("postgres:latest")
+          .withReuse(true)
           .withCreateContainerCmdModifier(bingPort())
           .withDatabaseName("test-database")
           .withUsername("test-user")
@@ -44,8 +47,8 @@ abstract class JpaRepositoryTest {
   @DynamicPropertySource
   static void registerPgProperties(DynamicPropertyRegistry registry) {
     registry.add("spring.datasource.url", postgresqlContainer::getJdbcUrl);
-    registry.add("spring.datasource.username", () -> "test-user");
-    registry.add("spring.datasource.password", () -> "test-password");
+    registry.add("spring.datasource.username", postgresqlContainer::getUsername);
+    registry.add("spring.datasource.password", postgresqlContainer::getPassword);
   }
 
   @BeforeAll
