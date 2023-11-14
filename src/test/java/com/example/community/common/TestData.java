@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Objects;
+import java.util.UUID;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
@@ -106,6 +107,10 @@ public class TestData {
 
   public String getTokenMemberPublicId() {
     return Objects.requireNonNull(testToken.memberPublicId);
+  }
+
+  public UUID getNullUUID() {
+    return UUID.fromString("00000000-0000-0000-0000-000000000000");
   }
 
   public String getTokenRefreshToken() {
