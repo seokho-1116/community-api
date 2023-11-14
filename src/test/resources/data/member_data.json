@@ -1,13 +1,13 @@
 {
-    "id": "faf56f8d-b483-4442-889c-2039b6e6b3af",
-    "public_id": "db2a69e4-1c03-4ed7-a69e-9ae2ebd64759",
-    "nickname": "jbaxter",
-    "created_date": "2022-02-05T03:35:22.000000+00:00",
-    "modified_date": "2020-07-01T18:59:02.000000+00:00",
-    "signup_id": "charles56@example.net",
+    "id": "f76783b8-917f-4650-958b-2fda6d82619f",
+    "public_id": "c7ec3452-b068-442f-bda9-8f87e0b9c8d1",
+    "nickname": "kristenpreston",
+    "created_date": "2021-03-17T17:42:00.000000+00:00",
+    "modified_date": "2021-12-12T01:23:00.000000+00:00",
+    "signup_id": "ruizchristine@example.org",
     "signup_password": "1234",
-    "email": "jessicamooney@example.com",
-    "expiration_date": "2021-06-22T02:41:16.000000+00:00",
-    "account_locked": false,
+    "email": "vicki44@example.com",
+    "expiration_date": "2020-08-03T10:19:36.000000+00:00",
+    "account_locked": true,
     "role": "USER"
 }
