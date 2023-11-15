@@ -7,6 +7,7 @@ import com.example.community.service.dto.PostCategoryDto;
 import java.util.List;
 import java.util.UUID;
 import org.jooq.DSLContext;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -18,8 +19,9 @@ class PostCategoryQueryRepositoryTest extends QueryRepositoryTest {
     this.postCategoryQueryRepository = new PostCategoryQueryRepository(dslContext);
   }
 
+  @DisplayName("게시판_공개_키로_게시판_카테고리_조회_쿼리_테스트")
   @Test
-  void selectPostCategories() {
+  void findPostCategoryByBoardPublicId() {
     UUID boardPublicId = UUID.fromString(TEST_DATA.getBoardPublicId());
 
     List<PostCategoryDto> categoryList = postCategoryQueryRepository.findPostCategoryByBoardPublicId(

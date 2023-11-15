@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,6 +49,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
+  @DisplayName("게시글_페이징_조회_문서_테스트")
   @Test
   void getPosts() throws Exception {
     PagePostRequest request = createTestPageRequest();
@@ -64,6 +66,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  @DisplayName("게시판_공개_키로_게시글_페이징_조회_문서_테스트")
   @Test
   void getPostsByBoardId() throws Exception {
     PagePostRequest request = createTestPageRequest();
@@ -82,6 +85,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  @DisplayName("게시판_공개_키와_게시글_공개_키로_게시글_상세_정보_조회_문서_테스트")
   @Test
   void getBoardPostByPostId() throws Exception {
     String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
@@ -102,6 +106,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  @DisplayName("게시글_생성_문서_테스트")
   @Test
   void createPost() throws Exception {
     String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
@@ -125,6 +130,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
         UUID.fromString("2efa778a-8734-4b96-bf14-c75c4756888d"));
   }
 
+  @DisplayName("게시글_업데이트_문서_테스트")
   @Test
   void updatePost() throws Exception {
     String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";
@@ -151,6 +157,7 @@ class PostControllerTest extends AbstractRestDocsControllerTest {
     return new PostUpdateRequest("title", "content");
   }
 
+  @DisplayName("게시글_삭제_문서_테스트")
   @Test
   void deletePost() throws Exception {
     String boardPublicId = "cea61637-e18d-4919-bea2-ef0f9ad28010";

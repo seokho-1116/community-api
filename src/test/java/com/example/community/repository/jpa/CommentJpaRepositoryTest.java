@@ -7,6 +7,7 @@ import com.example.community.repository.CommentJpaRepository;
 import com.example.community.service.entity.Comment;
 import java.util.UUID;
 import javax.persistence.EntityManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -19,6 +20,7 @@ class CommentJpaRepositoryTest extends JpaRepositoryTest {
     this.commentJpaRepository = new CommentJpaRepository(entityManager);
   }
 
+  @DisplayName("게시판_공개_키와_게시글_공개_키와_댓글_공개_키로_댓글_엔티티_조회_쿼리_테스트")
   @Test
   void findByBoardPublicIdAndPostPublicIdAndPublicId() {
     UUID boardPublicId = UUID.fromString(TEST_DATA.getCommentBoardPublicId(TestDataType.COMMON));
@@ -31,6 +33,7 @@ class CommentJpaRepositoryTest extends JpaRepositoryTest {
     assertThat(comment).isNotNull();
   }
 
+  @DisplayName("댓글_업데이트_테스트")
   @Test
   void updateComment() {
     UUID boardPublicId = UUID.fromString(TEST_DATA.getCommentBoardPublicId(TestDataType.FOR_UPDATE));

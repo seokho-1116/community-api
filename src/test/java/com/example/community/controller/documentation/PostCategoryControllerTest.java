@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,6 +25,7 @@ class PostCategoryControllerTest extends AbstractRestDocsControllerTest {
   @MockBean
   private PostCategoryService postCategoryService;
 
+  @DisplayName("게시판_공개_키로_게시판_카테고리_조회_문서_테스트")
   @Test
   void getPostCategoriesById() throws Exception {
     UUID boardPublicId = UUID.fromString("cea61637-e18d-4919-bea2-ef0f9ad28010");

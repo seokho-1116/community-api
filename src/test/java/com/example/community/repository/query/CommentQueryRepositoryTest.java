@@ -9,6 +9,7 @@ import com.example.community.service.dto.PageCommentRequestDto;
 import java.time.OffsetDateTime;
 import java.util.UUID;
 import org.jooq.DSLContext;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,6 +24,7 @@ class CommentQueryRepositoryTest extends QueryRepositoryTest {
     this.commentQueryRepository = new CommentQueryRepository(dslContext);
   }
 
+  @DisplayName("게시글에_댓글_페이징_조회_쿼리_테스트")
   @Test
   void findComments() {
     PageCommentRequestDto dto = createTestPageCommentRequestDto();

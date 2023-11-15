@@ -10,6 +10,7 @@ import java.util.UUID;
 import java.util.function.Consumer;
 import javax.persistence.EntityManager;
 import org.assertj.core.api.SoftAssertions;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,7 @@ class PostJpaRepositoryTest extends JpaRepositoryTest {
     this.postJpaRepository = new PostJpaRepository(entityManager);
   }
 
+  @DisplayName("게시판_공개_키와_게시글_공개_키로_게시글_엔티티_조회_쿼리_테스트")
   @Test
   void findPostByBoardPublicIdAndPublicId() {
     UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId(TestDataType.COMMON));
@@ -32,6 +34,7 @@ class PostJpaRepositoryTest extends JpaRepositoryTest {
     assertThat(post).isNotNull();
   }
 
+  @DisplayName("게시글_정보_업데이트_쿼리_테스트")
   @Test
   void updatePost() {
     UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId(TestDataType.COMMON));

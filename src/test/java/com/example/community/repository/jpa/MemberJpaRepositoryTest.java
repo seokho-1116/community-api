@@ -6,6 +6,7 @@ import com.example.community.repository.MemberJpaRepository;
 import com.example.community.service.entity.Member;
 import java.util.UUID;
 import javax.persistence.EntityManager;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
@@ -21,6 +22,7 @@ class MemberJpaRepositoryTest extends JpaRepositoryTest {
     this.memberJpaRepository = new MemberJpaRepository(entityManager);
   }
 
+  @DisplayName("공개_키로_멤버_엔티티_조회_쿼리_테스트")
   @Test
   void findMemberByPublicId() {
     UUID publicId = UUID.fromString(TEST_DATA.getMemberPublicId());
@@ -30,6 +32,7 @@ class MemberJpaRepositoryTest extends JpaRepositoryTest {
     assertThat(member).isNotNull();
   }
 
+  @DisplayName("멤버_닉네임_업데이트_쿼리_테스트")
   @Test
   void updateNickname() {
     UUID publicId = UUID.fromString(TEST_DATA.getMemberPublicId());
@@ -45,6 +48,7 @@ class MemberJpaRepositoryTest extends JpaRepositoryTest {
     assertThat(nickname).isEqualTo(member.getNickname());
   }
 
+  @DisplayName("멤버_이메일_업데이트_쿼리_테스트")
   @Test
   void updateEmail() {
     UUID publicId = UUID.fromString(TEST_DATA.getMemberPublicId());
@@ -60,6 +64,7 @@ class MemberJpaRepositoryTest extends JpaRepositoryTest {
     assertThat(email).isEqualTo(member.getEmail());
   }
 
+  @DisplayName("멤버_비밀번호_업데이트_쿼리_테스트")
   @Test
   void updatePassword() {
     UUID publicId = UUID.fromString(TEST_DATA.getMemberPublicId());

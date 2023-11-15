@@ -24,6 +24,7 @@ import com.example.community.service.dto.MemberDetailDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.time.OffsetDateTime;
 import java.util.UUID;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -41,6 +42,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
+  @DisplayName("회원가입_문서_테스트")
   @Test
   void signup() throws Exception {
     SignupRequest request = createTestSingupRequest();
@@ -62,6 +64,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
         "id@email.com");
   }
 
+  @DisplayName("회원_정보_조회_문서_테스트")
   @Test
   void getMember() throws Exception {
     String jwt = "Bearer token";
@@ -82,6 +85,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
         "nickname", "email", OffsetDateTime.now());
   }
 
+  @DisplayName("멤버_이메일_업데이트_문서_테스트")
   @Test
   void updateEmail() throws Exception {
     String jwt = "Bearer token";
@@ -104,6 +108,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
     return new EmailUpdateRequest("new@email.com");
   }
 
+  @DisplayName("멤버_닉네임_업데이트_문서_테스트")
   @Test
   void updateNickname() throws Exception {
     String jwt = "Bearer token";
@@ -126,6 +131,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
     return new NicknameUpdateRequest("new");
   }
 
+  @DisplayName("멤버_패스워드_업데이트_문서_테스트")
   @Test
   void updatePassword() throws Exception {
     String jwt = "Bearer token";
@@ -146,6 +152,7 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
     return new PasswordUpdateRequest("new");
   }
 
+  @DisplayName("멤버_로그인_문서_테스트")
   @Test
   void loginTest() throws Exception {
     LoginRequest request = createTestLoginRequest("id", "password");

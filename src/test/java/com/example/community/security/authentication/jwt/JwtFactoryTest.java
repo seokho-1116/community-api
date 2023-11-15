@@ -4,6 +4,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatThrownBy;
 
 import java.util.UUID;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 class JwtFactoryTest {
@@ -20,6 +21,7 @@ class JwtFactoryTest {
         tokenValidityInMilliseconds);
   }
 
+  @DisplayName("액세스_토큰_생성_테스트")
   @Test
   void createAccessTokenTest() {
     String memberId = "id";
@@ -30,6 +32,7 @@ class JwtFactoryTest {
     assertThat(accessToken).isNotBlank();
   }
 
+  @DisplayName("리프레시_토큰_생성_테스트")
   @Test
   void createRefreshTokenTest() {
     String memberId = "id";
@@ -40,6 +43,7 @@ class JwtFactoryTest {
     assertThat(refreshToken).isNotBlank();
   }
 
+  @DisplayName("액세스_토큰으로_페이로드_추출_테스트")
   @Test
   void getPayloadTestByAccessToken() {
     String memberId = "id";
@@ -51,6 +55,7 @@ class JwtFactoryTest {
     assertThat(payload).isEqualTo(memberId);
   }
 
+  @DisplayName("리프레시_토큰으로_페이로드_추출_테스트")
   @Test
   void getPayloadTestByRefreshToken() {
     String memberId = "id";
@@ -62,6 +67,7 @@ class JwtFactoryTest {
     assertThat(payload).isEqualTo(memberId);
   }
 
+  @DisplayName("유효하지_않은_토큰으로_페이로드_추출_테스트")
   @Test
   void getPayloadTestByUnValidClaimName() {
     String memberId = "id";
@@ -73,6 +79,7 @@ class JwtFactoryTest {
     assertThat(payload).isBlank();
   }
 
+  @DisplayName("유효한_토큰으로_유효성_검증_테스트")
   @Test
   void isValidTestByValidToken() {
     String memberId = "id";
@@ -84,6 +91,7 @@ class JwtFactoryTest {
     assertThat(isValid).isTrue();
   }
 
+  @DisplayName("유효하지_않은_토큰으로_유효성_검증_테스트")
   @Test
   void isValidTestByUnValidToken() {
     String accessToken = "trash";
@@ -93,6 +101,7 @@ class JwtFactoryTest {
     assertThat(isValid).isFalse();
   }
 
+  @DisplayName("만료된_토큰으로_유효성_검증_테스트")
   @Test
   void isValidTestByExpiredToken() {
     String memberId = "id";

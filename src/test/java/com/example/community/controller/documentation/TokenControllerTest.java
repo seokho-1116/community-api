@@ -12,6 +12,7 @@ import com.example.community.service.TokenService;
 import com.example.community.service.dto.TokenResponseDto;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import java.util.UUID;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,6 +31,7 @@ class TokenControllerTest extends AbstractRestDocsControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
+  @DisplayName("리프레시_토큰_문서_테스트")
   @Test
   void refreshToken() throws Exception {
     TokenRefreshRequest request = createTestTokenRefreshRequest();

@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -42,6 +43,7 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
   @Autowired
   private ObjectMapper objectMapper;
 
+  @DisplayName("댓글_페이징_조회_문서_테스트")
   @Test
   void getComments() throws Exception {
     String boardPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
@@ -62,6 +64,7 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  @DisplayName("댓글_생성_문서_테스트")
   @Test
   void createComment() throws Exception {
     String boardPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
@@ -85,6 +88,7 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
     return new CommentCreateRequest("content");
   }
 
+  @DisplayName("댓글_업데이트_문서_테스트")
   @Test
   void updateComment() throws Exception {
     String boardPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";
@@ -105,6 +109,7 @@ class CommentControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  @DisplayName("댓글_삭제_문서_테스트")
   @Test
   void deleteComment() throws Exception {
     String boardPublicId = "71239da8-8d81-41cf-9328-5e754d8e6c80";

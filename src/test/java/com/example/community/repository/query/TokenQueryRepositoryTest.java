@@ -10,6 +10,7 @@ import com.example.community.service.entity.Token;
 import java.util.Optional;
 import java.util.UUID;
 import org.jooq.DSLContext;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 
@@ -22,6 +23,7 @@ class TokenQueryRepositoryTest extends QueryRepositoryTest {
     this.dslContext = dslContext;
   }
 
+  @DisplayName("공개_키로_토큰_조회_쿼리_테스트")
   @Test
   void findTokenByPublicId() {
     Token token = Token.create("refresh", UUID.randomUUID(), Role.USER);

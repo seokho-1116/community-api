@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -27,6 +28,7 @@ class BoardControllerTest extends AbstractRestDocsControllerTest {
   @MockBean
   private BoardService boardService;
 
+  @DisplayName("모든_게시판_조회_문서_테스트")
   @Test
   void getAllBoards() throws Exception {
     Mockito.when(boardService.findAllBoards()).thenReturn(createTestBoards());
@@ -38,6 +40,7 @@ class BoardControllerTest extends AbstractRestDocsControllerTest {
         ));
   }
 
+  @DisplayName("특정_게시판_조회_문서_테스트")
   @Test
   void getBoardById() throws Exception {
     UUID boardPublicId = UUID.randomUUID();

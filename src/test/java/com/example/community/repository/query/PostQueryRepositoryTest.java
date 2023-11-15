@@ -10,6 +10,7 @@ import java.time.OffsetDateTime;
 import java.util.Optional;
 import java.util.UUID;
 import org.jooq.DSLContext;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -21,8 +22,9 @@ class PostQueryRepositoryTest extends QueryRepositoryTest {
     this.postQueryRepository = new PostQueryRepository(dslContext);
   }
 
+  @DisplayName("게시글_페이징_조회_쿼리_테스트")
   @Test
-  void selectPagePostSummary() {
+  void findPosts() {
     OffsetDateTime previousDate = OffsetDateTime.now();
     int size = 10;
 
@@ -31,8 +33,9 @@ class PostQueryRepositoryTest extends QueryRepositoryTest {
     assertThat(page).hasSize(size);
   }
 
+  @DisplayName("게시판_공개_키로_게시글_페이징_조회_쿼리_테스트")
   @Test
-  void selectPagePostSummaryByBoardId() {
+  void findPostsByBoardPublicId() {
     OffsetDateTime previousDate = OffsetDateTime.now();
     int size = 10;
     UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId(TestDataType.COMMON));
@@ -43,8 +46,9 @@ class PostQueryRepositoryTest extends QueryRepositoryTest {
     assertThat(page).hasSize(size);
   }
 
+  @DisplayName("게시판_공개_키와_게시글_공개_키로_게시글_상세_조회_쿼리_테스트")
   @Test
-  void selectBoardPostDetailByPostId() {
+  void findPostByBoardPublicIdAndPublicId() {
     UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId(TestDataType.COMMON));
     UUID postPublicId = UUID.fromString(TEST_DATA.getPostPublicId(TestDataType.COMMON));
 
