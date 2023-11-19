@@ -10,12 +10,24 @@ import com.example.community.service.TokenService;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
+import org.springframework.restdocs.mockmvc.MockMvcRestDocumentation;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.restdocs.operation.preprocess.Preprocessors;
 
 @TestConfiguration
 @Import(SecurityConfig.class)
 public class ControllerTestConfiguration {
   public static final String dummySecretKey =
       "asdfasarspofjkosdfasdjkflikasndflkasndsdfjkadsnfkjasdn";
+
+  @Bean
+  public RestDocumentationResultHandler write(){
+    return MockMvcRestDocumentation.document(
+        "{class-name}/{method-name}",
+        Preprocessors.preprocessRequest(Preprocessors.prettyPrint()),
+        Preprocessors.preprocessResponse(Preprocessors.prettyPrint())
+    );
+  }
 
   @Bean
   public MemberQueryRepository memberQueryRepository() {

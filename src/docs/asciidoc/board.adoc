@@ -1,0 +1,10 @@
+[[Board-API]]
+== 게시판 API
+
+[[전체-게시판-조회]]
+=== 전체 게시판 조회
+operation::board-controller-test/get-all-boards[snippets='http-request,http-response,response-fields']
+
+[[게시판-단건-조회]]
+=== 게시판 단건 조회
+operation::board-controller-test/get-board-by-id[snippets='http-request,path-parameters,http-response,response-fields']

@@ -5,8 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="presented by seokho">
-<title>Community RestAPI Document</title>
+<title>커뮤니티 API</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,50 +435,101 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 #footer-text{color:rgba(0,0,0,.6);font-size:.9em}}
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
-<body class="book">
+<body class="article">
 <div id="header">
-<h1>Community RestAPI Document</h1>
-<div class="details">
-<span id="author" class="author">presented by seokho</span><br>
-<span id="revnumber">version 0.0.1-SNAPSHOT</span>
-</div>
-<div id="toc" class="toc">
-<div id="toctitle">Table of Contents</div>
-<ul class="sectlevel1">
-<li><a href="#API-List">API List</a></li>
-</ul>
-</div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="API-List"><a class="link" href="#API-List">API List</a></h2>
+<h2 id="Community-API">커뮤니티 API</h2>
 <div class="sectionbody">
-<div class="ulist">
-<ul>
-<li>
-<p><a href="community.html">Community API</a></p>
-</li>
-<li>
-<p><a href="board.adoc">Board API</a></p>
-</li>
-<li>
-<p><a href="post.adoc">Post API</a></p>
-</li>
-<li>
-<p><a href="comment.adoc">Comment API</a></p>
-</li>
-<li>
-<p><a href="member.adoc">Member API</a></p>
-</li>
-<li>
-<p><a href="post_category.html">Post Category API</a></p>
-</li>
-<li>
-<p><a href="token.html">Token ApI</a></p>
-</li>
-</ul>
+<div class="sect2">
+<h3 id="커뮤니티-조회">커뮤니티 단일 조회</h3>
+<div class="sect3">
+<h4 id="커뮤니티-조회_http_request">HTTP request</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/community HTTP/1.1
+Host: localhost:8080</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="커뮤니티-조회_http_response">HTTP response</h4>
+<div class="listingblock">
+<div class="content">
+<pre class="highlight nowrap"><code class="language-http" data-lang="http">HTTP/1.1 200 OK
+Content-Type: application/json;charset=UTF-8
+Content-Length: 218
+
+{
+  "message" : "success",
+  "data" : {
+    "introduction" : "intro",
+    "companyInfo" : "company",
+    "contactInfo" : "contact",
+    "privacyPolicy" : "policy",
+    "terms" : "terms",
+    "adsInfo" : "adsinfo"
+  }
+}</code></pre>
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="커뮤니티-조회_response_fields">Response fields</h4>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Path</th>
+<th class="tableblock halign-left valign-top">Type</th>
+<th class="tableblock halign-left valign-top">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>message</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">응답 메시지 (정상: success)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.introduction</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티 소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.companyInfo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">커뮤니티 회사 소개</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.contactInfo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">연락처</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.privacyPolicy</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">개인정보처리방침</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.terms</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">이용약관</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>data.adsInfo</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock"><code>String</code></p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">광고 문의 정보</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </div>
 </div>
 </div>
@@ -487,7 +537,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-11-18 21:26:58 +0900
+Last updated 2023-11-18 21:10:52 +0900
 </div>
 </div>
 </body>

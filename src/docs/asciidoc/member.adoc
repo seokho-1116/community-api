@@ -1,0 +1,26 @@
+[[Member_API]]
+== 회원 API
+
+[[단일-회원-정보-가져오기]]
+=== 단일 회원 정보 가져오기
+operation::member-controller-test/get-member[snippets='http-request,http-response,response-fields']
+
+[[회원가입]]
+=== 회원가입
+operation::member-controller-test/signup[snippets='http-request,request-body,http-response,response-fields']
+
+[[회원-로그인]]
+=== 회원 로그인
+operation::member-controller-test/login-test[snippets='http-request,request-body,http-response,response-fields']
+
+[[회원-이메일-업데이트]]
+=== 회원 이메일 업데이트
+operation::member-controller-test/update-email[snippets='http-request,request-body,http-response,response-fields']
+
+[[회원-닉네임-업데이트]]
+=== 회원 닉네임 업데이트
+operation::member-controller-test/update-nickname[snippets='http-request,request-body,http-response,response-fields']
+
+[[회원-비밀번호-업데이트]]
+=== 회원 비밀번호 업데이트
+operation::member-controller-test/update-password[snippets='http-request,request-body,http-response,response-fields']

@@ -1,53 +1,25 @@
-= REST Docs 문서 만들기 (글의 제목)
-backtony.github.io(부제)
+= Community RestAPI Document
+presented by seokho
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs // 문서에 표기되는 코드들의 하이라이팅을 highlightjs를 사용
 :toc: left // toc (Table Of Contents)를 문서의 좌측에 두기
-:toclevels: 2
+:toclevels: 3
 :sectlinks:
 
-[[Community-API]]
-== 커뮤니티 API
 
-[[커뮤니티-조회]]
-=== 커뮤니티 단일 조회
-operation::community-controller-test/get-community-test[snippets='http-request,http-response,response-fields']
+[[API-List]]
+== API List
+* link:community.html[Community API]
 
-[[Board-API]]
-== 게시판 API
+* link:board.html[Board API]
 
-[[전체-게시판-조회]]
-=== 전체 게시판 조회
-operation::board-controller-test/get-all-boards[snippets='http-request,http-response,response-fields']
+* link:post.html[Post API]
 
-[[게시판-단건-조회]]
-=== 게시판 단건 조회
-operation::board-controller-test/get-board-by-id[snippets='http-request,path-parameters,http-response,response-fields']
+* link:comment.html[Comment API]
 
-[[Post-API]]
-== 게시글 API
+* link:member.html[Member API]
 
-[[전체-게시글-일부-조회]]
-=== 모든 게시판에서 전체 게시글 일부 조회
-operation::post-controller-test/get-posts[]
+* link:post_category.html[Post Category API]
 
-[[게시판-하위-전체-게시글-일부-조회]]
-=== 게시판 하위에 전체 게시글 일부 조회
-operation::post-controller-test/get-posts-by-board-id[]
-
-[[게시판-하위-게시글-조회]]
-=== 게시판 하위에 게시글 조회
-operation::post-controller-test/get-board-post-by-post-id[]
-
-[[게시판-하위-게시글-생성]]
-=== 게시판 하위에 게시글 생성
-operation::post-controller-test/create-post[]
-
-[[게시판-하위-게시글-업데이트]]
-=== 게시판 하위에 게시글 업데이트
-operation::post-controller-test/update-post[]
-
-[[게시판-하위-게시글-삭제]]
-=== 게시판 하위에 게시글 삭제
-operation::post-controller-test/delete-post[]
+* link:token.html[Token ApI]

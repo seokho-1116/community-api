@@ -155,7 +155,8 @@ class MemberControllerTest extends AbstractRestDocsControllerTest {
   @DisplayName("멤버_로그인_문서_테스트")
   @Test
   void loginTest() throws Exception {
-    LoginRequest request = createTestLoginRequest("id", "password");
+    LoginRequest request = createTestLoginRequest(testData.getMemberSignupId(),
+        testData.getMemberSignupPassword());
 
     mockMvc.perform(post("/api/me/login")
           .contentType(MediaType.APPLICATION_JSON)

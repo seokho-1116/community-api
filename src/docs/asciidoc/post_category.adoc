@@ -1,0 +1,6 @@
+[[Post_Category_API]]
+== 게시판 카테고리 API
+
+[[게시판-하위의-카테고리-조회]]
+=== 게시판 하위의 카테고리 조회
+operation::post-category-controller-test/get-post-categories-by-id[snippets='http-request,path-parameters,http-response,response-fields']

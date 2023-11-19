@@ -1,0 +1,18 @@
+[[Commanet_API]]
+== 댓글 API
+
+[[게시글-하위의-댓글-일부-조회]]
+=== 게시글 하위의 댓글 일부 조회
+operation::comment-controller-test/get-comments[snippets='http-request,request-body,http-response,response-fields']
+
+[[게시글-하위의-댓글-생성]]
+=== 게시글 하위의 댓글 생성
+operation::comment-controller-test/create-comment[snippets='http-request,request-body,http-response,response-fields']
+
+[[게시글-하위의-댓글-업데이트]]
+=== 게시글 하위의 댓글 업데이트
+operation::comment-controller-test/update-comment[snippets='http-request,request-body,http-response,response-fields']
+
+[[게시글-하위의-댓글-삭제]]
+=== 게시글 하위의 댓글 삭제
+operation::comment-controller-test/delete-comment[snippets='http-request,request-body,http-response,response-fields']

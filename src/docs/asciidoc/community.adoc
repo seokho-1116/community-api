@@ -1,0 +1,6 @@
+[[Community-API]]
+== 커뮤니티 API
+
+[[커뮤니티-조회]]
+=== 커뮤니티 단일 조회
+operation::community-controller-test/get-community-test[snippets='http-request,http-response,response-fields']

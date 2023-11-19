@@ -1,0 +1,6 @@
+[[Token_API]]
+== 토큰 API
+
+[[액세스_토큰_리프레시]]
+=== 액세스 토큰 리프레시
+operation::token-controller-test/refresh-token[snippets='http-request,request-body,http-response,response-fields']

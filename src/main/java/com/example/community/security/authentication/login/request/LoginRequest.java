@@ -10,8 +10,8 @@ public class LoginRequest {
   private final String signupPassword;
 
   @JsonCreator
-  public LoginRequest(@JsonProperty("id") String signupId,
-      @JsonProperty("password") String signupPassword) {
+  public LoginRequest(@JsonProperty("signupId") String signupId,
+      @JsonProperty("signupPassword") String signupPassword) {
     this.signupId = (signupId != null) ? signupId.trim() : "";
     this.signupPassword = (signupPassword != null) ? signupPassword.trim() : "";
   }
