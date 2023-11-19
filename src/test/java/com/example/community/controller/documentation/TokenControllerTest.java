@@ -24,7 +24,7 @@ import org.springframework.test.context.TestConstructor.AutowireMode;
 
 @WebMvcTest(controllers = TokenController.class)
 @TestConstructor(autowireMode = AutowireMode.ANNOTATED)
-class TokenControllerTest extends AbstractRestDocsControllerTest {
+class TokenControllerTest extends RestDocsTestSetup {
   @MockBean
   private TokenService tokenService;
 

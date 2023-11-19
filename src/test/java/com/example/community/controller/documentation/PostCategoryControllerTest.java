@@ -21,7 +21,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @WebMvcTest(controllers = PostCategoryController.class)
-class PostCategoryControllerTest extends AbstractRestDocsControllerTest {
+class PostCategoryControllerTest extends RestDocsTestSetup {
   @MockBean
   private PostCategoryService postCategoryService;
 

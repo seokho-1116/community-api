@@ -35,7 +35,7 @@ import org.springframework.test.context.TestConstructor.AutowireMode;
 
 @WebMvcTest(controllers = MemberController.class)
 @TestConstructor(autowireMode = AutowireMode.ANNOTATED)
-class MemberControllerTest extends AbstractRestDocsControllerTest {
+class MemberControllerTest extends RestDocsTestSetup {
   @MockBean
   private MemberService memberService;
 

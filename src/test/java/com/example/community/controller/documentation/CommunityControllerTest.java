@@ -15,7 +15,7 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
 @WebMvcTest(controllers = CommunityController.class)
-class CommunityControllerTest extends AbstractRestDocsControllerTest{
+class CommunityControllerTest extends RestDocsTestSetup {
   @MockBean
   private CommunityService communityService;
 

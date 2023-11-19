@@ -36,7 +36,7 @@ import org.springframework.test.context.TestConstructor.AutowireMode;
 
 @WebMvcTest(controllers = CommentController.class)
 @TestConstructor(autowireMode = AutowireMode.ANNOTATED)
-class CommentControllerTest extends AbstractRestDocsControllerTest {
+class CommentControllerTest extends RestDocsTestSetup {
   @MockBean
   private CommentService commentService;
 

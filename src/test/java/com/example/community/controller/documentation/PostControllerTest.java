@@ -40,7 +40,7 @@ import org.springframework.test.context.TestConstructor.AutowireMode;
 
 @WebMvcTest(controllers = PostController.class)
 @TestConstructor(autowireMode = AutowireMode.ANNOTATED)
-class PostControllerTest extends AbstractRestDocsControllerTest {
+class PostControllerTest extends RestDocsTestSetup {
   private static final long TOTAL_POST = 50L;
 
   @MockBean

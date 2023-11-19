@@ -24,7 +24,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 
 @WebMvcTest(controllers = BoardController.class)
-class BoardControllerTest extends AbstractRestDocsControllerTest {
+class BoardControllerTest extends RestDocsTestSetup {
   @MockBean
   private BoardService boardService;
 
