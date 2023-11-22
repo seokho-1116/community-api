@@ -9,6 +9,7 @@ import static org.mockito.Mockito.when;
 import com.example.community.repository.MemberJpaRepository;
 import com.example.community.service.entity.Member;
 import com.example.community.service.exception.NotResourceOwnerException;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -41,10 +42,10 @@ class MemberServiceTest extends ServiceTest {
     assertThat(updatedNickname).isEqualTo(newNickname);
   }
 
-  private Member createMember() {
-    return Member.builder()
+  private Optional<Member> createMember() {
+    return Optional.ofNullable(Member.builder()
         .publicId(MEMBER_PUBLIC_ID)
-        .build();
+        .build());
   }
 
   @DisplayName("회원_권한이_없는_유저로_닉네임_업데이트_테스트")

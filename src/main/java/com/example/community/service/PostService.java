@@ -77,15 +77,18 @@ public class PostService {
         dto.getPostCategoryPublicId())
         .orElseThrow(PostCategoryNotFoundException::new);
 
-    Post savedPost = postJpaRepository.save(dto.toEntity(boardId, memberId, postCategoryId));
+    Post post = dto.toEntity(boardId, memberId, postCategoryId);
 
-    return savedPost.getPublicId();
+    postJpaRepository.save(post);
+
+    return post.getPublicId();
   }
 
   @Transactional
   public UUID updatePost(final PostUpdateDto dto) {
     Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(dto.getBoardPublicId(),
-        dto.getPostPublicId());
+            dto.getPostPublicId())
+        .orElseThrow(PostNotFoundException::new);
 
     if (post.isNotOwner(dto.getMemberPublicId())) {
       throw NotResourceOwnerException.ofPost();
@@ -100,7 +103,8 @@ public class PostService {
   @Transactional
   public UUID deletePost(final UUID boardPublicId, final UUID postPublicId,
       final UUID memberPublicId) {
-    Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postPublicId);
+    Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postPublicId)
+        .orElseThrow(PostCategoryNotFoundException::new);
 
     if (post.isNotOwner(memberPublicId)) {
       throw NotResourceOwnerException.ofPost();

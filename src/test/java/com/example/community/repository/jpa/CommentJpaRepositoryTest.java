@@ -27,8 +27,9 @@ class CommentJpaRepositoryTest extends JpaRepositoryTest {
     UUID postPublicId = UUID.fromString(TEST_DATA.getCommentPostPublicId(TestDataType.COMMON));
     UUID commentPublicId = UUID.fromString(TEST_DATA.getCommentPublicId(TestDataType.COMMON));
 
-    Comment comment = commentJpaRepository.findByBoardPublicIdAndPostPublicIdAndPublicId(
-        boardPublicId, postPublicId, commentPublicId);
+    Comment comment = commentJpaRepository.findCommentByBoardPublicIdAndPostPublicIdAndPublicId(
+        boardPublicId, postPublicId, commentPublicId)
+        .orElseThrow();
 
     assertThat(comment).isNotNull();
   }
@@ -39,16 +40,18 @@ class CommentJpaRepositoryTest extends JpaRepositoryTest {
     UUID boardPublicId = UUID.fromString(TEST_DATA.getCommentBoardPublicId(TestDataType.FOR_UPDATE));
     UUID postPublicId = UUID.fromString(TEST_DATA.getCommentPostPublicId(TestDataType.FOR_UPDATE));
     UUID commentPublicId = UUID.fromString(TEST_DATA.getCommentPublicId(TestDataType.FOR_UPDATE));
-    Comment comment = commentJpaRepository.findByBoardPublicIdAndPostPublicIdAndPublicId(
-        boardPublicId, postPublicId, commentPublicId);
+    Comment comment = commentJpaRepository.findCommentByBoardPublicIdAndPostPublicIdAndPublicId(
+        boardPublicId, postPublicId, commentPublicId)
+        .orElseThrow();
     String newContent = "new content";
 
     comment.changeContent(newContent);
     entityManager.flush();
     entityManager.clear();
 
-    Comment updatedComment = commentJpaRepository.findByBoardPublicIdAndPostPublicIdAndPublicId(
-        boardPublicId, postPublicId, commentPublicId);
+    Comment updatedComment = commentJpaRepository.findCommentByBoardPublicIdAndPostPublicIdAndPublicId(
+        boardPublicId, postPublicId, commentPublicId)
+        .orElseThrow();
     assertThat(updatedComment.getContent()).isEqualTo(newContent);
   }
 }

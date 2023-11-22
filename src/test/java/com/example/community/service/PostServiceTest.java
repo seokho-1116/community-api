@@ -87,10 +87,10 @@ class PostServiceTest extends ServiceTest {
         memberPublicId);
   }
 
-  private Post createPost() {
-    return Post.builder()
+  private Optional<Post> createPost() {
+    return Optional.ofNullable(Post.builder()
         .memberPublicId(UUID.fromString(TEST_DATA.getMemberPublicId()))
-        .build();
+        .build());
   }
 
   @DisplayName("게시글_권한이_없는_유저로_게시글_업데이트_테스트")

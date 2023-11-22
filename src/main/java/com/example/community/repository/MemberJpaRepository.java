@@ -1,6 +1,7 @@
 package com.example.community.repository;
 
 import com.example.community.service.entity.Member;
+import java.util.Optional;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
@@ -16,12 +17,12 @@ public class MemberJpaRepository {
     em.persist(entity);
   }
 
-  public Member findMemberByPublicId(UUID memberPublicId) {
+  public Optional<Member> findMemberByPublicId(UUID memberPublicId) {
     TypedQuery<Member> query = em.createQuery(
         "select m from Member m where m.publicId=:memberPublicId", Member.class);
 
     query.setParameter("memberPublicId", memberPublicId);
 
-    return query.getSingleResult();
+    return query.getResultStream().findFirst();
   }
 }

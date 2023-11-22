@@ -35,7 +35,8 @@ public class MemberService {
 
   @Transactional
   public String updateNickname(UUID memberPublicId, String nickname) {
-    Member member = memberJpaRepository.findMemberByPublicId(memberPublicId);
+    Member member = memberJpaRepository.findMemberByPublicId(memberPublicId)
+        .orElseThrow(MemberNotFoundException::new);
 
     if (member.isNotOwner(memberPublicId)) {
       throw NotResourceOwnerException.ofMember();
@@ -48,7 +49,8 @@ public class MemberService {
 
   @Transactional
   public String updateEmail(UUID memberPublicId, String email) {
-    Member member = memberJpaRepository.findMemberByPublicId(memberPublicId);
+    Member member = memberJpaRepository.findMemberByPublicId(memberPublicId)
+        .orElseThrow(MemberNotFoundException::new);
 
     if (member.isNotOwner(memberPublicId)) {
       throw NotResourceOwnerException.ofMember();
@@ -61,7 +63,8 @@ public class MemberService {
 
   @Transactional
   public void updatePassword(UUID memberPublicId, String password) {
-    Member member = memberJpaRepository.findMemberByPublicId(memberPublicId);
+    Member member = memberJpaRepository.findMemberByPublicId(memberPublicId)
+        .orElseThrow(MemberNotFoundException::new);
 
     if (member.isNotOwner(memberPublicId)) {
       throw NotResourceOwnerException.ofMember();

@@ -16,6 +16,7 @@ import com.example.community.service.entity.Comment;
 import com.example.community.service.exception.NotResourceOwnerException;
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
@@ -102,7 +103,7 @@ class CommentServiceTest extends ServiceTest {
     CommentUpdateRequestDto request = CommentUpdateRequestDto.create(BOARD_PUBLIC_ID,
         POST_PUBLIC_ID, COMMENT_PUBLIC_ID, MEMBER_PUBLIC_ID, "content");
 
-    when(commentJpaRepository.findByBoardPublicIdAndPostPublicIdAndPublicId(any(UUID.class),
+    when(commentJpaRepository.findCommentByBoardPublicIdAndPostPublicIdAndPublicId(any(UUID.class),
         any(UUID.class), any(UUID.class))).thenReturn(createComment());
 
     UUID publicId = commentService.updateComment(request);
@@ -110,10 +111,10 @@ class CommentServiceTest extends ServiceTest {
     assertThat(publicId).isEqualTo(COMMENT_PUBLIC_ID);
   }
 
-  private Comment createComment() {
-    return Comment.builder()
+  private Optional<Comment> createComment() {
+    return Optional.ofNullable(Comment.builder()
         .memberPublicId(MEMBER_PUBLIC_ID)
-        .build();
+        .build());
   }
 
   @DisplayName("댓글_권한이_없는_유저로_업데이트_테스트")
@@ -122,7 +123,7 @@ class CommentServiceTest extends ServiceTest {
     CommentUpdateRequestDto request = CommentUpdateRequestDto.create(BOARD_PUBLIC_ID,
         POST_PUBLIC_ID, COMMENT_PUBLIC_ID, NULL_UUID, "content");
 
-    when(commentJpaRepository.findByBoardPublicIdAndPostPublicIdAndPublicId(any(UUID.class),
+    when(commentJpaRepository.findCommentByBoardPublicIdAndPostPublicIdAndPublicId(any(UUID.class),
         any(UUID.class), any(UUID.class))).thenReturn(createComment());
 
     assertThatThrownBy(() -> commentService.updateComment(request))
@@ -136,7 +137,7 @@ class CommentServiceTest extends ServiceTest {
     CommentDeleteRequestDto request = CommentDeleteRequestDto.create(BOARD_PUBLIC_ID,
         POST_PUBLIC_ID, COMMENT_PUBLIC_ID, MEMBER_PUBLIC_ID);
 
-    when(commentJpaRepository.findByBoardPublicIdAndPostPublicIdAndPublicId(any(UUID.class),
+    when(commentJpaRepository.findCommentByBoardPublicIdAndPostPublicIdAndPublicId(any(UUID.class),
         any(UUID.class), any(UUID.class))).thenReturn(createComment());
 
     UUID publicId = commentService.deleteComment(request);
@@ -150,7 +151,7 @@ class CommentServiceTest extends ServiceTest {
     CommentDeleteRequestDto request = CommentDeleteRequestDto.create(BOARD_PUBLIC_ID,
         POST_PUBLIC_ID, COMMENT_PUBLIC_ID, NULL_UUID);
 
-    when(commentJpaRepository.findByBoardPublicIdAndPostPublicIdAndPublicId(any(UUID.class),
+    when(commentJpaRepository.findCommentByBoardPublicIdAndPostPublicIdAndPublicId(any(UUID.class),
         any(UUID.class), any(UUID.class))).thenReturn(createComment());
 
     assertThatThrownBy(() -> commentService.deleteComment(request))

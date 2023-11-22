@@ -29,7 +29,8 @@ class PostJpaRepositoryTest extends JpaRepositoryTest {
     UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId(TestDataType.COMMON));
     UUID postPublicId = UUID.fromString(TEST_DATA.getPostPublicId(TestDataType.COMMON));
 
-    Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postPublicId);
+    Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postPublicId)
+        .orElseThrow();
 
     assertThat(post).isNotNull();
   }
@@ -39,7 +40,8 @@ class PostJpaRepositoryTest extends JpaRepositoryTest {
   void updatePost() {
     UUID boardPublicId = UUID.fromString(TEST_DATA.getPostBoardPublicId(TestDataType.COMMON));
     UUID postPublicId = UUID.fromString(TEST_DATA.getPostPublicId(TestDataType.COMMON));
-    Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postPublicId);
+    Post post = postJpaRepository.findPostByBoardPublicIdAndPublicId(boardPublicId, postPublicId)
+        .orElseThrow();
     PostUpdateRequest request = new PostUpdateRequest("new title", "new content");
 
     post.changeTitle(request.getTitle());

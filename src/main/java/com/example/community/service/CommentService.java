@@ -12,6 +12,7 @@ import com.example.community.service.dto.CommentUpdateRequestDto;
 import com.example.community.service.dto.PageCommentRequestDto;
 import com.example.community.service.entity.Comment;
 import com.example.community.service.exception.BoardNotFoundException;
+import com.example.community.service.exception.CommentNotFoundException;
 import com.example.community.service.exception.MemberNotFoundException;
 import com.example.community.service.exception.NotResourceOwnerException;
 import com.example.community.service.exception.PostNotFoundException;
@@ -72,15 +73,18 @@ public class CommentService {
     UUID memberId = memberQueryRepository.findMemberIdByPublicId(dto.getMemberPublicId())
         .orElseThrow(MemberNotFoundException::new);
 
-    Comment savedEntity = commentJpaRepository.save(dto.toEntity(boardId, postId, memberId));
+    Comment comment = dto.toEntity(boardId, postId, memberId);
 
-    return savedEntity.getPublicId();
+    commentJpaRepository.save(comment);
+
+    return comment.getPublicId();
   }
 
   @Transactional
   public UUID updateComment(CommentUpdateRequestDto dto) {
-    Comment comment = commentJpaRepository.findByBoardPublicIdAndPostPublicIdAndPublicId(
-        dto.getBoardPublicId(), dto.getPostPublicId(), dto.getCommentPublicId());
+    Comment comment = commentJpaRepository.findCommentByBoardPublicIdAndPostPublicIdAndPublicId(
+        dto.getBoardPublicId(), dto.getPostPublicId(), dto.getCommentPublicId())
+        .orElseThrow(CommentNotFoundException::new);
 
     if (comment.isNotOwner(dto.getMemberPublicId())) {
       throw NotResourceOwnerException.ofComment();
@@ -93,8 +97,9 @@ public class CommentService {
 
   @Transactional
   public UUID deleteComment(CommentDeleteRequestDto dto) {
-    Comment comment = commentJpaRepository.findByBoardPublicIdAndPostPublicIdAndPublicId(
-        dto.getBoardPublicId(), dto.getPostPublicId(), dto.getCommentPublicId());
+    Comment comment = commentJpaRepository.findCommentByBoardPublicIdAndPostPublicIdAndPublicId(
+        dto.getBoardPublicId(), dto.getPostPublicId(), dto.getCommentPublicId())
+        .orElseThrow(CommentNotFoundException::new);
 
     if (comment.isNotOwner(dto.getMemberPublicId())) {
       throw NotResourceOwnerException.ofComment();
