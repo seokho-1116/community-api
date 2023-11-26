@@ -31,44 +31,48 @@ jobs:
       - name: build gradle
         run: ./gradlew clean build
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v3
-        with:
-          username: ${{ secrets.DOCKERHUB_USERNAME }}
-          password: ${{ secrets.DOCKERHUB_TOKEN }}
-
-      - name: Extract metadata (tags, labels) for Docker
-        id: meta
-        uses: docker/metadata-action@v5
-        with:
-          images: ${{ secrets.DOCKERHUB_USERNAME }}/community-api
-
-      - name: Build and push Docker image
-        uses: docker/build-push-action@v5
-        with:
-          context: .
-          file: ./Dockerfile
-          push: true
-          tags: ${{ steps.meta.outputs.tags }}
-          labels: ${{ steps.meta.outputs.labels }}
-
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
         with:
           role-to-assume: ${{ secrets.AWS_ROLE_ARN }}
           aws-region: ${{ secrets.AWS_REGION }}
 
-      - name: Retrieve EC2 Instance ID
-        id: get-instance-id
-        run: |
-          INSTANCE_ID=$(aws ec2 describe-instances \
-            --filters "Name=instance-state-name,Values=running" \
-            --query "Reservations[].Instances[].InstanceId" --output text)
-          echo "::set-output name=INSTANCE_ID::$INSTANCE_ID"
+      - name: Login to Amazon ECR
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v1
 
-      - name: Deploy to EC2
+      - name: Build, tag, and push image to Amazon ECR
+        id: build-image
+        env:
+          ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
+          IMAGE_TAG: ${{ github.sha }}
         run: |
-          aws ssm send-command --instance-ids ${{ secrets.EC2_INSTANCE_ID }} \
-            --document-name "AWS-RunShellScript" \
-            --comment "GitHub Actions deployment" \
-            --parameters commands=["docker pull ${{ secrets.DOCKERHUB_USERNAME }}:${{ steps.meta.outputs.tags }}","docker stop ${{ steps.meta.outputs.tags }} || true","docker rm ${{ steps.meta.outputs.tags }} || true","docker run --name ${{ steps.meta.outputs.tags }} -d ${{ secrets.DOCKERHUB_USERNAME }}:${{ steps.meta.outputs.tags }}"]
+          # Build a docker container and
+          # push it to ECR so that it can
+          # be deployed to ECS.
+          docker build -t $ECR_REGISTRY/${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG .
+          docker push $ECR_REGISTRY/${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG
+          echo "image=$ECR_REGISTRY/${{ secrets.ECR_REPOSITORY }}:$IMAGE_TAG" >> $GITHUB_OUTPUT
+
+      - name: Download Task Definition Template
+        run: |
+          aws ecs describe-task-definition \
+            --task-definition $ \
+            --query taskDefinition \
+            > task-definition.json
+
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.CONTAINER_NAME }}
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v1
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ secrets.ECS_SERVICE }}
+          cluster: ${{ secrets.ECS_CLUSTER }}
+          wait-for-service-stability: true
