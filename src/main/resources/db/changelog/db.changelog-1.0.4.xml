@@ -1,0 +1,88 @@
+<?xml version="1.1" encoding="UTF-8" standalone="no"?>
+<databaseChangeLog
+  xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+        http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-3.8.xsd">
+  <changeSet id="1.0.4-1" author="seokho">
+    <addUniqueConstraint columnNames="public_id" tableName="member"
+      constraintName="unique_member_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="board"
+      constraintName="unique_board_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="chat_message"
+      constraintName="unique_chat_message_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="comment"
+      constraintName="unique_comment_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="community"
+      constraintName="unique_community_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="draft_post"
+      constraintName="unique_draft_post_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="image"
+      constraintName="unique_image_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="post"
+      constraintName="unique_post_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="message"
+      constraintName="unique_message_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="post_category"
+      constraintName="unique_post_category_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="public_chat_room"
+      constraintName="unique_public_chat_room_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="token"
+      constraintName="unique_token_public_id"/>
+    <addUniqueConstraint columnNames="public_id" tableName="video"
+      constraintName="unique_video_public_id"/>
+
+    <addForeignKeyConstraint baseColumnNames="member_public_id" baseTableName="draft_post"
+      constraintName="fk_draft_post_member_public_id" referencedColumnNames="public_id" referencedTableName="member"/>
+    <addForeignKeyConstraint baseColumnNames="board_public_id" baseTableName="draft_post"
+      constraintName="fk_draft_post_board_id" referencedColumnNames="public_id" referencedTableName="board"/>
+    <addForeignKeyConstraint baseColumnNames="post_category_public_id" baseTableName="draft_post"
+      constraintName="fk_draft_post_post_category_public_id" referencedColumnNames="public_id" referencedTableName="post_category"/>
+
+    <addForeignKeyConstraint baseColumnNames="community_public_id" baseTableName="board"
+      constraintName="fk_board_community_public_id" referencedColumnNames="public_id" referencedTableName="community"/>
+
+    <addForeignKeyConstraint baseColumnNames="chat_room_public_id" baseTableName="chat_message"
+      constraintName="fk_chat_message_public_chat_room_public_id" referencedColumnNames="public_id" referencedTableName="public_chat_room"/>
+    <addForeignKeyConstraint baseColumnNames="member_public_id" baseTableName="chat_message"
+      constraintName="fk_chat_message_member_public_id" referencedColumnNames="public_id" referencedTableName="member"/>
+
+    <addForeignKeyConstraint baseColumnNames="member_public_id" baseTableName="comment"
+      constraintName="fk_comment_member_public_id" referencedColumnNames="public_id" referencedTableName="member"/>
+    <addForeignKeyConstraint baseColumnNames="post_public_id" baseTableName="comment"
+      constraintName="fk_comment_post_public_id" referencedColumnNames="public_id" referencedTableName="post"/>
+    <addForeignKeyConstraint baseColumnNames="board_public_id" baseTableName="comment"
+      constraintName="fk_comment_board_public_id" referencedColumnNames="public_id" referencedTableName="board"/>
+
+    <addForeignKeyConstraint baseColumnNames="member_public_id" baseTableName="image"
+      constraintName="fk_image_member_public_id" referencedColumnNames="public_id" referencedTableName="member"/>
+    <addForeignKeyConstraint baseColumnNames="post_public_id" baseTableName="image"
+      constraintName="fk_image_post_public_id" referencedColumnNames="public_id" referencedTableName="post"/>
+
+    <addForeignKeyConstraint baseColumnNames="sender_public_id" baseTableName="message"
+      constraintName="fk_message_sender_public_id" referencedColumnNames="public_id" referencedTableName="member"/>
+    <addForeignKeyConstraint baseColumnNames="receiver_public_id" baseTableName="message"
+      constraintName="fk_message_receiver_public_id" referencedColumnNames="public_id" referencedTableName="member"/>
+
+    <addForeignKeyConstraint baseColumnNames="member_public_id" baseTableName="post"
+      constraintName="fk_post_member_public_id" referencedColumnNames="public_id" referencedTableName="member"/>
+    <addForeignKeyConstraint baseColumnNames="board_public_id" baseTableName="post"
+      constraintName="fk_post_board_id" referencedColumnNames="public_id" referencedTableName="board"/>
+    <addForeignKeyConstraint baseColumnNames="post_category_public_id" baseTableName="post"
+      constraintName="fk_post_post_category_public_id" referencedColumnNames="public_id" referencedTableName="post_category"/>
+
+    <addForeignKeyConstraint baseColumnNames="board_public_id" baseTableName="post_category"
+      constraintName="fk_post_category_board_public_id" referencedColumnNames="public_id" referencedTableName="board"/>
+
+    <addForeignKeyConstraint baseColumnNames="board_public_id" baseTableName="public_chat_room"
+      constraintName="fk_public_chat_room_board_public_id" referencedColumnNames="public_id" referencedTableName="board"/>
+
+    <addForeignKeyConstraint baseColumnNames="member_public_id" baseTableName="token"
+      constraintName="fk_token_member_public_id" referencedColumnNames="public_id" referencedTableName="member"/>
+
+    <addForeignKeyConstraint baseColumnNames="member_public_id" baseTableName="video"
+      constraintName="fk_video_member_public_id" referencedColumnNames="public_id" referencedTableName="member"/>
+    <addForeignKeyConstraint baseColumnNames="post_public_id" baseTableName="video"
+      constraintName="fk_video_post_public_id" referencedColumnNames="public_id" referencedTableName="post"/>
+  </changeSet>
+</databaseChangeLog>
