@@ -1,5 +1,7 @@
 package com.example.community.service;
 
+import static liquibase.repackaged.net.sf.jsqlparser.util.validation.metadata.NamedObject.role;
+
 import com.example.community.repository.TokenJpaRepository;
 import com.example.community.security.authentication.jwt.JwtFactory;
 import com.example.community.security.authentication.jwt.exception.InvalidTokenException;
@@ -30,7 +32,25 @@ public class TokenService {
 
     tokenJpaRepository.remove(token);
 
-    return createToken(token.getMemberPublicId(), token.getRole().toString());
+    Token newRefreshToken = getNewRefreshToken(token);
+
+    tokenJpaRepository.save(newRefreshToken);
+
+    return createTokenResponseDto(newRefreshToken);
+  }
+
+  private TokenResponseDto createTokenResponseDto(Token token) {
+    return TokenResponseDto.create(
+        jwtFactory.createAccessToken(
+            token.getMemberPublicId().toString(),
+            token.getRole().toString()
+        ), token.getPublicId(), jwtFactory.getExpiresIn()
+    );
+  }
+
+  private Token getNewRefreshToken(Token token) {
+    return Token.create(jwtFactory.createRefreshToken(token.getMemberPublicId().toString(),
+        token.getRole().toString()), token.getMemberPublicId(), token.getRole());
   }
 
   private boolean isNotValid(Token token) {
@@ -44,9 +64,6 @@ public class TokenService {
 
     tokenJpaRepository.save(token);
 
-    return TokenResponseDto.create(
-        jwtFactory.createAccessToken(memberPublicId.toString(), role),
-        token.getPublicId(),
-        jwtFactory.getExpiresIn());
+    return createTokenResponseDto(token);
   }
 }
