@@ -26,7 +26,8 @@ class TokenQueryRepositoryTest extends QueryRepositoryTest {
   @DisplayName("공개_키로_토큰_조회_쿼리_테스트")
   @Test
   void findTokenByPublicId() {
-    Token token = Token.create("refresh", UUID.randomUUID(), Role.USER);
+    Token token = Token.create("refresh", UUID.fromString(TEST_DATA.getMemberPublicId()),
+        Role.USER);
 
     dslContext
         .insertInto(TOKEN, TOKEN.ID, TOKEN.PUBLIC_ID, TOKEN.REFRESH_TOKEN,

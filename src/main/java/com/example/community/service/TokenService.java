@@ -30,7 +30,7 @@ public class TokenService {
 
     tokenJpaRepository.remove(token);
 
-    return createToken(publicId, token.getRole().toString());
+    return createToken(token.getMemberPublicId(), token.getRole().toString());
   }
 
   private boolean isNotValid(Token token) {
