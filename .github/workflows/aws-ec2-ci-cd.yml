@@ -61,7 +61,7 @@ jobs:
       - name: Download Task Definition Template
         run: |
           aws ecs describe-task-definition \
-            --task-definition community-task \
+            --task-definition ${{ secrets.ECS_TASK_NAME }} \
             --query taskDefinition \
             > task-definition.json
 
