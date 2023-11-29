@@ -5,14 +5,10 @@ on:
     branches:
       - main
 
-env:
-  CONTAINER_NAME: community-api
-
 jobs:
   deploy:
     name: Deploy
     runs-on: ubuntu-latest
-    environment: production
 
     permissions:
       id-token: write
@@ -66,11 +62,27 @@ jobs:
             > task-definition.json
 
       - name: Fill in the new image ID in the Amazon ECS task definition
-        id: task-def
+        id: render-app-container-1
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
           task-definition: task-definition.json
-          container-name: ${{ env.CONTAINER_NAME }}
+          container-name: community-api-1
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Modify Amazon ECS task definition with second container
+        id: render-app-container-2
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-app-container-1.outputs.task-definition }}
+          container-name: community-api-2
+          image: ${{ steps.build-image.outputs.image }}
+
+      - name: Modify Amazon ECS task definition with second container
+        id: render-app-container-3
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: ${{ steps.render-app-container-1.outputs.task-definition }}
+          container-name: community-api-3
           image: ${{ steps.build-image.outputs.image }}
 
       - name: Deploy Amazon ECS task definition
