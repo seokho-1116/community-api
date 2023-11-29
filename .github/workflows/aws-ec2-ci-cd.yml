@@ -73,7 +73,7 @@ jobs:
         id: render-app-container-2
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.render-app-container-1.outputs.task-definition }}
+          task-definition: task-definition.json
           container-name: community-api-2
           image: ${{ steps.build-image.outputs.image }}
 
@@ -81,7 +81,7 @@ jobs:
         id: render-app-container-3
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: ${{ steps.render-app-container-1.outputs.task-definition }}
+          task-definition: task-definition.json
           container-name: community-api-3
           image: ${{ steps.build-image.outputs.image }}
 
