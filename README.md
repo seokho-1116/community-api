@@ -1,2 +1,6 @@
 # community-api
-프론트엔드를 위한 대형 커뮤니티 게시판 api
+게시판 API
+
+api-sheet: https://messageplay.site/docs/index.html
+
+v1.0
