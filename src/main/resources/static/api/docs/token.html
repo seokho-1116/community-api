@@ -452,10 +452,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/auth/token HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 69
-Host: localhost:8080
+Host: messageplay.site
 
 {
-  "refreshTokenPublicId" : "47676556-6f21-4865-bd65-fa218dc02f1d"
+  "refreshTokenPublicId" : "4342c8bb-0a22-4cb6-acca-10d5ce32e43e"
 }</code></pre>
 </div>
 </div>
@@ -465,7 +465,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code>{
-  "refreshTokenPublicId" : "47676556-6f21-4865-bd65-fa218dc02f1d"
+  "refreshTokenPublicId" : "4342c8bb-0a22-4cb6-acca-10d5ce32e43e"
 }</code></pre>
 </div>
 </div>
@@ -481,13 +481,14 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 Content-Length: 166
 
 {
   "message" : "success",
   "data" : {
     "accessToken" : "Bearer ",
-    "refreshTokenPublicId" : "918856a6-b8f8-4629-8774-9929fee8a4a1",
+    "refreshTokenPublicId" : "fbf04e55-a419-4fd7-8541-a2465e7450be",
     "expiresIn" : ""
   }
 }</code></pre>
@@ -545,7 +546,7 @@ Content-Length: 166
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-11-25 22:19:06 +0900
+Last updated 2023-11-26 21:20:52 +0900
 </div>
 </div>
 </body>

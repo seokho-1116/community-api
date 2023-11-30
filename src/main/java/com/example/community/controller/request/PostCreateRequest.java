@@ -22,7 +22,7 @@ public class PostCreateRequest {
   @JsonCreator
   public PostCreateRequest(@JsonProperty("title") String title,
       @JsonProperty("content") String content,
-      @JsonProperty("postCategoryId") UUID postCategoryPublicId) {
+      @JsonProperty("postCategoryPublicId") UUID postCategoryPublicId) {
     this.title = title;
     this.content = content;
     this.postCategoryPublicId = postCategoryPublicId;

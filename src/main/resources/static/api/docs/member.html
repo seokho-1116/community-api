@@ -451,7 +451,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/me HTTP/1.1
 Authorization: Bearer token
-Host: localhost:8080</code></pre>
+Host: messageplay.site</code></pre>
 </div>
 </div>
 </div>
@@ -466,6 +466,7 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 Content-Length: 181
 
 {
@@ -474,7 +475,7 @@ Content-Length: 181
     "signupId" : "signupId",
     "nickname" : "nickname",
     "email" : "email",
-    "createdDate" : "2023-11-26T21:17:21.197148+09:00"
+    "createdDate" : "2023-11-30T10:12:18.489492+09:00"
   }
 }</code></pre>
 </div>
@@ -539,7 +540,7 @@ Content-Length: 181
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/me/signup HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 99
-Host: localhost:8080
+Host: messageplay.site
 
 {
   "id" : "id",
@@ -574,7 +575,7 @@ Content-Length: 101
 {
   "message" : "success",
   "data" : {
-    "memberId" : "9ab366e1-0a49-47b0-bb29-a9582bab71e8"
+    "memberId" : "3cd8667c-568b-40e1-afaf-b84587f4a8ea"
   }
 }</code></pre>
 </div>
@@ -624,7 +625,7 @@ Content-Length: 101
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/me/login HTTP/1.1
 Content-Type: application/json
 Content-Length: 75
-Host: localhost:8080
+Host: messageplay.site
 
 {
   "signupId" : "ruizchristine@example.org",
@@ -655,13 +656,14 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 Content-Length: 166
 
 {
   "message" : "success",
   "data" : {
     "accessToken" : "Bearer ",
-    "refreshTokenPublicId" : "e37df6fc-1bba-4f2f-b957-7c14b2a8292e",
+    "refreshTokenPublicId" : "dbbbbee1-7bf4-4957-bd4f-fe081cb63ef3",
     "expiresIn" : ""
   }
 }</code></pre>
@@ -723,7 +725,7 @@ Content-Length: 166
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer token
 Content-Length: 31
-Host: localhost:8080
+Host: messageplay.site
 
 {
   "email" : "new@email.com"
@@ -752,6 +754,7 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 Content-Length: 75
 
 {
@@ -808,7 +811,7 @@ Content-Length: 75
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer token
 Content-Length: 24
-Host: localhost:8080
+Host: messageplay.site
 
 {
   "nickname" : "new"
@@ -837,6 +840,7 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 Content-Length: 68
 
 {
@@ -893,7 +897,7 @@ Content-Length: 68
 Content-Type: application/json;charset=UTF-8
 Authorization: Bearer token
 Content-Length: 24
-Host: localhost:8080
+Host: messageplay.site
 
 {
   "password" : "new"
@@ -922,6 +926,7 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 Content-Length: 42
 
 {
@@ -967,7 +972,7 @@ Content-Length: 42
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-11-25 22:19:06 +0900
+Last updated 2023-11-26 21:20:52 +0900
 </div>
 </div>
 </body>

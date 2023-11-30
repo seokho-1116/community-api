@@ -452,10 +452,10 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">GET /api/boards/71239da8-8d81-41cf-9328-5e754d8e6c80/posts/4c063a22-5716-4012-a770-57299395ecdc/comments HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 72
-Host: localhost:8080
+Host: messageplay.site
 
 {
-  "previousDate" : "2023-11-26T21:17:20.269952+09:00",
+  "previousDate" : "2023-11-30T10:12:17.790654+09:00",
   "size" : 10
 }</code></pre>
 </div>
@@ -466,7 +466,7 @@ Host: localhost:8080
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code>{
-  "previousDate" : "2023-11-26T21:17:20.269952+09:00",
+  "previousDate" : "2023-11-30T10:12:17.790654+09:00",
   "size" : 10
 }</code></pre>
 </div>
@@ -483,7 +483,8 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
-Content-Length: 2257
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
+Content-Length: 2258
 
 {
   "message" : "success",
@@ -491,70 +492,70 @@ Content-Length: 2257
     "content" : [ {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.27043+09:00",
+      "createdDate" : "2023-11-30T10:12:17.791082+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
     }, {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.27045+09:00",
+      "createdDate" : "2023-11-30T10:12:17.791098+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
     }, {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.270455+09:00",
+      "createdDate" : "2023-11-30T10:12:17.791102+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
     }, {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.270458+09:00",
+      "createdDate" : "2023-11-30T10:12:17.791126+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
     }, {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.270461+09:00",
+      "createdDate" : "2023-11-30T10:12:17.79113+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
     }, {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.270463+09:00",
+      "createdDate" : "2023-11-30T10:12:17.791257+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
     }, {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.270466+09:00",
+      "createdDate" : "2023-11-30T10:12:17.791263+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
     }, {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.270468+09:00",
+      "createdDate" : "2023-11-30T10:12:17.791266+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
     }, {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.270472+09:00",
+      "createdDate" : "2023-11-30T10:12:17.791269+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
     }, {
       "nickname" : "nickname",
       "content" : "content",
-      "createdDate" : "2023-11-26T21:17:20.270474+09:00",
+      "createdDate" : "2023-11-30T10:12:17.791272+09:00",
       "upVotesCount" : 0,
       "downVotesCount" : 0,
       "isOwner" : false
@@ -679,7 +680,7 @@ Content-Length: 2257
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">POST /api/boards/71239da8-8d81-41cf-9328-5e754d8e6c80/posts/4c063a22-5716-4012-a770-57299395ecdc/comments HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 27
-Host: localhost:8080
+Host: messageplay.site
 
 {
   "content" : "content"
@@ -708,12 +709,13 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 Content-Length: 102
 
 {
   "message" : "success",
   "data" : {
-    "commentId" : "00f40f0b-04e9-457f-8642-2417721d6471"
+    "commentId" : "80061785-724c-4dec-8570-d685a84f2c90"
   }
 }</code></pre>
 </div>
@@ -763,7 +765,7 @@ Content-Length: 102
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">PATCH /api/boards/71239da8-8d81-41cf-9328-5e754d8e6c80/posts/4c063a22-5716-4012-a770-57299395ecdc/comments/ba585502-4506-45b7-b38d-78d3d4314425 HTTP/1.1
 Content-Type: application/json;charset=UTF-8
 Content-Length: 27
-Host: localhost:8080
+Host: messageplay.site
 
 {
   "content" : "content"
@@ -792,6 +794,7 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 Content-Length: 102
 
 {
@@ -845,7 +848,7 @@ Content-Length: 102
 <div class="listingblock">
 <div class="content">
 <pre class="highlight nowrap"><code class="language-http" data-lang="http">DELETE /api/boards/71239da8-8d81-41cf-9328-5e754d8e6c80/posts/4c063a22-5716-4012-a770-57299395ecdc/comments/71239da8-8d81-41cf-9328-5e754d8e6c80 HTTP/1.1
-Host: localhost:8080</code></pre>
+Host: messageplay.site</code></pre>
 </div>
 </div>
 </div>
@@ -868,6 +871,7 @@ X-XSS-Protection: 1; mode=block
 Cache-Control: no-cache, no-store, max-age=0, must-revalidate
 Pragma: no-cache
 Expires: 0
+Strict-Transport-Security: max-age=31536000 ; includeSubDomains
 Content-Length: 102
 
 {
@@ -920,7 +924,7 @@ Content-Length: 102
 <div id="footer">
 <div id="footer-text">
 Version 0.0.1-SNAPSHOT<br>
-Last updated 2023-11-25 22:19:06 +0900
+Last updated 2023-11-26 21:20:52 +0900
 </div>
 </div>
 </body>
