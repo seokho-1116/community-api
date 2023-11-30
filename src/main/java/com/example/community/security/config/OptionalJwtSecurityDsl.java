@@ -2,7 +2,7 @@ package com.example.community.security.config;
 
 import com.example.community.security.authentication.jwt.JwtAuthenticationFilter;
 import com.example.community.security.authentication.jwt.JwtFactory;
-import com.example.community.security.authentication.jwt.authentication.RequiredTokenAuthenticationStrategy;
+import com.example.community.security.authentication.jwt.authentication.OptionalTokenAuthenticationStrategy;
 import javax.servlet.Filter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpMethod;
@@ -11,28 +11,23 @@ import org.springframework.security.config.annotation.web.configurers.AbstractHt
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @RequiredArgsConstructor
-public class RequiredJwtSecurityDsl extends
+public class OptionalJwtSecurityDsl extends
     AbstractHttpConfigurer<RequiredJwtSecurityDsl, HttpSecurity> {
   private final JwtFactory jwtFactory;
 
   @Override
   public void configure(HttpSecurity http) {
     http.requestMatchers(request -> request
-        .antMatchers("/api/me", "/api/me/nickname", "/api/me/email", "/api/me/password")
-        .antMatchers(HttpMethod.POST,"/api/boards/**/posts/**")
-        .antMatchers(HttpMethod.PATCH,"/api/boards/**/posts/**")
-        .antMatchers(HttpMethod.DELETE,"/api/boards/**/posts/**")
-        .antMatchers(HttpMethod.POST, "/api/**/comments")
-        .antMatchers(HttpMethod.PATCH, "/api/**/comments")
-        .antMatchers(HttpMethod.DELETE, "/api/**/comments")
+        .antMatchers(HttpMethod.GET, "/api/boards/**/posts/**")
+        .antMatchers(HttpMethod.GET,"/api/**/comments")
     ).addFilterBefore(jwtAuthenticationFilter(), UsernamePasswordAuthenticationFilter.class);
   }
 
   private Filter jwtAuthenticationFilter() {
-    return new JwtAuthenticationFilter(new RequiredTokenAuthenticationStrategy(jwtFactory));
+    return new JwtAuthenticationFilter(new OptionalTokenAuthenticationStrategy(jwtFactory));
   }
 
-  public static RequiredJwtSecurityDsl jwtSecurityDsl(JwtFactory jwtFactory) {
-    return new RequiredJwtSecurityDsl(jwtFactory);
+  public static OptionalJwtSecurityDsl jwtSecurityDsl(JwtFactory jwtFactory) {
+    return new OptionalJwtSecurityDsl(jwtFactory);
   }
 }

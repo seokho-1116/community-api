@@ -21,7 +21,7 @@ public class JwtAuthenticationToken extends AbstractAuthenticationToken {
     this.memberId = memberId;
   }
 
-  public static JwtAuthenticationToken unauthenticated() {
+  public static JwtAuthenticationToken anonymous() {
     return new JwtAuthenticationToken(new UUID(0, 0));
   }
 

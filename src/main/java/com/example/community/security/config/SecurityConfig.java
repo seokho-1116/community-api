@@ -1,7 +1,6 @@
 package com.example.community.security.config;
 
 import static com.example.community.security.config.CommonSecurityDsl.commonSecurityDsl;
-import static com.example.community.security.config.JwtSecurityDsl.jwtSecurityDsl;
 import static com.example.community.security.config.LoginSecurityDsl.loginSecurityDsl;
 
 import com.example.community.repository.MemberQueryRepository;
@@ -35,17 +34,28 @@ public class SecurityConfig {
 
   @Bean
   @Order(1)
-  public SecurityFilterChain filterChainForJwt(HttpSecurity http) throws Exception {
+  public SecurityFilterChain filterChainForRequireJwt(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
 
     http.apply(commonSecurityDsl());
-    http.apply(jwtSecurityDsl(jwtFactory));
+    http.apply(RequiredJwtSecurityDsl.jwtSecurityDsl(jwtFactory));
 
     return http.build();
   }
 
   @Bean
   @Order(2)
+  public SecurityFilterChain filterChainForOptionalJwt(HttpSecurity http) throws Exception {
+    http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+
+    http.apply(commonSecurityDsl());
+    http.apply(OptionalJwtSecurityDsl.jwtSecurityDsl(jwtFactory));
+
+    return http.build();
+  }
+
+  @Bean
+  @Order(3)
   public SecurityFilterChain filterChainForLogin(HttpSecurity http) throws Exception {
     http.authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
 
