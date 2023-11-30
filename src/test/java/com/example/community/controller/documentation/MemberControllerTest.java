@@ -7,17 +7,17 @@ import static org.springframework.restdocs.headers.HeaderDocumentation.requestHe
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.post;
-import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
 import static org.springframework.restdocs.payload.PayloadDocumentation.requestFields;
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.community.controller.MemberController;
+import com.example.community.controller.documentation.fieldsfactory.request.MemberRequestFieldsFactory;
 import com.example.community.controller.request.EmailUpdateRequest;
 import com.example.community.controller.request.NicknameUpdateRequest;
 import com.example.community.controller.request.PasswordUpdateRequest;
 import com.example.community.controller.request.SignupRequest;
-import com.example.community.controller.documentation.fieldsfactory.MemberFieldsFactory;
+import com.example.community.controller.documentation.fieldsfactory.response.MemberResponseFieldsFactory;
 import com.example.community.security.authentication.login.request.LoginRequest;
 import com.example.community.service.MemberService;
 import com.example.community.service.dto.MemberDetailDto;
@@ -32,10 +32,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.context.TestConstructor;
 import org.springframework.test.context.TestConstructor.AutowireMode;
+import org.springframework.test.web.servlet.ResultActions;
 
 @WebMvcTest(controllers = MemberController.class)
 @TestConstructor(autowireMode = AutowireMode.ANNOTATED)
 class MemberControllerTest extends RestDocsTestSetup {
+  private static final String DUMMY_JWT = "Bearer token";
+
   @MockBean
   private MemberService memberService;
 
@@ -45,17 +48,24 @@ class MemberControllerTest extends RestDocsTestSetup {
   @DisplayName("회원가입_문서_테스트")
   @Test
   void signup() throws Exception {
+    //given
     SignupRequest request = createTestSingupRequest();
     UUID publicId = UUID.randomUUID();
 
     when(memberService.createMember(any())).thenReturn(publicId);
 
-    mockMvc.perform(post("/api/me/signup")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request)))
+    //when
+    ResultActions response = mockMvc.perform(post("/api/me/signup")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(request))
+    );
+
+    //then
+    response
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(MemberFieldsFactory.getMemberCreateResponseField())
+            requestFields(MemberRequestFieldsFactory.memberCreateResponseFields()),
+            responseFields(MemberResponseFieldsFactory.memberCreateResponseFields())
         ));
   }
 
@@ -67,16 +77,19 @@ class MemberControllerTest extends RestDocsTestSetup {
   @DisplayName("회원_정보_조회_문서_테스트")
   @Test
   void getMember() throws Exception {
-    String jwt = "Bearer token";
-
     when(memberService.findMemberByPublicId(any())).thenReturn(createTestMemberDetailDto());
 
-    mockMvc.perform(get("/api/me")
-            .header("Authorization", jwt))
+    //when
+    ResultActions response = mockMvc.perform(get("/api/me")
+        .header("Authorization", DUMMY_JWT)
+    );
+
+    //then
+    response
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(MemberFieldsFactory.getMemberDetailResponseField()),
-            requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰"))
+            requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰")),
+            responseFields(MemberResponseFieldsFactory.getMemberDetailResponseField())
         ));
   }
 
@@ -88,19 +101,24 @@ class MemberControllerTest extends RestDocsTestSetup {
   @DisplayName("멤버_이메일_업데이트_문서_테스트")
   @Test
   void updateEmail() throws Exception {
-    String jwt = "Bearer token";
+    //given
     EmailUpdateRequest request = createTestEmailUpdateRequest();
 
     when(memberService.updateEmail(any(), any())).thenReturn(request.getEmail());
 
-    mockMvc.perform(patch("/api/me/email")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request))
-            .header("Authorization", jwt))
+    //when
+    ResultActions response = mockMvc.perform(patch("/api/me/email")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(request))
+        .header("Authorization", DUMMY_JWT)
+    );
+
+    response
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(MemberFieldsFactory.getMemberEmailUpdateResponseField()),
-            requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰"))
+            requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰")),
+            requestFields(MemberRequestFieldsFactory.memberEmailUpdateRequestFields()),
+            responseFields(MemberResponseFieldsFactory.memberEmailUpdateResponseFields())
         ));
   }
 
@@ -111,19 +129,25 @@ class MemberControllerTest extends RestDocsTestSetup {
   @DisplayName("멤버_닉네임_업데이트_문서_테스트")
   @Test
   void updateNickname() throws Exception {
-    String jwt = "Bearer token";
+    //given
     NicknameUpdateRequest request = createTestNicknameUpdateRequest();
 
+    //when
     when(memberService.updateNickname(any(), any())).thenReturn(request.getNickname());
 
-    mockMvc.perform(patch("/api/me/nickname")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request))
-            .header("Authorization", jwt))
+
+    //then
+    ResultActions response = mockMvc.perform(patch("/api/me/nickname")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(request))
+        .header("Authorization", DUMMY_JWT));
+
+    response
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(MemberFieldsFactory.getMemberNicknameUpdateResponseField()),
-            requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰"))
+            requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰")),
+            requestFields(MemberRequestFieldsFactory.memberNicknameUpdateRequestFields()),
+            responseFields(MemberResponseFieldsFactory.memberNicknameUpdateResponseFields())
         ));
   }
 
@@ -134,17 +158,23 @@ class MemberControllerTest extends RestDocsTestSetup {
   @DisplayName("멤버_패스워드_업데이트_문서_테스트")
   @Test
   void updatePassword() throws Exception {
-    String jwt = "Bearer token";
+    //given
     PasswordUpdateRequest request = createTestPasswordupdateRequest();
 
-    mockMvc.perform(patch("/api/me/password")
-            .contentType(MediaType.APPLICATION_JSON)
-            .content(objectMapper.writeValueAsString(request))
-            .header("Authorization", jwt))
+    //when
+    ResultActions response = mockMvc.perform(patch("/api/me/password")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(request))
+        .header("Authorization", DUMMY_JWT)
+    );
+
+    //then
+    response
         .andExpect(status().isNoContent())
         .andDo(document.document(
-            responseFields(MemberFieldsFactory.getMemberPasswordUpdateResponseField()),
-            requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰"))
+            requestHeaders(headerWithName("Authorization").description("사용자 jwt 토큰")),
+            requestFields(MemberRequestFieldsFactory.memberPasswordUpdateRequestFields()),
+            responseFields(MemberResponseFieldsFactory.memberPasswordUpdateResponseFields())
         ));
   }
 
@@ -155,17 +185,22 @@ class MemberControllerTest extends RestDocsTestSetup {
   @DisplayName("멤버_로그인_문서_테스트")
   @Test
   void loginTest() throws Exception {
+    //given
     LoginRequest request = createTestLoginRequest(testData.getMemberSignupId(),
         testData.getMemberSignupPassword());
 
-    mockMvc.perform(post("/api/me/login")
-          .contentType(MediaType.APPLICATION_JSON)
-          .content(objectMapper.writeValueAsString(request)))
+    //when
+    ResultActions response = mockMvc.perform(post("/api/me/login")
+        .contentType(MediaType.APPLICATION_JSON)
+        .content(objectMapper.writeValueAsString(request))
+    );
+
+    //then
+    response
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(MemberFieldsFactory.getLoginSuccessResponseField()),
-            requestFields(fieldWithPath("signupId").description("로그인 id"),
-                fieldWithPath("signupPassword").description("로그인 비밀번호"))
+            requestFields(MemberRequestFieldsFactory.memberLoginRequestFields()),
+            responseFields(MemberResponseFieldsFactory.memberLoginSuccessResponseFields())
         ));
   }
 

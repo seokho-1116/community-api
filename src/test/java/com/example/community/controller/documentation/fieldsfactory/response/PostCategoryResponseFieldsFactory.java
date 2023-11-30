@@ -1,4 +1,4 @@
-package com.example.community.controller.documentation.fieldsfactory;
+package com.example.community.controller.documentation.fieldsfactory.response;
 
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
@@ -7,8 +7,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import java.util.List;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-public class PostCategoryFieldsFactory {
-  public static List<FieldDescriptor> getPostCategoryResponseField() {
+public class PostCategoryResponseFieldsFactory {
+  public static List<FieldDescriptor> postCategoryResponseFields() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data").type(ARRAY).description("응답 데이터"),

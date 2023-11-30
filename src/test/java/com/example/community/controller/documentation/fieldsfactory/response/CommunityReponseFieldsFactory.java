@@ -1,4 +1,4 @@
-package com.example.community.controller.documentation.fieldsfactory;
+package com.example.community.controller.documentation.fieldsfactory.response;
 
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
 import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWithPath;
@@ -6,8 +6,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import java.util.List;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-public class CommunityFieldsFactory {
-  public static List<FieldDescriptor> getCommunityDetailResponseField() {
+public class CommunityReponseFieldsFactory {
+  public static List<FieldDescriptor> communityDetailResponseFields() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data.introduction").type(STRING).description("커뮤니티 소개"),

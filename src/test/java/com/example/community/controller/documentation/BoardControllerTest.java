@@ -4,10 +4,11 @@ import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuild
 import static org.springframework.restdocs.payload.PayloadDocumentation.responseFields;
 import static org.springframework.restdocs.request.RequestDocumentation.parameterWithName;
 import static org.springframework.restdocs.request.RequestDocumentation.pathParameters;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 import com.example.community.controller.BoardController;
-import com.example.community.controller.documentation.fieldsfactory.BoardFieldsFactory;
+import com.example.community.controller.documentation.fieldsfactory.response.BoardResponseFieldsFactory;
 import com.example.community.service.BoardService;
 import com.example.community.service.dto.BoardDetailResponseDto;
 import com.example.community.service.dto.BoardSummaryResponseDto;
@@ -21,6 +22,8 @@ import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.test.web.servlet.ResultActions;
 
 
 @WebMvcTest(controllers = BoardController.class)
@@ -31,28 +34,39 @@ class BoardControllerTest extends RestDocsTestSetup {
   @DisplayName("모든_게시판_조회_문서_테스트")
   @Test
   void getAllBoards() throws Exception {
+    //given
     Mockito.when(boardService.findAllBoards()).thenReturn(createTestBoards());
 
-    mockMvc.perform(get("/api/boards"))
+    //when
+    ResultActions response = mockMvc.perform(get("/api/boards"));
+
+    //then
+    response
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(BoardFieldsFactory.getBoardSummaryResponseFields())
+            responseFields(BoardResponseFieldsFactory.boardSummaryResponseFields())
         ));
   }
 
   @DisplayName("특정_게시판_조회_문서_테스트")
   @Test
   void getBoardById() throws Exception {
+    //given
     UUID boardPublicId = UUID.randomUUID();
 
     Mockito.when(boardService.findBoardByPublicId(boardPublicId))
         .thenReturn(createTestBoardDetail());
 
-    mockMvc.perform(get("/api/boards/{board_id}", boardPublicId))
+    //then
+    ResultActions response = mockMvc.perform(get("/api/boards/{board_id}",
+        boardPublicId));
+
+    //then
+    response
         .andExpect(status().isOk())
         .andDo(document.document(
-            responseFields(BoardFieldsFactory.getBoardDetailResponseFields()),
-            pathParameters(parameterWithName("board_id").description("게시판 id"))
+            pathParameters(parameterWithName("board_id").description("게시판 id")),
+            responseFields(BoardResponseFieldsFactory.boardDetailResponseFields())
         ));
   }
 

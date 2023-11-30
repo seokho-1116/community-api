@@ -31,7 +31,10 @@ abstract class RestDocsTestSetup extends ControllerTest {
   private MockMvc getRestDockMockMvc(WebApplicationContext context,
       RestDocumentationContextProvider provider, RestDocumentationResultHandler document) {
     return MockMvcBuilders.webAppContextSetup(context)
-        .apply(MockMvcRestDocumentation.documentationConfiguration(provider))
+        .apply(MockMvcRestDocumentation.documentationConfiguration(provider).uris()
+            .withScheme("https")
+            .withHost("messageplay.site")
+            .withPort(443))
         .apply(springSecurity())
         .alwaysDo(document)
         .alwaysDo(print())

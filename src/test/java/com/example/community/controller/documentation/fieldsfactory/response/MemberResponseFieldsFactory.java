@@ -1,4 +1,4 @@
-package com.example.community.controller.documentation.fieldsfactory;
+package com.example.community.controller.documentation.fieldsfactory.response;
 
 import static org.springframework.restdocs.payload.JsonFieldType.OBJECT;
 import static org.springframework.restdocs.payload.JsonFieldType.STRING;
@@ -7,8 +7,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import java.util.List;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-public class MemberFieldsFactory {
-  public static List<FieldDescriptor> getMemberCreateResponseField() {
+public class MemberResponseFieldsFactory {
+  public static List<FieldDescriptor> memberCreateResponseFields() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data").type(OBJECT).description("응답 데이터"),
@@ -27,7 +27,7 @@ public class MemberFieldsFactory {
     );
   }
 
-  public static List<FieldDescriptor> getMemberEmailUpdateResponseField() {
+  public static List<FieldDescriptor> memberEmailUpdateResponseFields() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data").type(OBJECT).description("응답 데이터"),
@@ -35,14 +35,14 @@ public class MemberFieldsFactory {
     );
   }
 
-  public static List<FieldDescriptor> getMemberPasswordUpdateResponseField() {
+  public static List<FieldDescriptor> memberPasswordUpdateResponseFields() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data").type(STRING).description("성공 시 빈 문자열 반환")
     );
   }
 
-  public static List<FieldDescriptor> getMemberNicknameUpdateResponseField() {
+  public static List<FieldDescriptor> memberNicknameUpdateResponseFields() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data").type(OBJECT).description("응답 데이터"),
@@ -50,7 +50,7 @@ public class MemberFieldsFactory {
     );
   }
 
-  public static List<FieldDescriptor> getLoginSuccessResponseField() {
+  public static List<FieldDescriptor> memberLoginSuccessResponseFields() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data").type(OBJECT).description("응답 데이터"),

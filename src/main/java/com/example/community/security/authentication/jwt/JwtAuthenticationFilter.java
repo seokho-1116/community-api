@@ -16,9 +16,15 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
 
-@RequiredArgsConstructor
-public class JwtAuthenticationFilter extends OncePerRequestFilter {
+public class JwtRequireAuthenticationFilter extends OncePerRequestFilter {
   private final JwtFactory jwtFactory;
+  private final AuthenticationStrategy authenticationStrategy;
+
+  public JwtRequireAuthenticationFilter(JwtFactory jwtFactory,
+      AuthenticationStrategy authenticationStrategy) {
+    this.jwtFactory = jwtFactory;
+    this.authenticationStrategy = authenticationStrategy;
+  }
 
   @Override
   protected void doFilterInternal(@NonNull HttpServletRequest request,
@@ -38,14 +44,10 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
   }
 
   private boolean isNotValidToken(String accessToken) {
-    return !accessToken.isEmpty() && !jwtFactory.isValid(accessToken);
+    return !jwtFactory.isValid(accessToken);
   }
 
   private Authentication getAuthenticationToken(String accessToken) {
-    if (!StringUtils.hasText(accessToken)) {
-      return JwtAuthenticationToken.unauthenticated();
-    }
-
     return createJwtAuthenticationTokenBy(accessToken);
   }
 

@@ -1,4 +1,4 @@
-package com.example.community.controller.documentation.fieldsfactory;
+package com.example.community.controller.documentation.fieldsfactory.response;
 
 import static org.springframework.restdocs.payload.JsonFieldType.ARRAY;
 import static org.springframework.restdocs.payload.JsonFieldType.BOOLEAN;
@@ -10,8 +10,8 @@ import static org.springframework.restdocs.payload.PayloadDocumentation.fieldWit
 import java.util.List;
 import org.springframework.restdocs.payload.FieldDescriptor;
 
-public class PostFieldsFactory {
-  public static List<FieldDescriptor> getPagePostsResponseField() {
+public class PostResponseFieldsFactory {
+  public static List<FieldDescriptor> pagePostsResponseFields() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data.totalElements").type(NUMBER).description("전체 게시글 개수"),
@@ -54,7 +54,7 @@ public class PostFieldsFactory {
     );
   }
 
-  public static List<FieldDescriptor> getPostCreateResponseField() {
+  public static List<FieldDescriptor> postCreateResponseField() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data").type(OBJECT).description("응답 데이터"),
@@ -62,7 +62,7 @@ public class PostFieldsFactory {
     );
   }
 
-  public static List<FieldDescriptor> getPostUpdateResponseField() {
+  public static List<FieldDescriptor> postUpdateResponseFields() {
     return List.of(
         fieldWithPath("message").type(STRING).description("응답 메시지 (정상: success)"),
         fieldWithPath("data").type(OBJECT).description("응답 데이터"),
